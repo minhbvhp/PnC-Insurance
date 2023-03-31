@@ -8,46 +8,64 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen" WindowStyle="None" WindowState="Maximized"
         ResizeMode="NoResize" Title="Tài sản kỹ thuật"
-        AllowsTransparency="True" Background="Transparent"
+        AllowsTransparency="True"
         Height="1080" Width="1920">
 
-    <Border CornerRadius="15" Background="Teal">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="300"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-            <Grid Margin="10">
-                <StackPanel>
-                    <ListView FontSize="18" FontWeight="DemiBold" ItemsSource="{Binding CustomMenuItems}" SelectedItem="{Binding MenuItemSelected}">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <materialDesign:PackIcon Kind="{Binding IconKind}" Margin="15"/>
-                                    <TextBlock Text="{Binding Label}" VerticalAlignment="Center"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-
-                    <ListView FontSize="18" FontWeight="DemiBold">
-                        <ListViewItem>
+        <Grid Background="Teal">
+            <StackPanel>
+                <ListView FontSize="18" FontWeight="DemiBold" ItemsSource="{Binding CustomMenuItems}" SelectedItem="{Binding MenuItemSelected}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="ExitToApp" Margin="15"/>
-                                <TextBlock Text="Thoát" VerticalAlignment="Center"/>
+                                <materialDesign:PackIcon Kind="{Binding IconKind}" Margin="15"/>
+                                <TextBlock Text="{Binding Label}" VerticalAlignment="Center"/>
                             </StackPanel>
-                        </ListViewItem>
-                    </ListView>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
 
-                </StackPanel>
-            </Grid>
+                <ListView FontSize="18" FontWeight="DemiBold">
+                    <ListViewItem Selected="ExitCommand">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="ExitToApp" Margin="15"/>
+                            <TextBlock Text="Thoát" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </ListViewItem>
+                </ListView>
 
-            <Grid Grid.Column="1" Background="Orange">
-                <Button Style="{StaticResource MaterialDesignFlatDarkBgButton}" Width="100" Height="80" Content="Click here"/>
-            </Grid>
-
-
+            </StackPanel>
         </Grid>
-    </Border>
+
+        <Grid Grid.Column="1" Background="Orange">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            
+            <StackPanel Grid.Row="0" HorizontalAlignment="Right" Orientation="Horizontal">
+                <Button Style="{StaticResource MaterialDesignIconButton}" HorizontalAlignment="Right"
+                Width="40" Height="40" IsTabStop="False" Click="MinimizeCommand">
+                    <materialDesign:PackIcon Kind="Minimize"/>
+                </Button>
+                
+                <Button Style="{StaticResource MaterialDesignIconButton}" HorizontalAlignment="Right"
+                Width="40" Height="40" IsTabStop="False" Click="ExitCommand">
+                    <materialDesign:PackIcon Kind="CloseOctagonOutline"/>
+                </Button>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" VerticalAlignment="Center">
+                <Button Style="{StaticResource MaterialDesignFlatDarkBgButton}" Width="100" Height="80" Content="Click here"/>
+            </StackPanel>
+        </Grid>
+
+
+    </Grid>
+    
 </Window>

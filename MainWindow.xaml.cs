@@ -29,8 +29,17 @@ namespace PnC_Insurance
                 var r = context.Agents.FirstOrDefault().FullName.ToString();
 
                 MessageBox.Show("URN: " + t + " - Name: " + r);
-            }
-            
+            }                       
+        }
+
+        private void ExitCommand(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void MinimizeCommand(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
         }
     }
 }
