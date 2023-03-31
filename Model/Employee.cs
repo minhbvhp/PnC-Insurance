@@ -10,4 +10,6 @@ public partial class Employee
     public string FullName { get; set; } = null!;
 
     public long DeptUrn { get; set; }
+
+    public virtual Department DeptUrnNavigation { get; set; } = null!;
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,14 +23,7 @@ namespace PnC_Insurance
     {
         public MainWindow()
         {
-            InitializeComponent();
-            using (var context = new Model.InsuranceDbContext())
-            {
-                var t = context.Agents.FirstOrDefault().Urn.ToString();
-                var r = context.Agents.FirstOrDefault().FullName.ToString();
-
-                MessageBox.Show("URN: " + t + " - Name: " + r);
-            }                       
+            InitializeComponent();            
         }
 
         private void ExitCommand(object sender, RoutedEventArgs e)
