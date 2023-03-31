@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PnC_Insurance.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,8 @@ namespace PnC_Insurance
     {
         public MainWindow()
         {
-            InitializeComponent();            
+            InitializeComponent();
+            DataContext = new MainVM();
         }
 
         private void ExitCommand(object sender, RoutedEventArgs e)
