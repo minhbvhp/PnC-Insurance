@@ -17,7 +17,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Grid Background="Teal">
+        <Grid Background="#84A98C">
             <StackPanel>
                 <ListView FontSize="18" FontWeight="DemiBold" ItemsSource="{Binding CustomMenuItems}" SelectedItem="{Binding MenuItemSelected}">
                     <ListView.ItemTemplate>
@@ -42,7 +42,7 @@
             </StackPanel>
         </Grid>
 
-        <Grid Grid.Column="1" Background="Orange">
+        <Grid Grid.Column="1" Background="#CAD2C5">
             <Grid.RowDefinitions>
                 <RowDefinition Height="60"/>
                 <RowDefinition/>
@@ -61,6 +61,7 @@
             </StackPanel>
 
             <StackPanel Grid.Row="1" VerticalAlignment="Center">
+                <TextBox Margin="50" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.Hint="Nhập tên khách hàng" Width="200" FontSize="20"/>
                 <Button Style="{StaticResource MaterialDesignFlatDarkBgButton}" Width="100" Height="80" Content="Click here"/>
             </StackPanel>
         </Grid>
