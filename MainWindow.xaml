@@ -17,7 +17,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Grid Background="#84A98C">
+        <Grid Background="#354F52">
             <StackPanel>
                 <ListView FontSize="18" FontWeight="DemiBold" ItemsSource="{Binding CustomMenuItems}" SelectedItem="{Binding MenuItemSelected}">
                     <ListView.ItemTemplate>
