@@ -6,14 +6,15 @@
         xmlns:local="clr-namespace:PnC_Insurance"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        WindowStartupLocation="CenterScreen" WindowStyle="None" WindowState="Maximized"
+        WindowStartupLocation="CenterOwner" WindowStyle="None"
         ResizeMode="NoResize" Title="Tài sản kỹ thuật"
         AllowsTransparency="True"
-        Height="1080" Width="1920">
+        MouseDown="Window_MouseDown"
+        Height="768" Width="1366">
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="250"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
@@ -23,8 +24,8 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="{Binding IconKind}" Margin="15"/>
-                                <TextBlock Text="{Binding Label}" VerticalAlignment="Center"/>
+                                <materialDesign:PackIcon Kind="{Binding IconKind}" Margin="15" Width="40" Height="40"/>
+                                <TextBlock Text="{Binding Label}" VerticalAlignment="Center" TextWrapping="Wrap"/>
                             </StackPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>
@@ -33,7 +34,7 @@
                 <ListView FontSize="18" FontWeight="DemiBold">
                     <ListViewItem Selected="ExitCommand">
                         <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="ExitToApp" Margin="15"/>
+                            <materialDesign:PackIcon Kind="ExitToApp" Margin="15" Width="40" Height="40"/>
                             <TextBlock Text="Thoát" VerticalAlignment="Center"/>
                         </StackPanel>
                     </ListViewItem>
@@ -53,7 +54,12 @@
                 Width="40" Height="40" IsTabStop="False" Click="MinimizeCommand">
                     <materialDesign:PackIcon Kind="Minimize"/>
                 </Button>
-                
+
+                <Button Style="{StaticResource MaterialDesignIconButton}" HorizontalAlignment="Right"
+                Width="40" Height="40" IsTabStop="False" Click="MaximizeCommand">
+                    <materialDesign:PackIcon Kind="WindowMaximize"/>
+                </Button>
+
                 <Button Style="{StaticResource MaterialDesignIconButton}" HorizontalAlignment="Right"
                 Width="40" Height="40" IsTabStop="False" Click="ExitCommand">
                     <materialDesign:PackIcon Kind="CloseOctagonOutline"/>

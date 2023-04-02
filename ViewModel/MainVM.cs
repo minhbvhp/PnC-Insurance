@@ -18,7 +18,11 @@ namespace PnC_Insurance.ViewModel
         {
             MenuItemSelected = new CustomMenuItem(new BaseVM(), "Quản lý cấp đơn Tài sản kỹ thuật", MaterialDesignThemes.Wpf.PackIconKind.Pirate);
             CustomMenuItems = new ObservableCollection<CustomMenuItem>();
-            CustomMenuItems.Add(new CustomMenuItem(new BaseVM(), "Tạo mới", MaterialDesignThemes.Wpf.PackIconKind.Add));
+            CustomMenuItems.Add(new CustomMenuItem(new BaseVM(), "Bản chào", MaterialDesignThemes.Wpf.PackIconKind.AlphaQBoxOutline));
+            CustomMenuItems.Add(new CustomMenuItem(new BaseVM(), "Giấy chứng nhận", MaterialDesignThemes.Wpf.PackIconKind.FileDocumentCheck));
+            CustomMenuItems.Add(new CustomMenuItem(new BaseVM(), "Hợp đồng", MaterialDesignThemes.Wpf.PackIconKind.FileSign));
+            CustomMenuItems.Add(new CustomMenuItem(new BaseVM(), "Khách hàng", MaterialDesignThemes.Wpf.PackIconKind.AccountOutline));
+            CustomMenuItems.Add(new CustomMenuItem(new BaseVM(), "Bảo Việt HP", MaterialDesignThemes.Wpf.PackIconKind.OfficeBuildingCogOutline));
         }
 
         public MainVM()

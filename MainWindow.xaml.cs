@@ -37,5 +37,23 @@ namespace PnC_Insurance
         {
             WindowState = WindowState.Minimized;
         }
+
+        private void MaximizeCommand(object sender, RoutedEventArgs e)
+        {
+
+            if (WindowState == WindowState.Normal) 
+            {
+                WindowState = WindowState.Maximized;
+            }
+            else
+            {
+                WindowState = WindowState.Normal;
+            }
+        }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
+        }
     }
 }
