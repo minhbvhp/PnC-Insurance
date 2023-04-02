@@ -13,6 +13,21 @@ namespace PnC_Insurance.ViewModel
     {
         [ObservableProperty]
         CustomMenuItem? menuItemSelected;
+        partial void OnMenuItemSelectedChanged(CustomMenuItem? value)
+        {
+            switch (value.ContentViewModels)
+            {
+                case BaseVM baseVM:
+                    SelectedVM = new BaseVM();
+                    break;
+                default:
+                    SelectedVM = new BaseVM();
+                    break;
+            }
+        }
+
+        [ObservableProperty]
+        BaseVM? selectedVM;
         public ObservableCollection<CustomMenuItem>? CustomMenuItems { get; private set; }
         private void CreateMenu()
         {
@@ -23,7 +38,7 @@ namespace PnC_Insurance.ViewModel
             CustomMenuItems.Add(new CustomMenuItem(new BaseVM(), "Hợp đồng", MaterialDesignThemes.Wpf.PackIconKind.FileSign));
             CustomMenuItems.Add(new CustomMenuItem(new BaseVM(), "Khách hàng", MaterialDesignThemes.Wpf.PackIconKind.AccountOutline));
             CustomMenuItems.Add(new CustomMenuItem(new BaseVM(), "Bảo Việt HP", MaterialDesignThemes.Wpf.PackIconKind.OfficeBuildingCogOutline));
-        }
+        }        
 
         public MainVM()
         {

@@ -67,8 +67,8 @@
             </StackPanel>
 
             <StackPanel Grid.Row="1" VerticalAlignment="Center">
-                <TextBox Margin="50" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.Hint="Nhập tên khách hàng" Width="200" FontSize="20"/>
-                <Button Style="{StaticResource MaterialDesignFlatDarkBgButton}" Width="100" Height="80" Content="Click here"/>
+                <ContentControl HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                                Margin="30, 0, 30, 0"  Content="{Binding SelectedVM}"/>
             </StackPanel>
         </Grid>
 
