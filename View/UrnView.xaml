@@ -6,30 +6,49 @@
              xmlns:local="clr-namespace:PnC_Insurance.View"
              mc:Ignorable="d"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" Foreground="Teal" FontSize="15"
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="600" d:DesignWidth="800">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="400"/>
+            <RowDefinition Height="100"/>
+        </Grid.RowDefinitions>
+        
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="280"/>
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <StackPanel Margin="10">
+        <StackPanel VerticalAlignment="Center">
+            <TextBlock>
+                <Run Text="Số URN: "/>
+                <Run Text="{Binding SelectedDepartment.Urn}"/>
+            </TextBlock>             
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10 0 0 0">
+            <TextBlock Text="Nhân viên:"/>
+        </StackPanel>
+
+        <StackPanel Grid.Column="2" VerticalAlignment="Center" Margin="10 0 0 0">
+            <TextBlock Text="Đại lý:"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1">
             <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                       ItemsSource="{Binding ListOfDepartments, IsAsync=True}"
                       SelectedItem="{Binding SelectedDepartment, UpdateSourceTrigger=PropertyChanged}"
                       DisplayMemberPath="Name" IsEditable="False"
                       materialDesign:HintAssist.Hint="Lựa chọn Công ty/Phòng"
-                      Width="250"/>
-
-            <TextBlock Margin="20" Text="{Binding SelectedDepartment.Urn}"/>
+                      Width="280"/>
         </StackPanel>
 
-        <StackPanel Grid.Column="1" Margin="10">
+        <StackPanel Grid.Column="1" Grid.Row="1" Margin="10 0 0 0">
             <DataGrid ItemsSource="{Binding ListOfEmployees, IsAsync=True}" 
                       SelectedItem="{Binding SelectedEmployee}"
                       AutoGenerateColumns="False" SelectionUnit="Cell"
-                      MaxHeight="300" VerticalAlignment="Top" SelectionMode="Single"
+                      VerticalAlignment="Top" SelectionMode="Single"
                       IsReadOnly="True" HeadersVisibility="All">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Urn}">
@@ -47,7 +66,7 @@
             </DataGrid>
         </StackPanel>
 
-        <StackPanel Grid.Column="2" Margin="10">
+        <StackPanel Grid.Column="2" Grid.Row="1" Margin="10 0 0 0">
             <DataGrid ItemsSource="{Binding ListOfAgents, IsAsync=True}" 
                       SelectedItem="{Binding SelectedAgent}"
                       AutoGenerateColumns="False"
@@ -67,6 +86,16 @@
                     </DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
+        </StackPanel>
+
+        
+
+        <StackPanel Grid.Row="2" Grid.ColumnSpan="3" VerticalAlignment="Top">
+            <Border BorderThickness="0 1 0 0" BorderBrush="White" Margin="0 20"/>
+            <TextBlock Text="Thêm + Xóa + Sửa (Bổ sung sau)" 
+                       FontSize="20"
+                       FontWeight="DemiBold"
+                       HorizontalAlignment="Center"/>
         </StackPanel>
 
 
