@@ -17,8 +17,7 @@ namespace PnC_Insurance.ViewModel
             {
                 using (var context = new InsuranceDbContext())
                 {
-                    var query = context.Departments;
-                    return query.ToList();
+                    return context.Departments.ToList();
                 }
             }
 
