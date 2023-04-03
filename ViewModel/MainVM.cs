@@ -17,8 +17,8 @@ namespace PnC_Insurance.ViewModel
         {
             switch (value.ContentViewModels)
             {
-                case BaseVM baseVM:
-                    SelectedVM = new BaseVM();
+                case UrnVM urn:
+                    SelectedVM = new UrnVM();
                     break;
                 default:
                     SelectedVM = new BaseVM();
@@ -37,7 +37,7 @@ namespace PnC_Insurance.ViewModel
             CustomMenuItems.Add(new CustomMenuItem(new BaseVM(), "Giấy chứng nhận", MaterialDesignThemes.Wpf.PackIconKind.FileDocumentCheck));
             CustomMenuItems.Add(new CustomMenuItem(new BaseVM(), "Hợp đồng", MaterialDesignThemes.Wpf.PackIconKind.FileSign));
             CustomMenuItems.Add(new CustomMenuItem(new BaseVM(), "Khách hàng", MaterialDesignThemes.Wpf.PackIconKind.AccountOutline));
-            CustomMenuItems.Add(new CustomMenuItem(new BaseVM(), "Bảo Việt HP", MaterialDesignThemes.Wpf.PackIconKind.OfficeBuildingCogOutline));
+            CustomMenuItems.Add(new CustomMenuItem(new UrnVM(), "URN", MaterialDesignThemes.Wpf.PackIconKind.QrcodeScan));
         }        
 
         public MainVM()

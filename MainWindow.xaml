@@ -9,7 +9,7 @@
         WindowStartupLocation="CenterOwner" WindowStyle="None"
         ResizeMode="NoResize" Title="Tài sản kỹ thuật"
         AllowsTransparency="True"
-        MouseDown="Window_MouseDown"
+        MouseLeftButtonDown="Window_MouseDown"
         Height="768" Width="1366">
 
     <Grid>
@@ -24,7 +24,7 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="{Binding IconKind}" Margin="15" Width="40" Height="40"/>
+                                <materialDesign:PackIcon Kind="{Binding IconKind}" Margin="15" Width="35" Height="35"/>
                                 <TextBlock Text="{Binding Label}" VerticalAlignment="Center" TextWrapping="Wrap"/>
                             </StackPanel>
                         </DataTemplate>
@@ -34,7 +34,7 @@
                 <ListView FontSize="18" FontWeight="DemiBold">
                     <ListViewItem Selected="ExitCommand">
                         <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="ExitToApp" Margin="15" Width="40" Height="40"/>
+                            <materialDesign:PackIcon Kind="ExitToApp" Margin="15" Width="35" Height="35"/>
                             <TextBlock Text="Thoát" VerticalAlignment="Center"/>
                         </StackPanel>
                     </ListViewItem>
@@ -66,8 +66,8 @@
                 </Button>
             </StackPanel>
 
-            <StackPanel Grid.Row="1" VerticalAlignment="Center">
-                <ContentControl HorizontalAlignment="Stretch" VerticalAlignment="Center"
+            <StackPanel Grid.Row="1" VerticalAlignment="Top">
+                <ContentControl HorizontalAlignment="Stretch" VerticalAlignment="Top"
                                 Margin="30, 0, 30, 0"  Content="{Binding SelectedVM}"/>
             </StackPanel>
         </Grid>
