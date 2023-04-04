@@ -21,7 +21,7 @@
         <Grid Background="#354F52">
             <StackPanel>
                 <ListView FontSize="18" FontWeight="DemiBold" ItemsSource="{Binding CustomMenuItems}"
-                          SelectedItem="{Binding MenuItemSelected}" HorizontalContentAlignment="Stretch">
+                          HorizontalContentAlignment="Stretch">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <Expander Header="{Binding}" Background="Transparent">
@@ -34,12 +34,11 @@
                                     </DataTemplate>
                                 </Expander.HeaderTemplate>
 
-                                <ListView ItemsSource="{Binding CustomSubItems}">
+                                <ListView ItemsSource="{Binding CustomSubItems}" FontWeight="Light">
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal" Margin="20 0 0 0" VerticalAlignment="Center">
-                                                <TextBlock Text="{Binding Label}" FontWeight="Light"
-                                                           VerticalAlignment="Center" TextWrapping="Wrap"/>
+                                                <TextBlock Text="{Binding Label}" VerticalAlignment="Center" TextWrapping="Wrap"/>
                                             </StackPanel>
                                         </DataTemplate>
                                     </ListView.ItemTemplate>

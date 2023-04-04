@@ -12,6 +12,22 @@ namespace PnC_Insurance.ViewModel
     public partial class MainVM : BaseVM
     {
         [ObservableProperty]
+        CustomSubItem? subItemSelected;
+
+        partial void OnSubItemSelectedChanged(CustomSubItem? value)
+        {
+            switch (value.ContentViewModels)
+            {
+                case UrnVM urn:
+                    SelectedVM = new UrnVM();
+                    break;
+                default:
+                    SelectedVM = new BaseVM();
+                    break;
+            }
+        }
+
+        [ObservableProperty]
         CustomMenuItem? menuItemSelected;
         partial void OnMenuItemSelectedChanged(CustomMenuItem? value)
         {
@@ -28,6 +44,7 @@ namespace PnC_Insurance.ViewModel
 
         [ObservableProperty]
         BaseVM? selectedVM;
+
         public ObservableCollection<CustomMenuItem>? CustomMenuItems { get; private set; }
         private void CreateMenu()
         {
