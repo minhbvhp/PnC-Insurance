@@ -29,18 +29,6 @@ namespace PnC_Insurance.ViewModel
 
         [ObservableProperty]
         CustomMenuItem? menuItemSelected;
-        partial void OnMenuItemSelectedChanged(CustomMenuItem? value)
-        {
-            switch (value.ContentViewModels)
-            {
-                case UrnVM urn:
-                    SelectedVM = new UrnVM();
-                    break;
-                default:
-                    SelectedVM = new BaseVM();
-                    break;
-            }
-        }
 
         [ObservableProperty]
         BaseVM? selectedVM;
@@ -48,7 +36,6 @@ namespace PnC_Insurance.ViewModel
         public ObservableCollection<CustomMenuItem>? CustomMenuItems { get; private set; }
         private void CreateMenu()
         {
-            MenuItemSelected = new CustomMenuItem(new BaseVM(), "Quản lý cấp đơn Tài sản kỹ thuật", MaterialDesignThemes.Wpf.PackIconKind.Pirate);
             CustomMenuItems = new ObservableCollection<CustomMenuItem>();
             CustomMenuItems.Add(new CustomMenuItem(new BaseVM(), "Bản chào", MaterialDesignThemes.Wpf.PackIconKind.AlphaQBoxOutline));
             CustomMenuItems.Add(new CustomMenuItem(new BaseVM(), "Giấy chứng nhận", MaterialDesignThemes.Wpf.PackIconKind.FileDocumentCheck));
@@ -58,7 +45,7 @@ namespace PnC_Insurance.ViewModel
                                 , new List<CustomSubItem>
                                 {
                                     new CustomSubItem(new UrnVM(), "Tra cứu"),
-                                    new CustomSubItem(new UrnVM(), "Sửa đổi"),
+                                    new CustomSubItem(new BaseVM(), "Sửa đổi"),
                                 }));
         }        
 

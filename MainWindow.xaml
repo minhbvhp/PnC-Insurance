@@ -34,13 +34,12 @@
                                     </DataTemplate>
                                 </Expander.HeaderTemplate>
 
-                                <ListView ItemsSource="{Binding CustomSubItems}" 
-                                          SelectedItem="{Binding Path=SubItemSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListView}}"
-                                          FontWeight="Light">
+                                <ListView ItemsSource="{Binding CustomSubItems}"
+                                          SelectedItem="{Binding Path=DataContext.SubItemSelected, RelativeSource={RelativeSource AncestorType=ListView}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal" Margin="20 0 0 0" VerticalAlignment="Center">
-                                                <TextBlock Text="{Binding Label}" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                                                <TextBlock Style="{StaticResource MaterialDesignSubtitle2TextBlock}" Text="{Binding Label}" VerticalAlignment="Center" TextWrapping="Wrap"/>
                                             </StackPanel>
                                         </DataTemplate>
                                     </ListView.ItemTemplate>
