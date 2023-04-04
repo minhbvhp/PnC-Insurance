@@ -51,7 +51,7 @@ namespace PnC_Insurance
             }
         }
 
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        private void Window_DragMove(object sender, MouseButtonEventArgs e)
         {
             DragMove();
         }
