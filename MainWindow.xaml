@@ -20,13 +20,30 @@
 
         <Grid Background="#354F52">
             <StackPanel>
-                <ListView FontSize="18" FontWeight="DemiBold" ItemsSource="{Binding CustomMenuItems}" SelectedItem="{Binding MenuItemSelected}">
+                <ListView FontSize="18" FontWeight="DemiBold" ItemsSource="{Binding CustomMenuItems}" 
+                          SelectedItem="{Binding MenuItemSelected}" HorizontalContentAlignment="Stretch">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="{Binding IconKind}" Margin="15" Width="35" Height="35"/>
-                                <TextBlock Text="{Binding Label}" VerticalAlignment="Center" TextWrapping="Wrap"/>
-                            </StackPanel>
+                            <Expander Header="{Binding}">
+                                <Expander.HeaderTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <materialDesign:PackIcon Kind="{Binding IconKind}" Margin="15" Width="35" Height="35"/>
+                                            <TextBlock Text="{Binding Label}" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </Expander.HeaderTemplate>
+
+                                <ListView ItemsSource="{Binding CustomSubItems}">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding Label}" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </Expander>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
