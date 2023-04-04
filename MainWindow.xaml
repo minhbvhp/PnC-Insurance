@@ -34,7 +34,9 @@
                                     </DataTemplate>
                                 </Expander.HeaderTemplate>
 
-                                <ListView ItemsSource="{Binding CustomSubItems}" FontWeight="Light">
+                                <ListView ItemsSource="{Binding CustomSubItems}" 
+                                          SelectedItem="{Binding Path=SubItemSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListView}}"
+                                          FontWeight="Light">
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal" Margin="20 0 0 0" VerticalAlignment="Center">

@@ -53,7 +53,7 @@ namespace PnC_Insurance.ViewModel
             CustomMenuItems.Add(new CustomMenuItem(new BaseVM(), "Bản chào", MaterialDesignThemes.Wpf.PackIconKind.AlphaQBoxOutline));
             CustomMenuItems.Add(new CustomMenuItem(new BaseVM(), "Giấy chứng nhận", MaterialDesignThemes.Wpf.PackIconKind.FileDocumentCheck));
             CustomMenuItems.Add(new CustomMenuItem(new BaseVM(), "Hợp đồng", MaterialDesignThemes.Wpf.PackIconKind.FileSign));
-            CustomMenuItems.Add(new CustomMenuItem(new BaseVM(), "Khách hàng", MaterialDesignThemes.Wpf.PackIconKind.AccountOutline));
+            CustomMenuItems.Add(new CustomMenuItem(new UrnVM(), "Khách hàng", MaterialDesignThemes.Wpf.PackIconKind.AccountOutline));
             CustomMenuItems.Add(new CustomMenuItem("URN", MaterialDesignThemes.Wpf.PackIconKind.QrcodeScan
                                 , new List<CustomSubItem>
                                 {
