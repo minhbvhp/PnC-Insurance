@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MaterialDesignThemes.Wpf;
 
 namespace PnC_Insurance.ViewModel
 {
@@ -18,8 +19,11 @@ namespace PnC_Insurance.ViewModel
         {
             switch (value.ContentViewModels)
             {
-                case UrnInfoVM urn:
+                case UrnInfoVM urnInfo:
                     SelectedVM = new UrnInfoVM();
+                    break;
+                case CustomerInfoVM customerInfo:
+                    SelectedVM = new CustomerInfoVM();
                     break;
                 default:
                     SelectedVM = new BaseVM();
@@ -34,11 +38,18 @@ namespace PnC_Insurance.ViewModel
         private void CreateMenu()
         {
             CustomMenuItems = new ObservableCollection<CustomMenuItem>();
-            CustomMenuItems.Add(new CustomMenuItem(new BaseVM(), "Bản chào", MaterialDesignThemes.Wpf.PackIconKind.AlphaQBoxOutline));
-            CustomMenuItems.Add(new CustomMenuItem(new BaseVM(), "Giấy chứng nhận", MaterialDesignThemes.Wpf.PackIconKind.FileDocumentCheck));
-            CustomMenuItems.Add(new CustomMenuItem(new BaseVM(), "Hợp đồng", MaterialDesignThemes.Wpf.PackIconKind.FileSign));
-            CustomMenuItems.Add(new CustomMenuItem(new UrnInfoVM(), "Khách hàng", MaterialDesignThemes.Wpf.PackIconKind.AccountOutline));
-            CustomMenuItems.Add(new CustomMenuItem("URN", MaterialDesignThemes.Wpf.PackIconKind.QrcodeScan
+            CustomMenuItems.Add(new CustomMenuItem(new BaseVM(), "Bản chào", PackIconKind.AlphaQBoxOutline));
+            CustomMenuItems.Add(new CustomMenuItem(new BaseVM(), "Giấy chứng nhận", PackIconKind.FileDocumentCheck));
+            CustomMenuItems.Add(new CustomMenuItem(new BaseVM(), "Hợp đồng", PackIconKind.FileSign));
+
+            CustomMenuItems.Add(new CustomMenuItem("Khách hàng", PackIconKind.AccountOutline
+                                , new List<CustomSubItem>
+                                {
+                                    new CustomSubItem(new CustomerInfoVM(), "Tra cứu"),
+                                    new CustomSubItem(new BaseVM(), "Sửa đổi"),
+                                }));
+
+            CustomMenuItems.Add(new CustomMenuItem("URN", PackIconKind.QrcodeScan
                                 , new List<CustomSubItem>
                                 {
                                     new CustomSubItem(new UrnInfoVM(), "Tra cứu"),
