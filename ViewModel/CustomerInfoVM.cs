@@ -91,60 +91,6 @@ namespace PnC_Insurance.ViewModel
                     return new List<InsuredLocation>();
                 }
             }
-
         }
-
-        [NotifyPropertyChangedFor(nameof(ListOfInsuredLocations))]
-        [ObservableProperty]
-        private string? locationSearch;
-
-        public List<InsuredLocation>? ListOfInsuredLocations
-        {
-            get
-            {
-                if (!String.IsNullOrEmpty(LocationSearch) && !String.IsNullOrWhiteSpace(LocationSearch))
-                {
-                    using (var context = new InsuranceDbContext())
-                    {
-                        var query = from location in context.InsuredLocations
-                                    where EF.Functions.Like(location.Location, "%" + LocationSearch + "%")
-                                    select location;
-
-                        if (query.Any())
-                        {
-                            return query.ToList();
-                        }
-                    }
-                }
-                return new List<InsuredLocation>();
-            }            
-        }
-
-        [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(MatchCustomers))]
-        private InsuredLocation? selectedLocation;
-
-        public List<Customer> MatchCustomers
-        {
-            get
-            {
-                using (var context = new InsuranceDbContext())
-                {
-                    if (SelectedLocation != null)
-                    {
-                        var query = from customer in context.Customers
-                                    where customer.TaxCode == SelectedLocation.CompanyTaxCode
-                                    select customer;
-                        if (query.Any())
-                        {
-                            return query.ToList();
-                        }
-                    }
-
-                    return new List<Customer>();
-                }
-            }
-        }
-
     }
 }

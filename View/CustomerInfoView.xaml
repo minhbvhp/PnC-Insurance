@@ -9,24 +9,13 @@
              d:DesignHeight="600" d:DesignWidth="1000">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="220"/>
-            <RowDefinition Height="220"/>
-            <RowDefinition Height="230"/>
+            <RowDefinition Height="400"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         
         <StackPanel>
             <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-
-                <StackPanel Grid.ColumnSpan="2">
+                <StackPanel>
                     <TextBox Width="380" HorizontalAlignment="Left" Margin="0 0 0 15"
                       Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                      Text="{Binding CustomerSearch, UpdateSourceTrigger=PropertyChanged}">
@@ -38,10 +27,11 @@
                         </materialDesign:HintAssist.Hint>
                     </TextBox>
 
-                    <DataGrid ItemsSource="{Binding ListOfCustomers, IsAsync=True}" ScrollViewer.CanContentScroll="True"
+                    <DataGrid ItemsSource="{Binding ListOfCustomers, IsAsync=True}"
                               SelectedItem="{Binding SelectedCustomer, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                              AutoGenerateColumns="False" VerticalAlignment="Top" SelectionMode="Single" ColumnWidth="*"
-                              IsReadOnly="True" HeadersVisibility="All" Foreground="Orange" MaxHeight="200">
+                              AutoGenerateColumns="False" VerticalAlignment="Top" SelectionMode="Single"
+                              IsReadOnly="True" HeadersVisibility="All" Foreground="Orange"
+                              ColumnWidth="*" MaxHeight="400">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding TaxCode}">
                                 <DataGridTextColumn.Header>
@@ -82,10 +72,11 @@
                 <StackPanel Margin="0 0 20 0">
                     <TextBlock FontSize="11" Text="Người đại diện:" Margin="0 0 0 5"/>
 
-                    <DataGrid ItemsSource="{Binding ListOfRepresentatives, IsAsync=True}" ScrollViewer.CanContentScroll="True"
-                              AutoGenerateColumns="False" SelectionUnit="Cell" ColumnWidth="*"
+                    <DataGrid ItemsSource="{Binding ListOfRepresentatives, IsAsync=True}"
+                              AutoGenerateColumns="False" SelectionUnit="Cell"
                               VerticalAlignment="Top" SelectionMode="Single"
-                              IsReadOnly="True" HeadersVisibility="All" Foreground="Orange" MaxHeight="160">
+                              IsReadOnly="True" HeadersVisibility="All" Foreground="Orange"
+                              MaxHeight="300" ColumnWidth="*">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding FullName}">
                                 <DataGridTextColumn.Header>
@@ -105,10 +96,11 @@
                 <StackPanel Grid.Column="1">
                     <TextBlock FontSize="11" Text="Địa điểm được bảo hiểm:" Margin="0 0 0 5"/>
 
-                    <DataGrid ItemsSource="{Binding MatchInsuredLocations, IsAsync=True}" ScrollViewer.CanContentScroll="True"
+                    <DataGrid ItemsSource="{Binding MatchInsuredLocations, IsAsync=True}"
                               AutoGenerateColumns="False" SelectionUnit="Cell"
                               VerticalAlignment="Top" SelectionMode="Single"
-                              IsReadOnly="True" HeadersVisibility="All" Foreground="Orange" MaxHeight="160">
+                              IsReadOnly="True" HeadersVisibility="All" Foreground="Orange"
+                              MaxHeight="300" ColumnWidth="*">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Location}">
                                 <DataGridTextColumn.Header>
@@ -117,86 +109,6 @@
                             </DataGridTextColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                </StackPanel>
-            </Grid>
-        </StackPanel>
-
-        <Border Grid.Row="1" BorderBrush="White" BorderThickness="0 0 0 0.7" Margin="20"/>
-
-        <StackPanel Grid.Row="2">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-
-                <StackPanel>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-
-                        <TextBox Width="380" HorizontalAlignment="Left" Margin="0 0 0 15"
-                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 Text="{Binding LocationSearch, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
-                            <materialDesign:HintAssist.Hint>
-                                <TextBlock>
-                                    <materialDesign:PackIcon Kind="Search" VerticalAlignment="Bottom"/>
-                                    <Run Text="Tìm kiếm địa điểm"/>
-                                </TextBlock>
-                            </materialDesign:HintAssist.Hint>
-                        </TextBox>
-
-                        <TextBlock Grid.Column="1" VerticalAlignment="Bottom" FontSize="11" Text="Khách hàng:" Margin="0 0 0 5"/>
-                    </Grid>
-                </StackPanel>
-
-                <StackPanel Grid.Row="1">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-
-                        <StackPanel Margin="0 0 20 0">
-                            <StackPanel>
-                                <DataGrid ItemsSource="{Binding ListOfInsuredLocations, IsAsync=True}"                                   
-                                  SelectedItem="{Binding SelectedLocation, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                  AutoGenerateColumns="False" VerticalAlignment="Top" SelectionMode="Single" ColumnWidth="*"
-                                  IsReadOnly="True" HeadersVisibility="All" Foreground="Orange" MaxHeight="160">
-                                    <DataGrid.Columns>
-                                        <DataGridTextColumn Binding="{Binding Location}">
-                                            <DataGridTextColumn.Header>
-                                                <TextBlock Text="Địa điểm bảo hiểm"/>
-                                            </DataGridTextColumn.Header>
-                                        </DataGridTextColumn>
-                                    </DataGrid.Columns>
-                                </DataGrid>
-                            </StackPanel>
-                        </StackPanel>
-
-                        <StackPanel Grid.Column="1">
-                            <DataGrid ItemsSource="{Binding MatchCustomers, IsAsync=True}" ScrollViewer.CanContentScroll="True"
-                      AutoGenerateColumns="False" SelectionUnit="Cell"
-                      MaxHeight="130" VerticalAlignment="Top" SelectionMode="Single"
-                      IsReadOnly="True" HeadersVisibility="All" Foreground="Orange">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Binding="{Binding TaxCode}">
-                                        <DataGridTextColumn.Header>
-                                            <TextBlock Text="MST"/>
-                                        </DataGridTextColumn.Header>
-                                    </DataGridTextColumn>
-
-                                    <DataGridTextColumn Binding="{Binding Name}">
-                                        <DataGridTextColumn.Header>
-                                            <TextBlock Text="Tên Công ty"/>
-                                        </DataGridTextColumn.Header>
-                                    </DataGridTextColumn>
-                                </DataGrid.Columns>
-                            </DataGrid>
-                        </StackPanel>
-                    </Grid>
                 </StackPanel>
             </Grid>
         </StackPanel>
