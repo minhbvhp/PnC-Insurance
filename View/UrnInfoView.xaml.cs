@@ -18,9 +18,9 @@ namespace PnC_Insurance.View
     /// <summary>
     /// Interaction logic for UrnView.xaml
     /// </summary>
-    public partial class UrnView : UserControl
+    public partial class UrnInfoView : UserControl
     {
-        public UrnView()
+        public UrnInfoView()
         {
             InitializeComponent();
         }

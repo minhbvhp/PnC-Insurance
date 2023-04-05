@@ -18,17 +18,14 @@ namespace PnC_Insurance.ViewModel
         {
             switch (value.ContentViewModels)
             {
-                case UrnVM urn:
-                    SelectedVM = new UrnVM();
+                case UrnInfoVM urn:
+                    SelectedVM = new UrnInfoVM();
                     break;
                 default:
                     SelectedVM = new BaseVM();
                     break;
             }
         }
-
-        [ObservableProperty]
-        CustomMenuItem? menuItemSelected;
 
         [ObservableProperty]
         BaseVM? selectedVM;
@@ -40,11 +37,11 @@ namespace PnC_Insurance.ViewModel
             CustomMenuItems.Add(new CustomMenuItem(new BaseVM(), "Bản chào", MaterialDesignThemes.Wpf.PackIconKind.AlphaQBoxOutline));
             CustomMenuItems.Add(new CustomMenuItem(new BaseVM(), "Giấy chứng nhận", MaterialDesignThemes.Wpf.PackIconKind.FileDocumentCheck));
             CustomMenuItems.Add(new CustomMenuItem(new BaseVM(), "Hợp đồng", MaterialDesignThemes.Wpf.PackIconKind.FileSign));
-            CustomMenuItems.Add(new CustomMenuItem(new UrnVM(), "Khách hàng", MaterialDesignThemes.Wpf.PackIconKind.AccountOutline));
+            CustomMenuItems.Add(new CustomMenuItem(new UrnInfoVM(), "Khách hàng", MaterialDesignThemes.Wpf.PackIconKind.AccountOutline));
             CustomMenuItems.Add(new CustomMenuItem("URN", MaterialDesignThemes.Wpf.PackIconKind.QrcodeScan
                                 , new List<CustomSubItem>
                                 {
-                                    new CustomSubItem(new UrnVM(), "Tra cứu"),
+                                    new CustomSubItem(new UrnInfoVM(), "Tra cứu"),
                                     new CustomSubItem(new BaseVM(), "Sửa đổi"),
                                 }));
         }        

@@ -19,8 +19,8 @@
                 <view:BaseView/>
             </DataTemplate>
 
-            <DataTemplate DataType="{x:Type viewmodel:UrnVM}">
-                <view:UrnView/>
+            <DataTemplate DataType="{x:Type viewmodel:UrnInfoVM}">
+                <view:UrnInfoView/>
             </DataTemplate>
 
         </ResourceDictionary>         

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace PnC_Insurance.ViewModel
 {
-    public partial class UrnVM : BaseVM
+    public partial class UrnInfoVM : BaseVM
     {        
         public List<Department>? ListOfDepartments
         {
@@ -78,7 +78,7 @@ namespace PnC_Insurance.ViewModel
         [ObservableProperty]
         private Agent? selectedAgent;
 
-        public UrnVM()
+        public UrnInfoVM()
         {
 
         }
