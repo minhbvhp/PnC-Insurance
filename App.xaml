@@ -27,7 +27,7 @@
                 <view:CustomerInfoView/>
             </DataTemplate>
 
-            <SolidColorBrush  Color="Orange" x:Key="txtColor" />
+            <SolidColorBrush  Color="#f8e16c" x:Key="txtColor" />
             <SolidColorBrush  Color="#354F52" x:Key="bgColor" />
 
             <Style TargetType="DataGrid" BasedOn="{StaticResource MaterialDesignDataGrid}">
