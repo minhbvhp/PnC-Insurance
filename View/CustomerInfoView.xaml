@@ -62,6 +62,8 @@
             </Grid>
         </StackPanel>
 
+        <Border BorderBrush="White" BorderThickness="0 0 0 0.7" Margin="20"/>
+
         <StackPanel Grid.Row="1">
             <Grid>
                 <Grid.ColumnDefinitions>
