@@ -19,13 +19,47 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.RowSpan="2">
-            <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
-                      ItemsSource="{Binding ListOfCustomers, IsAsync=True}"
+        <StackPanel Grid.RowSpan="2" Margin="15 0">
+            <TextBox Width="380" HorizontalAlignment="Left" Margin="15" Text="{Binding CustomerSearch, UpdateSourceTrigger=PropertyChanged}">
+                <materialDesign:HintAssist.Hint>
+                    <TextBlock>
+                        <materialDesign:PackIcon Kind="Search" VerticalAlignment="Bottom"/>
+                        <Run Text="Tìm kiếm"/>
+                    </TextBlock>
+                </materialDesign:HintAssist.Hint>
+            </TextBox>
+
+            <DataGrid ItemsSource="{Binding ListOfCustomers, IsAsync=True}"
                       SelectedItem="{Binding SelectedCustomer, UpdateSourceTrigger=PropertyChanged}"
-                      DisplayMemberPath="Name" IsEditable="True"
-                      materialDesign:HintAssist.Hint="Lựa chọn khách hàng"
-                      Margin="30 0"/>
+                      AutoGenerateColumns="False" SelectionUnit="Cell"
+                      VerticalAlignment="Top" SelectionMode="Single"
+                      IsReadOnly="True" HeadersVisibility="All">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding TaxCode}">
+                        <DataGridTextColumn.Header>
+                            <TextBlock Text="MST"/>
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Binding="{Binding Name}">
+                        <DataGridTextColumn.Header>
+                            <TextBlock Text="Tên Công ty"/>
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Binding="{Binding Address}">
+                        <DataGridTextColumn.Header>
+                            <TextBlock Text="Địa chỉ"/>
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Binding="{Binding Business}">
+                        <DataGridTextColumn.Header>
+                            <TextBlock Text="Ngành nghề"/>
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
         </StackPanel>
 
         <StackPanel Grid.Column="1">

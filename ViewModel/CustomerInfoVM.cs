@@ -1,8 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.EntityFrameworkCore;
 using PnC_Insurance.Model;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
+using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,14 +14,31 @@ namespace PnC_Insurance.ViewModel
 {
     public partial class CustomerInfoVM : BaseVM
     {
+        [NotifyPropertyChangedFor(nameof(ListOfCustomers))]
+        [ObservableProperty]
+        private string? customerSearch;
         public List<Customer>? ListOfCustomers
         {
             get
             {
-                using (var context = new InsuranceDbContext())
+                if (!String.IsNullOrEmpty(CustomerSearch) && !String.IsNullOrWhiteSpace(CustomerSearch))
                 {
-                    return context.Customers.ToList();
+                    using (var context = new InsuranceDbContext())
+                    {
+                        var query = from customer in context.Customers
+                                    where EF.Functions.Like(customer.TaxCode, "%" + CustomerSearch + "%") ||
+                                          EF.Functions.Like(customer.Name, "%" + CustomerSearch + "%") ||
+                                          EF.Functions.Like(customer.Business, "%" + CustomerSearch + "%")
+                                    select customer;
+
+                        if (query.Any())
+                        {
+                            return query.ToList();
+                        }
+                    }
                 }
+
+                return new List<Customer>();
             }
 
         }
