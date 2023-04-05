@@ -40,7 +40,7 @@
             <DataGrid ItemsSource="{Binding ListOfEmployees, IsAsync=True}" 
                       AutoGenerateColumns="False" SelectionUnit="Cell"
                       VerticalAlignment="Top" SelectionMode="Single"
-                      IsReadOnly="True" HeadersVisibility="All" Foreground="Orange">
+                      IsReadOnly="True" HeadersVisibility="All">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Urn}">
                         <DataGridTextColumn.Header>
@@ -63,7 +63,7 @@
             <DataGrid ItemsSource="{Binding ListOfAgents, IsAsync=True}" 
                       AutoGenerateColumns="False" SelectionUnit="Cell"
                       MaxHeight="300" VerticalAlignment="Top" SelectionMode="Single"
-                      IsReadOnly="True" HeadersVisibility="All" Foreground="Orange">
+                      IsReadOnly="True" HeadersVisibility="All">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Urn}">
                         <DataGridTextColumn.Header>

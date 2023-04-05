@@ -10,7 +10,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <!--Material Design Xaml-->
-                <materialDesign:BundledTheme BaseTheme="Dark" PrimaryColor="Teal" SecondaryColor="Orange" />
+                <materialDesign:BundledTheme BaseTheme="Dark" PrimaryColor="Teal" SecondaryColor="Orange"/>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
                 
             </ResourceDictionary.MergedDictionaries>
@@ -26,6 +26,14 @@
             <DataTemplate DataType="{x:Type viewmodel:CustomerInfoVM}">
                 <view:CustomerInfoView/>
             </DataTemplate>
+
+            <SolidColorBrush  Color="Orange" x:Key="txtColor" />
+            <SolidColorBrush  Color="#354F52" x:Key="bgColor" />
+
+            <Style TargetType="DataGrid" BasedOn="{StaticResource MaterialDesignDataGrid}">
+                <Setter Property="Foreground" Value="{DynamicResource txtColor}" />
+                <Setter Property="Background" Value="{DynamicResource bgColor}" />
+            </Style>
 
         </ResourceDictionary>         
     </Application.Resources>

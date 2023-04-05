@@ -30,7 +30,7 @@
                     <DataGrid ItemsSource="{Binding ListOfCustomers, IsAsync=True}"
                               SelectedItem="{Binding SelectedCustomer, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                               AutoGenerateColumns="False" VerticalAlignment="Top" SelectionMode="Single"
-                              IsReadOnly="True" HeadersVisibility="All" Foreground="Orange"
+                              IsReadOnly="True" HeadersVisibility="All"
                               ColumnWidth="*" MaxHeight="400">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding TaxCode}">
@@ -75,7 +75,7 @@
                     <DataGrid ItemsSource="{Binding ListOfRepresentatives, IsAsync=True}"
                               AutoGenerateColumns="False" SelectionUnit="Cell"
                               VerticalAlignment="Top" SelectionMode="Single"
-                              IsReadOnly="True" HeadersVisibility="All" Foreground="Orange"
+                              IsReadOnly="True" HeadersVisibility="All" 
                               MaxHeight="300" ColumnWidth="*">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding FullName}">
@@ -99,7 +99,7 @@
                     <DataGrid ItemsSource="{Binding MatchInsuredLocations, IsAsync=True}"
                               AutoGenerateColumns="False" SelectionUnit="Cell"
                               VerticalAlignment="Top" SelectionMode="Single"
-                              IsReadOnly="True" HeadersVisibility="All" Foreground="Orange"
+                              IsReadOnly="True" HeadersVisibility="All"
                               MaxHeight="300" ColumnWidth="*">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Location}">
