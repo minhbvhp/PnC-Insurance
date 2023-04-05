@@ -17,9 +17,15 @@ public partial class InsuranceDbContext : DbContext
 
     public virtual DbSet<Agent> Agents { get; set; }
 
+    public virtual DbSet<Customer> Customers { get; set; }
+
     public virtual DbSet<Department> Departments { get; set; }
 
     public virtual DbSet<Employee> Employees { get; set; }
+
+    public virtual DbSet<InsuredLocation> InsuredLocations { get; set; }
+
+    public virtual DbSet<Representative> Representatives { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
@@ -41,6 +47,22 @@ public partial class InsuranceDbContext : DbContext
             entity.HasOne(d => d.DeptUrnNavigation).WithMany(p => p.Agents)
                 .HasForeignKey(d => d.DeptUrn)
                 .OnDelete(DeleteBehavior.ClientSetNull);
+        });
+
+        modelBuilder.Entity<Customer>(entity =>
+        {
+            entity.HasKey(e => e.TaxCode);
+
+            entity.Property(e => e.AddressEn)
+                .HasDefaultValueSql("'Chưa thiết lập'")
+                .HasColumnName("AddressEN");
+            entity.Property(e => e.BusinessCode).HasDefaultValueSql("'Chưa thiết lập'");
+            entity.Property(e => e.BusinessEn)
+                .HasDefaultValueSql("'Chưa thiết lập'")
+                .HasColumnName("BusinessEN");
+            entity.Property(e => e.NameEn)
+                .HasDefaultValueSql("'Chưa thiết lập'")
+                .HasColumnName("NameEN");
         });
 
         modelBuilder.Entity<Department>(entity =>
@@ -67,6 +89,44 @@ public partial class InsuranceDbContext : DbContext
 
             entity.HasOne(d => d.DeptUrnNavigation).WithMany(p => p.Employees)
                 .HasForeignKey(d => d.DeptUrn)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+        });
+
+        modelBuilder.Entity<InsuredLocation>(entity =>
+        {
+            entity.ToTable("InsuredLocation");
+
+            entity.HasIndex(e => e.Id, "IX_InsuredLocation_Id").IsUnique();
+
+            entity.HasIndex(e => new { e.CompanyTaxCode, e.Location }, "IX_InsuredLocation_CompanyTaxCode_Location").IsUnique();
+
+            entity.Property(e => e.LocationEn)
+                .HasDefaultValueSql("'Chưa thiết lập'")
+                .HasColumnName("LocationEN");
+
+            entity.HasOne(d => d.CompanyTaxCodeNavigation).WithMany(p => p.InsuredLocations)
+                .HasForeignKey(d => d.CompanyTaxCode)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+        });
+
+        modelBuilder.Entity<Representative>(entity =>
+        {
+            entity.ToTable("Representative");
+
+            entity.HasIndex(e => e.Id, "IX_Representative_Id").IsUnique();
+
+            entity.HasIndex(e => new { e.CompanyTaxCode, e.FullName, e.Position }, "IX_Representative_CompanyTaxCode_FullName_Position").IsUnique();
+
+            entity.Property(e => e.DecisionNo).HasDefaultValueSql("'Chưa thiết lập'");
+            entity.Property(e => e.DecisionNoEn)
+                .HasDefaultValueSql("'Chưa thiết lập'")
+                .HasColumnName("DecisionNoEN");
+            entity.Property(e => e.PositionEn)
+                .HasDefaultValueSql("'Chưa thiết lập'")
+                .HasColumnName("PositionEN");
+
+            entity.HasOne(d => d.CompanyTaxCodeNavigation).WithMany(p => p.Representatives)
+                .HasForeignKey(d => d.CompanyTaxCode)
                 .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
