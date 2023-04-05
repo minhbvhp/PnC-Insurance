@@ -50,9 +50,6 @@ namespace PnC_Insurance.ViewModel
             }
         }
 
-        [ObservableProperty]
-        private Employee? selectedEmployee;
-
         public List<Agent>? ListOfAgents
         {
             get
@@ -74,9 +71,6 @@ namespace PnC_Insurance.ViewModel
                 }
             }
         }
-
-        [ObservableProperty]
-        private Agent? selectedAgent;
 
         public UrnInfoVM()
         {
