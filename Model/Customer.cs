@@ -15,6 +15,8 @@ public partial class Customer
 
     public string? BusinessCode { get; set; }
 
+    public string? ClientCode { get; set; }
+
     public string? NameEn { get; set; }
 
     public string? AddressEn { get; set; }
