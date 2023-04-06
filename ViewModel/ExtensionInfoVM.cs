@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace PnC_Insurance.ViewModel
 {
@@ -32,16 +33,20 @@ namespace PnC_Insurance.ViewModel
         [RelayCommand(CanExecute = nameof(CanSearchExtension))]
         private async Task SearchExtensionAsync()
         {
-            using (var context = new InsuranceDbContext())
+            var result = await Task.Run(() =>
             {
-                var query = from extension in context.Extensions
-                            where EF.Functions.Like(extension.Id, "%" + ExtensionSearch + "%") ||
-                                  EF.Functions.Like(extension.Name, "%" + ExtensionSearch + "%")
-                            select extension;
+                using (var context = new InsuranceDbContext())
+                {
+                    var query = from extension in context.Extensions
+                                where EF.Functions.Like(extension.Id, "%" + ExtensionSearch + "%") ||
+                                      EF.Functions.Like(extension.Name, "%" + ExtensionSearch + "%")
+                                select extension;
+                    return query.ToListAsync();
+                }
+            });
 
-                listOfExtensions = await query.ToListAsync();
-                OnPropertyChanged(nameof(ListOfExtensions));
-            }
+            listOfExtensions = result;
+            OnPropertyChanged(nameof(ListOfExtensions));
         }
 
         private bool CanSearchExtension()
