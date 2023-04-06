@@ -69,7 +69,7 @@
                         <TextBlock Text="Kí hiệu" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource txtColor}"/>
                     </GroupBox.Header>
                     <TextBox Background="Transparent" IsReadOnly="True" BorderThickness="0" TextWrapping="Wrap"
-                         Text="{Binding Id, Mode=OneWay}"/>
+                         Text="{Binding SelectedExtension.Id, Mode=OneWay}"/>
                 </GroupBox>
 
                 <GroupBox Grid.Row="1" materialDesign:ColorZoneAssist.Mode="PrimaryDark" FontSize="14" Margin="0 5"
@@ -78,7 +78,7 @@
                         <TextBlock Text="Tên Điều khoản bổ sung" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource txtColor}"/>
                     </GroupBox.Header>
                     <TextBox Background="Transparent" IsReadOnly="True" BorderThickness="0" TextWrapping="Wrap"
-                         Text="{Binding Name, Mode=OneWay}"/>
+                         Text="{Binding SelectedExtension.Name, Mode=OneWay}"/>
                 </GroupBox>
 
                 <GroupBox Grid.Row="2" materialDesign:ColorZoneAssist.Mode="PrimaryDark" FontSize="14" Margin="0 5"
@@ -87,7 +87,7 @@
                         <TextBlock Text="Nội dung" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource txtColor}"/>
                     </GroupBox.Header>
                     <TextBox Background="Transparent" IsReadOnly="True" BorderThickness="0" TextWrapping="Wrap"
-                         Text="{Binding Description, Mode=OneWay}"/>
+                         Text="{Binding SelectedExtension.Description, Mode=OneWay}"/>
                 </GroupBox>
             </Grid>
         </StackPanel>

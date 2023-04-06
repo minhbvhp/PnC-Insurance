@@ -19,6 +19,9 @@ namespace PnC_Insurance.ViewModel
         {
             switch (value.ContentViewModels)
             {
+                case ExtensionInfoVM extensionInfo:
+                    SelectedVM = new ExtensionInfoVM();
+                    break;
                 case UrnInfoVM urnInfo:
                     SelectedVM = new UrnInfoVM();
                     break;
@@ -47,6 +50,7 @@ namespace PnC_Insurance.ViewModel
                                 {
                                     new CustomSubItem(new CustomerInfoVM(), "Khách hàng"),
                                     new CustomSubItem(new UrnInfoVM(), "URN"),
+                                    new CustomSubItem(new ExtensionInfoVM(), "Điều khoản bổ sung"),
                                 }));
         }        
 
