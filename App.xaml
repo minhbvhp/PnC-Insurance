@@ -27,6 +27,10 @@
                 <view:CustomerInfoView/>
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type viewmodel:ExtensionInfoVM}">
+                <view:ExtensionsInfoView/>
+            </DataTemplate>
+
             <SolidColorBrush  Color="#f8e16c" x:Key="txtColor" />
             <SolidColorBrush  Color="#354F52" x:Key="bgColor" />
 

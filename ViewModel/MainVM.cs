@@ -42,18 +42,11 @@ namespace PnC_Insurance.ViewModel
             CustomMenuItems.Add(new CustomMenuItem(new BaseVM(), "Giấy chứng nhận", PackIconKind.FileDocumentCheck));
             CustomMenuItems.Add(new CustomMenuItem(new BaseVM(), "Hợp đồng", PackIconKind.FileSign));
 
-            CustomMenuItems.Add(new CustomMenuItem("Khách hàng", PackIconKind.AccountOutline
+            CustomMenuItems.Add(new CustomMenuItem("Tra cứu", PackIconKind.InformationOutline
                                 , new List<CustomSubItem>
                                 {
-                                    new CustomSubItem(new CustomerInfoVM(), "Tra cứu"),
-                                    new CustomSubItem(new BaseVM(), "Sửa đổi"),
-                                }));
-
-            CustomMenuItems.Add(new CustomMenuItem("URN", PackIconKind.QrcodeScan
-                                , new List<CustomSubItem>
-                                {
-                                    new CustomSubItem(new UrnInfoVM(), "Tra cứu"),
-                                    new CustomSubItem(new BaseVM(), "Sửa đổi"),
+                                    new CustomSubItem(new CustomerInfoVM(), "Khách hàng"),
+                                    new CustomSubItem(new UrnInfoVM(), "URN"),
                                 }));
         }        
 
