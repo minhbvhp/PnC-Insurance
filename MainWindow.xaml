@@ -10,7 +10,7 @@
         ResizeMode="NoResize" Title="Tài sản kỹ thuật"
         AllowsTransparency="True"
         MouseLeftButtonDown="Window_DragMove"
-        Height="600" Width="1000">
+        Height="720" Width="1280">
 
     <Grid>
         <Grid.ColumnDefinitions>

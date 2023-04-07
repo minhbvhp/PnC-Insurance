@@ -15,7 +15,7 @@
 
         <StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0 0 0 15"
+                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0 0 10 15"
                      Text="{Binding ExtensionSearch, UpdateSourceTrigger=PropertyChanged}" Width="260">
                     <materialDesign:HintAssist.Hint>
                         <TextBlock>
@@ -38,15 +38,15 @@
                               SelectedItem="{Binding SelectedExtension, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                               AutoGenerateColumns="False" VerticalAlignment="Top" SelectionMode="Single"
                               IsReadOnly="True" HeadersVisibility="All"
-                              ColumnWidth="*" MaxHeight="500">
+                              MaxHeight="500">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding Id}">
+                    <DataGridTextColumn Binding="{Binding Id}" Width="Auto">
                         <DataGridTextColumn.Header>
                             <TextBlock Text="Ký hiệu"/>
                         </DataGridTextColumn.Header>
                     </DataGridTextColumn>
 
-                    <DataGridTextColumn Binding="{Binding Name}">
+                    <DataGridTextColumn Binding="{Binding Name}" Width="Auto">
                         <DataGridTextColumn.Header>
                             <TextBlock Text="Tên ĐKBS"/>
                         </DataGridTextColumn.Header>
@@ -81,13 +81,17 @@
                          Text="{Binding SelectedExtension.Name, Mode=OneWay}"/>
                 </GroupBox>
 
-                <GroupBox Grid.Row="2" materialDesign:ColorZoneAssist.Mode="PrimaryDark" FontSize="14" Margin="0 5"
+                <GroupBox Grid.Row="2" materialDesign:ColorZoneAssist.Mode="PrimaryDark" 
+                          FontSize="14" Margin="0 5"
                       Style="{StaticResource MaterialDesignGroupBox}" Height="350">
                     <GroupBox.Header>
                         <TextBlock Text="Nội dung" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource txtColor}"/>
                     </GroupBox.Header>
-                    <TextBox Background="Transparent" IsReadOnly="True" BorderThickness="0" TextWrapping="Wrap"
-                         Text="{Binding SelectedExtension.Description, Mode=OneWay}"/>
+
+                    <TextBox VerticalAlignment="Top" Background="Transparent" IsReadOnly="True" 
+                             BorderThickness="0" TextWrapping="Wrap" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                             Text="{Binding SelectedExtension.Description, Mode=OneWay}"/>
+                    
                 </GroupBox>
             </Grid>
         </StackPanel>
