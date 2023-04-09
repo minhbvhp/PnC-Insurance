@@ -14,7 +14,7 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="350"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
@@ -27,9 +27,9 @@
                             <Expander Header="{Binding}" Background="Transparent">
                                 <Expander.HeaderTemplate>
                                     <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <materialDesign:PackIcon Kind="{Binding IconKind}" Margin="0 0 15 0" Width="35" Height="35"/>
-                                            <TextBlock Text="{Binding Label}" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                                        <StackPanel Orientation="Horizontal" Height="50">
+                                            <materialDesign:PackIcon Kind="{Binding IconKind}" Margin="0 0 20 0" Width="35" Height="35" VerticalAlignment="Center"/>
+                                            <TextBlock Text="{Binding Label}" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="17" FontFamily="{StaticResource MaterialDesignFont}"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </Expander.HeaderTemplate>
@@ -39,7 +39,8 @@
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal" Margin="20 0 0 0" VerticalAlignment="Center">
-                                                <TextBlock Style="{StaticResource MaterialDesignSubtitle2TextBlock}" Text="{Binding Label}" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                                                <TextBlock Style="{StaticResource MaterialDesignSubtitle2TextBlock}" Text="{Binding Label}"
+                                                           VerticalAlignment="Center" TextWrapping="Wrap" FontSize="16" FontWeight="Light" FontFamily="{StaticResource MaterialDesignFont}"/>
                                             </StackPanel>
                                         </DataTemplate>
                                     </ListView.ItemTemplate>

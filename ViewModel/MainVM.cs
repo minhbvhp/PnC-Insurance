@@ -28,6 +28,9 @@ namespace PnC_Insurance.ViewModel
                 case CustomerInfoVM customerInfo:
                     SelectedVM = new CustomerInfoVM();
                     break;
+                case UrnCRUDVM urnCrudVM:
+                    SelectedVM = new UrnCRUDVM();
+                    break;
                 default:
                     SelectedVM = new BaseVM();
                     break;
@@ -41,11 +44,17 @@ namespace PnC_Insurance.ViewModel
         private void CreateMenu()
         {
             CustomMenuItems = new ObservableCollection<CustomMenuItem>();
-            CustomMenuItems.Add(new CustomMenuItem(new BaseVM(), "Bản chào", PackIconKind.AlphaQBoxOutline));
-            CustomMenuItems.Add(new CustomMenuItem(new BaseVM(), "Giấy chứng nhận", PackIconKind.FileDocumentCheck));
-            CustomMenuItems.Add(new CustomMenuItem(new BaseVM(), "Hợp đồng", PackIconKind.FileSign));
+            CustomMenuItems.Add(new CustomMenuItem(new BaseVM(), "BẢN CHÀO", PackIconKind.AlphaQBoxOutline));
+            CustomMenuItems.Add(new CustomMenuItem(new BaseVM(), "GIẤY CHỨNG NHẬN", PackIconKind.FileDocumentCheck));
+            CustomMenuItems.Add(new CustomMenuItem(new BaseVM(), "HỢP ĐỒNG", PackIconKind.FileSign));
 
-            CustomMenuItems.Add(new CustomMenuItem("Tra cứu", PackIconKind.InformationOutline
+            CustomMenuItems.Add(new CustomMenuItem("URN", PackIconKind.QrcodeScan
+                                , new List<CustomSubItem>
+                                {
+                                    new CustomSubItem(new UrnCRUDVM(), "Phòng"),                                    
+                                }));
+
+            CustomMenuItems.Add(new CustomMenuItem("TRA CỨU", PackIconKind.InformationOutline
                                 , new List<CustomSubItem>
                                 {
                                     new CustomSubItem(new CustomerInfoVM(), "Khách hàng"),
