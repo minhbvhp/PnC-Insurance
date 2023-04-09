@@ -57,7 +57,7 @@ namespace PnC_Insurance.ViewModel
                     if (SelectedCustomer != null)
                     {
                         var query = from representative in context.Representatives
-                                    where representative.CompanyTaxCode == SelectedCustomer.TaxCode
+                                    where representative.CustomerId == SelectedCustomer.Id
                                     select representative;
                         if (query.Any())
                         {
@@ -80,7 +80,7 @@ namespace PnC_Insurance.ViewModel
                     if (SelectedCustomer != null)
                     {
                         var query = from location in context.InsuredLocations
-                                    where location.CompanyTaxCode == SelectedCustomer.TaxCode
+                                    where location.CustomerId == SelectedCustomer.Id
                                     select location;
                         if (query.Any())
                         {

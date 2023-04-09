@@ -37,7 +37,7 @@ namespace PnC_Insurance.ViewModel
                     if (SelectedDepartment != null)
                     {
                         var query = from employee in context.Employees
-                                    where employee.DeptUrn == SelectedDepartment.Urn
+                                    where employee.DeptId == SelectedDepartment.Id
                                     select employee;
                         if (query.Any())
                         {
@@ -59,7 +59,7 @@ namespace PnC_Insurance.ViewModel
                     if (SelectedDepartment != null)
                     {
                         var query = from agent in context.Agents
-                                    where agent.DeptUrn == SelectedDepartment.Urn
+                                    where agent.DeptId == SelectedDepartment.Id
                                     select agent;
                         if (query.Any())
                         {
@@ -70,11 +70,6 @@ namespace PnC_Insurance.ViewModel
                     return new List<Agent>();
                 }
             }
-        }
-
-        public UrnInfoVM()
-        {
-
         }
     }
 }

@@ -17,7 +17,7 @@ namespace PnC_Insurance.ViewModel
         [NotifyCanExecuteChangedFor(nameof(SearchExtensionCommand))]
         private string? extensionSearch;
 
-        private List<Extension>? listOfExtensions = new List<Extension>();
+        private List<Extension> listOfExtensions = new List<Extension>();
         public List<Extension>? ListOfExtensions
         {
             get
@@ -38,7 +38,7 @@ namespace PnC_Insurance.ViewModel
                 using (var context = new InsuranceDbContext())
                 {
                     var query = from extension in context.Extensions
-                                where EF.Functions.Like(extension.Id, "%" + ExtensionSearch + "%") ||
+                                where EF.Functions.Like(extension.Code, "%" + ExtensionSearch + "%") ||
                                       EF.Functions.Like(extension.Name, "%" + ExtensionSearch + "%")
                                 select extension;
                     return query.ToListAsync();
