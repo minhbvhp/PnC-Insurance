@@ -31,29 +31,30 @@ public partial class InsuranceDbContext : DbContext
 
     public virtual DbSet<InsuredLocation> InsuredLocations { get; set; }
 
+    public virtual DbSet<PropertyItem> PropertyItems { get; set; }
+
+    public virtual DbSet<PropertyPolicy> PropertyPolicies { get; set; }
+
     public virtual DbSet<Representative> Representatives { get; set; }
 
     public virtual DbSet<Term> Terms { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlite("DataSource=.\\.\\Data\\Insurance DB.db");
+        => optionsBuilder.UseSqlite("DataSource=.\\Data\\Insurance DB.db");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Agent>(entity =>
         {
-            entity.HasKey(e => e.Urn);
+            entity.HasIndex(e => e.Id, "IX_Agents_Id").IsUnique();
 
             entity.HasIndex(e => e.Urn, "IX_Agents_URN").IsUnique();
 
-            entity.Property(e => e.Urn)
-                .ValueGeneratedNever()
-                .HasColumnName("URN");
-            entity.Property(e => e.DeptUrn).HasColumnName("DeptURN");
+            entity.Property(e => e.Urn).HasColumnName("URN");
 
-            entity.HasOne(d => d.DeptUrnNavigation).WithMany(p => p.Agents)
-                .HasForeignKey(d => d.DeptUrn)
+            entity.HasOne(d => d.Dept).WithMany(p => p.Agents)
+                .HasForeignKey(d => d.DeptId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
@@ -66,7 +67,9 @@ public partial class InsuranceDbContext : DbContext
 
         modelBuilder.Entity<Customer>(entity =>
         {
-            entity.HasKey(e => e.TaxCode);
+            entity.HasIndex(e => e.Id, "IX_Customers_Id").IsUnique();
+
+            entity.HasIndex(e => e.TaxCode, "IX_Customers_TaxCode").IsUnique();
 
             entity.Property(e => e.AddressEn)
                 .HasDefaultValueSql("'Chưa thiết lập'")
@@ -93,33 +96,32 @@ public partial class InsuranceDbContext : DbContext
 
         modelBuilder.Entity<Department>(entity =>
         {
-            entity.HasKey(e => e.Urn);
+            entity.HasIndex(e => e.Id, "IX_Departments_Id").IsUnique();
 
             entity.HasIndex(e => e.Urn, "IX_Departments_URN").IsUnique();
 
-            entity.Property(e => e.Urn)
-                .ValueGeneratedNever()
-                .HasColumnName("URN");
+            entity.Property(e => e.Urn).HasColumnName("URN");
         });
 
         modelBuilder.Entity<Employee>(entity =>
         {
-            entity.HasKey(e => e.Urn);
+            entity.HasIndex(e => e.Id, "IX_Employees_Id").IsUnique();
 
             entity.HasIndex(e => e.Urn, "IX_Employees_URN").IsUnique();
 
-            entity.Property(e => e.Urn)
-                .ValueGeneratedNever()
-                .HasColumnName("URN");
-            entity.Property(e => e.DeptUrn).HasColumnName("DeptURN");
+            entity.Property(e => e.Urn).HasColumnName("URN");
 
-            entity.HasOne(d => d.DeptUrnNavigation).WithMany(p => p.Employees)
-                .HasForeignKey(d => d.DeptUrn)
+            entity.HasOne(d => d.Dept).WithMany(p => p.Employees)
+                .HasForeignKey(d => d.DeptId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<Extension>(entity =>
         {
+            entity.HasIndex(e => e.Code, "IX_Extensions_Code").IsUnique();
+
+            entity.HasIndex(e => e.Id, "IX_Extensions_Id").IsUnique();
+
             entity.Property(e => e.Description).HasDefaultValueSql("'Chưa thiết lập'");
             entity.Property(e => e.DescriptionEn)
                 .HasDefaultValueSql("'Chưa thiết lập'")
@@ -136,14 +138,65 @@ public partial class InsuranceDbContext : DbContext
 
             entity.HasIndex(e => e.Id, "IX_InsuredLocation_Id").IsUnique();
 
-            entity.HasIndex(e => new { e.CompanyTaxCode, e.Location }, "IX_InsuredLocation_CompanyTaxCode_Location").IsUnique();
+            entity.HasIndex(e => new { e.CustomerId, e.Location }, "IX_InsuredLocation_CustomerId_Location").IsUnique();
 
             entity.Property(e => e.LocationEn)
                 .HasDefaultValueSql("'Chưa thiết lập'")
                 .HasColumnName("LocationEN");
 
-            entity.HasOne(d => d.CompanyTaxCodeNavigation).WithMany(p => p.InsuredLocations)
-                .HasForeignKey(d => d.CompanyTaxCode)
+            entity.HasOne(d => d.Customer).WithMany(p => p.InsuredLocations)
+                .HasForeignKey(d => d.CustomerId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+        });
+
+        modelBuilder.Entity<PropertyItem>(entity =>
+        {
+            entity.HasIndex(e => e.Id, "IX_PropertyItems_Id").IsUnique();
+
+            entity.HasIndex(e => new { e.PolicyId, e.ItemName }, "IX_PropertyItems_PolicyId_ItemName").IsUnique();
+
+            entity.Property(e => e.ItemName).HasDefaultValueSql("'Chưa thiết lập'");
+            entity.Property(e => e.ItemNameEn)
+                .HasDefaultValueSql("'Chưa thiết lập'")
+                .HasColumnName("ItemNameEN");
+            entity.Property(e => e.PolicyId).HasDefaultValueSql("'Chưa thiết lập'");
+            entity.Property(e => e.SumInsured)
+                .HasDefaultValueSql("0")
+                .HasColumnType("NUMERIC");
+        });
+
+        modelBuilder.Entity<PropertyPolicy>(entity =>
+        {
+            entity.HasIndex(e => e.Id, "IX_PropertyPolicies_Id").IsUnique();
+
+            entity.Property(e => e.Ardeductible)
+                .HasDefaultValueSql("'Chưa thiết lập'")
+                .HasColumnName("ARDeductible");
+            entity.Property(e => e.ArpremiumRate)
+                .HasDefaultValueSql("'Chưa thiết lập'")
+                .HasColumnName("ARPremiumRate");
+            entity.Property(e => e.DateIssue).HasDefaultValueSql("'Chưa thiết lập'");
+            entity.Property(e => e.FnEpremiumRate)
+                .HasDefaultValueSql("'Chưa thiết lập'")
+                .HasColumnName("FnEPremiumRate");
+            entity.Property(e => e.FneDeductible).HasDefaultValueSql("'Chưa thiết lập'");
+            entity.Property(e => e.FromDate).HasDefaultValueSql("'Chưa thiết lập'");
+            entity.Property(e => e.InsuredLocationId).HasDefaultValueSql("'Chưa thiết lập'");
+            entity.Property(e => e.PolicyNo).HasDefaultValueSql("'Chưa thiết lập'");
+            entity.Property(e => e.Premium)
+                .HasDefaultValueSql("0")
+                .HasColumnType("NUMERIC");
+            entity.Property(e => e.ToDate).HasDefaultValueSql("'Chưa thiết lập'");
+            entity.Property(e => e.TotalDue)
+                .HasDefaultValueSql("0")
+                .HasColumnType("NUMERIC");
+            entity.Property(e => e.Vat)
+                .HasDefaultValueSql("0")
+                .HasColumnType("NUMERIC")
+                .HasColumnName("VAT");
+
+            entity.HasOne(d => d.Cusomer).WithMany(p => p.PropertyPolicies)
+                .HasForeignKey(d => d.CusomerId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
@@ -153,7 +206,7 @@ public partial class InsuranceDbContext : DbContext
 
             entity.HasIndex(e => e.Id, "IX_Representative_Id").IsUnique();
 
-            entity.HasIndex(e => new { e.CompanyTaxCode, e.FullName, e.Position }, "IX_Representative_CompanyTaxCode_FullName_Position").IsUnique();
+            entity.HasIndex(e => new { e.CustomerId, e.FullName, e.Position }, "IX_Representative_CustomerId_FullName_Position").IsUnique();
 
             entity.Property(e => e.DecisionNo).HasDefaultValueSql("'Chưa thiết lập'");
             entity.Property(e => e.DecisionNoEn)
@@ -163,8 +216,8 @@ public partial class InsuranceDbContext : DbContext
                 .HasDefaultValueSql("'Chưa thiết lập'")
                 .HasColumnName("PositionEN");
 
-            entity.HasOne(d => d.CompanyTaxCodeNavigation).WithMany(p => p.Representatives)
-                .HasForeignKey(d => d.CompanyTaxCode)
+            entity.HasOne(d => d.Customer).WithMany(p => p.Representatives)
+                .HasForeignKey(d => d.CustomerId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
         });
 

@@ -7,7 +7,7 @@ public partial class Representative
 {
     public long Id { get; set; }
 
-    public string CompanyTaxCode { get; set; } = null!;
+    public long CustomerId { get; set; }
 
     public string FullName { get; set; } = null!;
 
@@ -19,5 +19,5 @@ public partial class Representative
 
     public string? DecisionNoEn { get; set; }
 
-    public virtual Customer CompanyTaxCodeNavigation { get; set; } = null!;
+    public virtual Customer Customer { get; set; } = null!;
 }

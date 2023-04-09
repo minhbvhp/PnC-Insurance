@@ -5,6 +5,8 @@ namespace PnC_Insurance.Model;
 
 public partial class Department
 {
+    public long Id { get; set; }
+
     public long Urn { get; set; }
 
     public string Name { get; set; } = null!;

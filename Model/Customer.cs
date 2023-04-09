@@ -5,6 +5,8 @@ namespace PnC_Insurance.Model;
 
 public partial class Customer
 {
+    public long Id { get; set; }
+
     public string TaxCode { get; set; } = null!;
 
     public string Name { get; set; } = null!;
@@ -24,6 +26,8 @@ public partial class Customer
     public string? BusinessEn { get; set; }
 
     public virtual ICollection<InsuredLocation> InsuredLocations { get; } = new List<InsuredLocation>();
+
+    public virtual ICollection<PropertyPolicy> PropertyPolicies { get; } = new List<PropertyPolicy>();
 
     public virtual ICollection<Representative> Representatives { get; } = new List<Representative>();
 }
