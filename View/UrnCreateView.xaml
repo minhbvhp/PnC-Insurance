@@ -24,7 +24,7 @@
                     </Grid.RowDefinitions>
 
                     <StackPanel Grid.Row="0" HorizontalAlignment="Center">
-                        <TextBlock Text="PHÒNG" FontSize="20" Foreground="#69515A"
+                        <TextBlock Text="PHÒNG" FontSize="20" Foreground="#1A5F7A"
                            FontWeight="Bold" FontFamily="{StaticResource MaterialDesignFont}">
                             <TextBlock.Effect>
                                 <DropShadowEffect ShadowDepth="4"
@@ -36,21 +36,21 @@
                         </TextBlock>
                     </StackPanel>
 
-                    <StackPanel Grid.Row="1">
+                    <StackPanel Grid.Row="1" HorizontalAlignment="Center">
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              Text="{Binding NewDeptUrn}" 
-                             Margin="0 0 0 30" Width="280" HorizontalAlignment="Left"
+                             Margin="0 0 0 30" Width="380" HorizontalAlignment="Left"
                              materialDesign:HintAssist.Hint="Số URN Phòng"/>
 
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             Text="{Binding NewDeptUrn}" Width="280" HorizontalAlignment="Left"
+                             Text="{Binding NewDeptUrn}" Width="380" HorizontalAlignment="Left"
                              materialDesign:HintAssist.Hint="Tên Phòng"/>
 
                     </StackPanel>
 
                     <StackPanel Grid.Row="2">
-                        <Button Style="{StaticResource MaterialDesignFlatSecondaryLightBgButton}" 
-                                Height="45" Content="Thêm"/>
+                        <Button Style="{StaticResource MaterialDesignFlatDarkButton}" Background="#94AF9F"
+                                Height="45" Width="150" Content="Thêm"/>
                     </StackPanel>
                 </Grid>
             </Border>
@@ -66,7 +66,7 @@
                     </Grid.RowDefinitions>
 
                     <StackPanel Grid.Row="0" HorizontalAlignment="Center">
-                        <TextBlock Text="NHÂN VIÊN" FontSize="20" Foreground="#69515A"
+                        <TextBlock Text="NHÂN VIÊN" FontSize="20" Foreground="#1A5F7A"
                            FontWeight="Bold" FontFamily="{StaticResource MaterialDesignFont}">
                             <TextBlock.Effect>
                                 <DropShadowEffect ShadowDepth="4"
@@ -81,23 +81,23 @@
                     <StackPanel Grid.Row="1">
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              Text="{Binding NewDeptUrn}" Margin="0 0 0 30"
-                                 Width="280" HorizontalAlignment="Left"
+                                 Width="380" HorizontalAlignment="Center"
                              materialDesign:HintAssist.Hint="Số URN Nhân viên"/>
 
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              Text="{Binding NewDeptUrn}" Margin="0 0 0 30"
-                                 Width="280" HorizontalAlignment="Left"
+                                 Width="380" HorizontalAlignment="Center"
                              materialDesign:HintAssist.Hint="Họ tên"/>
 
-                        <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             Text="{Binding NewDeptUrn}" Width="280" HorizontalAlignment="Left"
+                        <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                             Width="380" HorizontalAlignment="Center"
                              materialDesign:HintAssist.Hint="Phòng"/>
 
                     </StackPanel>
 
                     <StackPanel Grid.Row="2">
-                        <Button Style="{StaticResource MaterialDesignFlatSecondaryLightBgButton}" 
-                                Height="45" Content="Thêm"/>
+                        <Button Style="{StaticResource MaterialDesignFlatDarkButton}" Background="#94AF9F"
+                                Height="45" Width="150" Content="Thêm"/>
                     </StackPanel>
                 </Grid>
             </Border>
@@ -113,7 +113,7 @@
                     </Grid.RowDefinitions>
 
                     <StackPanel Grid.Row="0" HorizontalAlignment="Center">
-                        <TextBlock Text="ĐẠI LÝ" FontSize="20" Foreground="#69515A"
+                        <TextBlock Text="ĐẠI LÝ" FontSize="20" Foreground="#1A5F7A"
                            FontWeight="Bold" FontFamily="{StaticResource MaterialDesignFont}">
                             <TextBlock.Effect>
                                 <DropShadowEffect ShadowDepth="4"
@@ -128,23 +128,23 @@
                     <StackPanel Grid.Row="1">
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              Text="{Binding NewDeptUrn}" Margin="0 0 0 30"
-                                 Width="280" HorizontalAlignment="Left"
+                                 Width="380" HorizontalAlignment="Center"
                              materialDesign:HintAssist.Hint="Số URN Đại lý"/>
 
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              Text="{Binding NewDeptUrn}" Margin="0 0 0 30"
-                                 Width="280" HorizontalAlignment="Left"
+                                 Width="380" HorizontalAlignment="Center"
                              materialDesign:HintAssist.Hint="Họ tên"/>
 
-                        <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             Text="{Binding NewDeptUrn}" Width="280" HorizontalAlignment="Left"
+                        <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                             Width="380" HorizontalAlignment="Center"
                              materialDesign:HintAssist.Hint="Phòng"/>
 
                     </StackPanel>
 
                     <StackPanel Grid.Row="2">
-                        <Button Style="{StaticResource MaterialDesignFlatSecondaryLightBgButton}" 
-                                Height="45" Content="Thêm"/>
+                        <Button Style="{StaticResource MaterialDesignFlatDarkButton}" Background="#94AF9F"
+                                Height="45" Width="150" Content="Thêm"/>
                     </StackPanel>
                 </Grid>
             </Border>
