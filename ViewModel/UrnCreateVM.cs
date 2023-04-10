@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PnC_Insurance.ViewModel
 {
-    public partial class UrnCRUDVM : BaseVM
+    public partial class UrnCreateVM : BaseVM
     {
 
     }

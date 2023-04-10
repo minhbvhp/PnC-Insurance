@@ -35,7 +35,7 @@
                                 </Expander.HeaderTemplate>
 
                                 <ListView ItemsSource="{Binding CustomSubItems}"
-                                          SelectedItem="{Binding Path=DataContext.SubItemSelected, RelativeSource={RelativeSource AncestorType=ListView}, UpdateSourceTrigger=PropertyChanged}">
+                                          SelectedValue="{Binding Path=DataContext.SubItemSelected, RelativeSource={RelativeSource AncestorType=ListView}, UpdateSourceTrigger=PropertyChanged}">
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal" Margin="20 0 0 0" VerticalAlignment="Center">

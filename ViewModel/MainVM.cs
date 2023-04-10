@@ -28,8 +28,8 @@ namespace PnC_Insurance.ViewModel
                 case CustomerInfoVM customerInfo:
                     SelectedVM = new CustomerInfoVM();
                     break;
-                case UrnCRUDVM urnCrudVM:
-                    SelectedVM = new UrnCRUDVM();
+                case UrnCreateVM urnCrudVM:
+                    SelectedVM = new UrnCreateVM();
                     break;
                 default:
                     SelectedVM = new BaseVM();
@@ -51,7 +51,7 @@ namespace PnC_Insurance.ViewModel
             CustomMenuItems.Add(new CustomMenuItem("URN", PackIconKind.QrcodeScan
                                 , new List<CustomSubItem>
                                 {
-                                    new CustomSubItem(new UrnCRUDVM(), "Phòng"),                                    
+                                    new CustomSubItem(new UrnCreateVM(), "Phòng"),                                    
                                 }));
 
             CustomMenuItems.Add(new CustomMenuItem("TRA CỨU", PackIconKind.InformationOutline

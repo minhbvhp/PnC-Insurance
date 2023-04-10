@@ -31,8 +31,8 @@
                 <view:ExtensionsInfoView/>
             </DataTemplate>
 
-            <DataTemplate DataType="{x:Type viewmodel:UrnCRUDVM}">
-                <view:UrnCRUDView/>
+            <DataTemplate DataType="{x:Type viewmodel:UrnCreateVM}">
+                <view:UrnCreateView/>
             </DataTemplate>
 
             <SolidColorBrush  Color="#f8e16c" x:Key="txtColor" />
