@@ -78,19 +78,19 @@
                         </TextBlock>
                     </StackPanel>
 
-                    <StackPanel Grid.Row="1">
+                    <StackPanel Grid.Row="1" HorizontalAlignment="Center">
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              Text="{Binding NewDeptUrn}" Margin="0 0 0 30"
-                                 Width="380" HorizontalAlignment="Center"
+                                 Width="380" HorizontalAlignment="Left"
                              materialDesign:HintAssist.Hint="Số URN Nhân viên"/>
 
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              Text="{Binding NewDeptUrn}" Margin="0 0 0 30"
-                                 Width="380" HorizontalAlignment="Center"
+                                 Width="380" HorizontalAlignment="Left"
                              materialDesign:HintAssist.Hint="Họ tên"/>
 
                         <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
-                             Width="380" HorizontalAlignment="Center"
+                             Width="380" HorizontalAlignment="Left"
                              materialDesign:HintAssist.Hint="Phòng"/>
 
                     </StackPanel>
@@ -125,19 +125,19 @@
                         </TextBlock>
                     </StackPanel>
 
-                    <StackPanel Grid.Row="1">
+                    <StackPanel Grid.Row="1" HorizontalAlignment="Center">
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              Text="{Binding NewDeptUrn}" Margin="0 0 0 30"
-                                 Width="380" HorizontalAlignment="Center"
+                                 Width="380" HorizontalAlignment="Left"
                              materialDesign:HintAssist.Hint="Số URN Đại lý"/>
 
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              Text="{Binding NewDeptUrn}" Margin="0 0 0 30"
-                                 Width="380" HorizontalAlignment="Center"
+                                 Width="380" HorizontalAlignment="Left"
                              materialDesign:HintAssist.Hint="Họ tên"/>
 
                         <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
-                             Width="380" HorizontalAlignment="Center"
+                             Width="380" HorizontalAlignment="Left"
                              materialDesign:HintAssist.Hint="Phòng"/>
 
                     </StackPanel>

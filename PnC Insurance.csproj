@@ -40,6 +40,7 @@
 
   <ItemGroup>
     <Folder Include="Model\" />
+    <Folder Include="Setup\" />
   </ItemGroup>
 
 </Project>
