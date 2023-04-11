@@ -58,16 +58,17 @@
 
                     </StackPanel>
 
-                    <StackPanel Grid.Row="2">
+                    <StackPanel x:Name="BottomOfDept" Grid.Row="2">
                         <Button Style="{StaticResource MaterialDesignFlatDarkButton}" Background="#94AF9F"
                                 Command="{Binding AddNewDepartmentCommand}"
                                 Height="45" Width="150" Content="Thêm"/>
+                        
                     </StackPanel>
 
-                    <Canvas Grid.Row="2">
-                        <materialDesign:Snackbar Canvas.Bottom="0" Canvas.Left="0" Width="Auto"
-                                                 MessageQueue="{Binding ResultNotification}"/>
-                    </Canvas>
+                    <materialDesign:Snackbar Grid.Row="2" 
+                                             Background="Black" Foreground="White" 
+                                             HorizontalAlignment="Left"
+                                             MessageQueue="{Binding ResultNotification}"/>
                 </Grid>
             </Border>
         </StackPanel>

@@ -43,6 +43,7 @@
                 <Setter Property="Foreground" Value="{DynamicResource txtColor}" />
                 <Setter Property="Background" Value="{DynamicResource bgColor}" />
             </Style>
+
         </ResourceDictionary>         
     </Application.Resources>
 </Application>

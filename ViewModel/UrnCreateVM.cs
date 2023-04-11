@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MaterialDesignThemes.Wpf;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.EntityFrameworkCore;
 
 namespace PnC_Insurance.ViewModel
 {
@@ -33,7 +34,7 @@ namespace PnC_Insurance.ViewModel
         [Required(ErrorMessage = "Nhập số URN")]
         [NotifyDataErrorInfo]
         [NotifyCanExecuteChangedFor(nameof(AddNewDepartmentCommand))]
-        private long newDeptUrn;
+        private long? newDeptUrn;
 
         [ObservableProperty]
         [Required(ErrorMessage = "Nhập tên phòng")]
@@ -48,34 +49,48 @@ namespace PnC_Insurance.ViewModel
             
             Department addingDepartment = new Department()
             {
-                Urn = NewDeptUrn,
+                Urn = (long)NewDeptUrn,
                 Name = NewDeptName,
             };
 
-            await Task.Run(async () =>
+            var existDepartment = await Task.Run(() =>
             {
                 using (var context = new InsuranceDbContext())
                 {
-                    //var query = from department in context.Departments
-                    //            where department.Urn == addingDepartment.Urn
-                    //            select department;
-                    
-                    //if (query.Any())
-                    //{
-                    //    ResultNotification.Enqueue("Số URN này đã tồn tại");
-                    //    return;
-                    //}
+                    var query = from department in context.Departments
+                                where department.Urn == addingDepartment.Urn
+                                select department;
 
-                    //await context.Departments.AddAsync(addingDepartment);
-                    //await context.SaveChangesAsync();
-
-                    //ResultNotification.Enqueue("Đã tạo Phòng mới");
-                    StartOver();
+                    return query.ToList();
 
                 }
-            });
+            }
+            );
 
-            
+            string notificationString = "";
+
+            if (existDepartment.Any())
+            {
+                notificationString = "Số URN này đã tồn tại";
+            }
+            else
+            {
+                notificationString = await Task.Run(async () =>
+                {
+                    using (var context = new InsuranceDbContext())
+                    {
+                        await context.Departments.AddAsync(addingDepartment);
+                        await context.SaveChangesAsync();
+                    }
+
+                    return "Đã tạo Phòng mới";
+                });
+                
+                StartOver();
+                OnPropertyChanged(nameof(ListOfDepartments));
+            }
+
+            ResultNotification.Enqueue(notificationString);
         }
 
         private bool CanAddNewDepartmentCommand()
@@ -89,7 +104,8 @@ namespace PnC_Insurance.ViewModel
         #endregion
 
         private void StartOver()
-        {            
+        {
+            NewDeptUrn = null;
             NewDeptName= null;
             ValidateAllProperties();
         }
