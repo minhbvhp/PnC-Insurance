@@ -10,6 +10,7 @@ namespace PnC_Insurance.ViewModel
 {
     public partial class BaseVM : ObservableValidator
     {
-        
+        [ObservableProperty]
+        private SnackbarMessageQueue? resultNotification;
     }
 }

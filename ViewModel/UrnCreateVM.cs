@@ -13,9 +13,7 @@ using Microsoft.EntityFrameworkCore;
 namespace PnC_Insurance.ViewModel
 {
     public partial class UrnCreateVM : BaseVM
-    {
-        [ObservableProperty]
-        private SnackbarMessageQueue? resultNotification;
+    {       
 
         public List<Department>? ListOfDepartments
         {
@@ -86,7 +84,7 @@ namespace PnC_Insurance.ViewModel
                     return "Đã tạo Phòng mới";
                 });
                 
-                StartOver();
+                StartDeptOver();
                 OnPropertyChanged(nameof(ListOfDepartments));
             }
 
@@ -101,18 +99,29 @@ namespace PnC_Insurance.ViewModel
             return false;
         }
 
-        #endregion
-
-        private void StartOver()
+        private void StartDeptOver()
         {
             NewDeptUrn = null;
-            NewDeptName= null;
+            NewDeptName = null;
             ValidateAllProperties();
+        }
+        #endregion
+
+        private void StartAgentOver()
+        {
+            
+        }
+
+        private void StartEmployeeOver()
+        {
+            
         }
 
         public UrnCreateVM()
         {
-            StartOver();
+            StartDeptOver();
+            StartEmployeeOver();
+            StartAgentOver();
         }
     }
 }
