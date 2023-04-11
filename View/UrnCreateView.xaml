@@ -5,8 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PnC_Insurance.View"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" Foreground="Teal" FontSize="15"
+             xmlns:converter="clr-namespace:PnC_Insurance.Converter"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converter:NumberFormatConverter x:Key="NumberFormatConverter"/>
+    </UserControl.Resources>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -38,20 +43,31 @@
 
                     <StackPanel Grid.Row="1" HorizontalAlignment="Center">
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             Text="{Binding NewDeptUrn}" 
-                             Margin="0 0 0 30" Width="380" HorizontalAlignment="Left"
-                             materialDesign:HintAssist.Hint="Số URN Phòng"/>
+                                 Text="{Binding NewDeptUrn, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                 materialDesign:ValidationAssist.Background="Transparent"
+                                 Margin="0 0 0 30" Width="260" HorizontalAlignment="Left"
+                                 PreviewTextInput="InputNumberOnly"
+                                 PreviewKeyDown="PreventSpaceKey"
+                                 materialDesign:HintAssist.Hint="Số URN Phòng"/>
 
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             Text="{Binding NewDeptUrn}" Width="380" HorizontalAlignment="Left"
+                             Text="{Binding NewDeptName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                 Width="260" HorizontalAlignment="Left"
+                                 materialDesign:ValidationAssist.Background="Transparent"
                              materialDesign:HintAssist.Hint="Tên Phòng"/>
 
                     </StackPanel>
 
                     <StackPanel Grid.Row="2">
                         <Button Style="{StaticResource MaterialDesignFlatDarkButton}" Background="#94AF9F"
+                                Command="{Binding AddNewDepartmentCommand}"
                                 Height="45" Width="150" Content="Thêm"/>
                     </StackPanel>
+
+                    <Canvas Grid.Row="2">
+                        <materialDesign:Snackbar Canvas.Bottom="0" Canvas.Left="0" Width="Auto"
+                                                 MessageQueue="{Binding ResultNotification}"/>
+                    </Canvas>
                 </Grid>
             </Border>
         </StackPanel>
@@ -80,18 +96,21 @@
 
                     <StackPanel Grid.Row="1" HorizontalAlignment="Center">
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             Text="{Binding NewDeptUrn}" Margin="0 0 0 30"
+                             Text="{Binding NewEmployeeUrn}" Margin="0 0 0 30"
                                  Width="380" HorizontalAlignment="Left"
                              materialDesign:HintAssist.Hint="Số URN Nhân viên"/>
 
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             Text="{Binding NewDeptUrn}" Margin="0 0 0 30"
+                             Text="{Binding NewEmployeeName}" Margin="0 0 0 30"
                                  Width="380" HorizontalAlignment="Left"
                              materialDesign:HintAssist.Hint="Họ tên"/>
 
                         <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
-                             Width="380" HorizontalAlignment="Left"
-                             materialDesign:HintAssist.Hint="Phòng"/>
+                                  ItemsSource="{Binding ListOfDepartments, IsAsync=True}"
+                                  SelectedItem="{Binding Department, UpdateSourceTrigger=PropertyChanged}"
+                                  DisplayMemberPath="Name" IsEditable="False"
+                                  HorizontalAlignment="Stretch"
+                                  materialDesign:HintAssist.Hint="Phòng"/>
 
                     </StackPanel>
 
@@ -127,18 +146,21 @@
 
                     <StackPanel Grid.Row="1" HorizontalAlignment="Center">
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             Text="{Binding NewDeptUrn}" Margin="0 0 0 30"
+                             Text="{Binding NewAgentUrn}" Margin="0 0 0 30"
                                  Width="380" HorizontalAlignment="Left"
                              materialDesign:HintAssist.Hint="Số URN Đại lý"/>
 
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             Text="{Binding NewDeptUrn}" Margin="0 0 0 30"
+                             Text="{Binding NewAgentName}" Margin="0 0 0 30"
                                  Width="380" HorizontalAlignment="Left"
                              materialDesign:HintAssist.Hint="Họ tên"/>
 
                         <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
-                             Width="380" HorizontalAlignment="Left"
-                             materialDesign:HintAssist.Hint="Phòng"/>
+                                  ItemsSource="{Binding ListOfDepartments, IsAsync=True}"
+                                  SelectedItem="{Binding Department, UpdateSourceTrigger=PropertyChanged}"
+                                  DisplayMemberPath="Name" IsEditable="False"
+                                  HorizontalAlignment="Stretch"
+                                  materialDesign:HintAssist.Hint="Phòng"/>
 
                     </StackPanel>
 

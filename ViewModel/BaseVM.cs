@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +10,6 @@ namespace PnC_Insurance.ViewModel
 {
     public partial class BaseVM : ObservableValidator
     {
+        
     }
 }

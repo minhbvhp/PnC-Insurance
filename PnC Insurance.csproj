@@ -11,20 +11,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Setup\**" />
-    <EmbeddedResource Remove="Setup\**" />
-    <None Remove="Setup\**" />
-    <Page Remove="Setup\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Fonts\iCielPanton-Light.otf" />
-    <None Remove="Fonts\UVNBaiSau_N.TTF" />
-    <None Remove="Fonts\UVNBaiSau_Nh.TTF" />
-    <None Remove="Fonts\UVNBaiSau_R.TTF" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="icon.ico" />
   </ItemGroup>
 

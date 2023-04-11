@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:PnC_Insurance"
              xmlns:viewmodel="clr-namespace:PnC_Insurance.ViewModel"
              xmlns:view="clr-namespace:PnC_Insurance.View"
+             xmlns:converter="clr-namespace:PnC_Insurance.Converter"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              StartupUri="MainWindow.xaml">
     <Application.Resources>

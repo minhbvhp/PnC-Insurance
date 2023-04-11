@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,6 +24,19 @@ namespace PnC_Insurance.View
         public UrnCreateView()
         {
             InitializeComponent();
+        }
+
+        private void InputNumberOnly(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = (new Regex("[^0-9\\s]+").IsMatch(e.Text));
+        }
+
+        private void PreventSpaceKey(object sender, KeyEventArgs e)
+        {
+            if (e.Key != Key.Space)
+                e.Handled = false;
+            else
+                e.Handled = true;
         }
     }
 }
