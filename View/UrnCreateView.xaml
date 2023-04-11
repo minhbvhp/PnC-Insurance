@@ -108,7 +108,7 @@
 
                         <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                                   ItemsSource="{Binding ListOfDepartments, IsAsync=True}"
-                                  SelectedItem="{Binding Department, UpdateSourceTrigger=PropertyChanged}"
+                                  SelectedItem="{Binding DepartmentOfEmployee, UpdateSourceTrigger=PropertyChanged}"
                                   DisplayMemberPath="Name" IsEditable="False"
                                   HorizontalAlignment="Stretch"
                                   materialDesign:HintAssist.Hint="Phòng"/>
@@ -158,7 +158,7 @@
 
                         <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                                   ItemsSource="{Binding ListOfDepartments, IsAsync=True}"
-                                  SelectedItem="{Binding Department, UpdateSourceTrigger=PropertyChanged}"
+                                  SelectedItem="{Binding DepartmentOfAgent, UpdateSourceTrigger=PropertyChanged}"
                                   DisplayMemberPath="Name" IsEditable="False"
                                   HorizontalAlignment="Stretch"
                                   materialDesign:HintAssist.Hint="Phòng"/>
