@@ -43,7 +43,7 @@ namespace PnC_Insurance.ViewModel
         private long? newDeptUrn;
 
         [ObservableProperty]
-        [Required(ErrorMessage = "Nhập tên phòng")]
+        [Required(ErrorMessage = "Nhập tên Phòng")]
         [NotifyDataErrorInfo]
         [NotifyCanExecuteChangedFor(nameof(AddNewDepartmentCommand))]
         private string? newDeptName;
@@ -53,7 +53,7 @@ namespace PnC_Insurance.ViewModel
         {
             DeptResultNotification = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
             
-            Department addingDepartment = new Department()
+            var addingDepartment = new Department()
             {
                 Urn = (long)NewDeptUrn,
                 Name = NewDeptName,
@@ -116,7 +116,7 @@ namespace PnC_Insurance.ViewModel
         private long? newEmployeeUrn;
 
         [ObservableProperty]
-        [Required(ErrorMessage = "Nhập tên nhân viên")]
+        [Required(ErrorMessage = "Nhập tên Nhân viên")]
         [NotifyDataErrorInfo]
         [NotifyCanExecuteChangedFor(nameof(AddNewEmployeeCommand))]
         private string? newEmployeeName;
@@ -132,7 +132,7 @@ namespace PnC_Insurance.ViewModel
         {
             EmployeeResultNotification = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
 
-            Employee addingEmployee = new Employee()
+            var addingEmployee = new Employee()
             {
                 Urn = (long)NewEmployeeUrn,
                 FullName = NewEmployeeName,
@@ -188,6 +188,86 @@ namespace PnC_Insurance.ViewModel
 
         #endregion
 
+        #region New Agent
+        [ObservableProperty]
+        [Required(ErrorMessage = "Nhập số URN")]
+        [NotifyDataErrorInfo]
+        [NotifyCanExecuteChangedFor(nameof(AddNewAgentCommand))]
+        private long? newAgentUrn;
+
+        [ObservableProperty]
+        [Required(ErrorMessage = "Nhập tên Đại lý")]
+        [NotifyDataErrorInfo]
+        [NotifyCanExecuteChangedFor(nameof(AddNewAgentCommand))]
+        private string? newAgentName;
+
+        [ObservableProperty]
+        [Required(ErrorMessage = "Chọn Phòng")]
+        [NotifyDataErrorInfo]
+        [NotifyCanExecuteChangedFor(nameof(AddNewAgentCommand))]
+        private Department? departmentOfAgent;
+
+        [RelayCommand(CanExecute = nameof(CanAddNewAgentCommand))]
+        private async Task AddNewAgentAsync()
+        {
+            AgentResultNotification = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
+
+            var addingAgent = new Agent()
+            {
+                Urn = (long)NewAgentUrn,
+                FullName = NewAgentName,
+                DeptId = DepartmentOfAgent.Id,
+            };
+
+            var existAgent = await Task.Run(() =>
+            {
+                using (var context = new InsuranceDbContext())
+                {
+                    var query = from agent in context.Agents.AsNoTracking()
+                                where agent.Urn == addingAgent.Urn
+                                select agent;
+
+                    return query.ToList();
+
+                }
+            }
+            );
+
+            string notificationString = "";
+
+            if (existAgent.Any())
+            {
+                notificationString = "Số URN này đã tồn tại";
+            }
+            else
+            {
+                notificationString = await Task.Run(async () =>
+                {
+                    using (var context = new InsuranceDbContext())
+                    {
+                        await context.Agents.AddAsync(addingAgent);
+                        await context.SaveChangesAsync();
+                    }
+
+                    return "Đã tạo Đại lý mới";
+                });
+
+                StartAgentOver();
+            }
+
+            AgentResultNotification.Enqueue(notificationString);
+        }
+
+        private bool CanAddNewAgentCommand()
+        {
+            if (NewAgentUrn != null && NewAgentName != null && DepartmentOfAgent != null)
+                return true;
+
+            return false;
+        }
+
+        #endregion
+
         private void StartDeptOver()
         {
             NewDeptUrn = null;
@@ -197,7 +277,10 @@ namespace PnC_Insurance.ViewModel
 
         private void StartAgentOver()
         {
-            
+            NewAgentUrn = null;
+            NewAgentName = null;
+            DepartmentOfAgent = null;
+            ValidateAllProperties();
         }
 
         private void StartEmployeeOver()

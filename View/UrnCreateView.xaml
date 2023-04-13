@@ -61,6 +61,8 @@
                     <StackPanel Grid.Row="2">
                         <Button Style="{StaticResource MaterialDesignFlatDarkButton}" Background="#94AF9F"
                                 Command="{Binding AddNewDepartmentCommand}"
+                                materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+                                materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding AddNewDepartmentCommand.IsRunning}"
                                 Height="45" Width="150" Content="Thêm"/>
                         
                     </StackPanel>
@@ -121,6 +123,8 @@
                     <StackPanel Grid.Row="2">
                         <Button Style="{StaticResource MaterialDesignFlatDarkButton}" Background="#94AF9F"
                                 Command="{Binding AddNewEmployeeCommand}"
+                                materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+                                materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding AddNewEmployeeCommand.IsRunning}"
                                 Height="45" Width="150" Content="Thêm" />
                     </StackPanel>
 
@@ -180,6 +184,8 @@
                     <StackPanel Grid.Row="2">
                         <Button Style="{StaticResource MaterialDesignFlatDarkButton}" Background="#94AF9F"
                                 Command="{Binding AddNewAgentCommand}"
+                                materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+                                materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding AddNewAgentCommand.IsRunning}"
                                 Height="45" Width="150" Content="Thêm"/>
                     </StackPanel>
 
