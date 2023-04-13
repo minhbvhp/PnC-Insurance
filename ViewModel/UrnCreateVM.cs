@@ -40,7 +40,7 @@ namespace PnC_Insurance.ViewModel
         [Required(ErrorMessage = "Nhập số URN")]
         [NotifyDataErrorInfo]
         [NotifyCanExecuteChangedFor(nameof(AddNewDepartmentCommand))]
-        private long? newDeptUrn;
+        private string? newDeptUrn;
 
         [ObservableProperty]
         [Required(ErrorMessage = "Nhập tên Phòng")]
@@ -55,7 +55,7 @@ namespace PnC_Insurance.ViewModel
             
             var addingDepartment = new Department()
             {
-                Urn = (long)NewDeptUrn,
+                Urn = NewDeptUrn,
                 Name = NewDeptName,
             };
 
@@ -113,7 +113,7 @@ namespace PnC_Insurance.ViewModel
         [Required(ErrorMessage = "Nhập số URN")]
         [NotifyDataErrorInfo]
         [NotifyCanExecuteChangedFor(nameof(AddNewEmployeeCommand))]
-        private long? newEmployeeUrn;
+        private string? newEmployeeUrn;
 
         [ObservableProperty]
         [Required(ErrorMessage = "Nhập tên Nhân viên")]
@@ -134,7 +134,7 @@ namespace PnC_Insurance.ViewModel
 
             var addingEmployee = new Employee()
             {
-                Urn = (long)NewEmployeeUrn,
+                Urn = NewEmployeeUrn,
                 FullName = NewEmployeeName,
                 DeptId = DepartmentOfEmployee.Id,
             };
@@ -193,7 +193,7 @@ namespace PnC_Insurance.ViewModel
         [Required(ErrorMessage = "Nhập số URN")]
         [NotifyDataErrorInfo]
         [NotifyCanExecuteChangedFor(nameof(AddNewAgentCommand))]
-        private long? newAgentUrn;
+        private string? newAgentUrn;
 
         [ObservableProperty]
         [Required(ErrorMessage = "Nhập tên Đại lý")]
@@ -214,7 +214,7 @@ namespace PnC_Insurance.ViewModel
 
             var addingAgent = new Agent()
             {
-                Urn = (long)NewAgentUrn,
+                Urn = NewAgentUrn,
                 FullName = NewAgentName,
                 DeptId = DepartmentOfAgent.Id,
             };

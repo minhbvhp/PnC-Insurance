@@ -46,8 +46,6 @@
                                  Text="{Binding NewDeptUrn, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                  materialDesign:ValidationAssist.Background="Transparent"
                                  Margin="0 0 0 30" Width="260" HorizontalAlignment="Left"
-                                 PreviewTextInput="InputNumberOnly"
-                                 PreviewKeyDown="PreventSpaceKey"
                                  materialDesign:HintAssist.Hint="Số URN Phòng"/>
 
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"

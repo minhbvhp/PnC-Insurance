@@ -7,7 +7,7 @@ public partial class Agent
 {
     public long Id { get; set; }
 
-    public long Urn { get; set; }
+    public string Urn { get; set; } = null!;
 
     public string FullName { get; set; } = null!;
 

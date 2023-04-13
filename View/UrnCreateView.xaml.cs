@@ -24,19 +24,6 @@ namespace PnC_Insurance.View
         public UrnCreateView()
         {
             InitializeComponent();
-        }
-
-        private void InputNumberOnly(object sender, TextCompositionEventArgs e)
-        {
-            e.Handled = (new Regex("[^0-9\\s]+").IsMatch(e.Text));
-        }
-
-        private void PreventSpaceKey(object sender, KeyEventArgs e)
-        {
-            if (e.Key != Key.Space)
-                e.Handled = false;
-            else
-                e.Handled = true;
-        }
+        }        
     }
 }

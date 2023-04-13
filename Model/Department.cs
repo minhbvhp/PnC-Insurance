@@ -7,7 +7,7 @@ public partial class Department
 {
     public long Id { get; set; }
 
-    public long Urn { get; set; }
+    public string Urn { get; set; } = null!;
 
     public string Name { get; set; } = null!;
 
