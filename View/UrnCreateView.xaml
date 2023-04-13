@@ -58,7 +58,7 @@
 
                     </StackPanel>
 
-                    <StackPanel x:Name="BottomOfDept" Grid.Row="2">
+                    <StackPanel Grid.Row="2">
                         <Button Style="{StaticResource MaterialDesignFlatDarkButton}" Background="#94AF9F"
                                 Command="{Binding AddNewDepartmentCommand}"
                                 Height="45" Width="150" Content="Thêm"/>
@@ -68,7 +68,7 @@
                     <materialDesign:Snackbar Grid.Row="2" 
                                              Background="Black" Foreground="White" 
                                              HorizontalAlignment="Left"
-                                             MessageQueue="{Binding ResultNotification}"/>
+                                             MessageQueue="{Binding DeptResultNotification}"/>
                 </Grid>
             </Border>
         </StackPanel>
@@ -97,18 +97,21 @@
 
                     <StackPanel Grid.Row="1" HorizontalAlignment="Center">
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             Text="{Binding NewEmployeeUrn}" Margin="0 0 0 30"
+                                 Text="{Binding NewEmployeeUrn}" Margin="0 0 0 30"
+                                 materialDesign:ValidationAssist.Background="Transparent"
                                  Width="380" HorizontalAlignment="Left"
-                             materialDesign:HintAssist.Hint="Số URN Nhân viên"/>
+                                 materialDesign:HintAssist.Hint="Số URN Nhân viên"/>
 
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             Text="{Binding NewEmployeeName}" Margin="0 0 0 30"
+                                 Text="{Binding NewEmployeeName}" Margin="0 0 0 30"
+                                 materialDesign:ValidationAssist.Background="Transparent"
                                  Width="380" HorizontalAlignment="Left"
-                             materialDesign:HintAssist.Hint="Họ tên"/>
+                                 materialDesign:HintAssist.Hint="Họ tên"/>
 
                         <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                                   ItemsSource="{Binding ListOfDepartments, IsAsync=True}"
                                   SelectedItem="{Binding DepartmentOfEmployee, UpdateSourceTrigger=PropertyChanged}"
+                                  materialDesign:ValidationAssist.Background="Transparent"
                                   DisplayMemberPath="Name" IsEditable="False"
                                   HorizontalAlignment="Stretch"
                                   materialDesign:HintAssist.Hint="Phòng"/>
@@ -117,8 +120,14 @@
 
                     <StackPanel Grid.Row="2">
                         <Button Style="{StaticResource MaterialDesignFlatDarkButton}" Background="#94AF9F"
-                                Height="45" Width="150" Content="Thêm"/>
+                                Command="{Binding AddNewEmployeeCommand}"
+                                Height="45" Width="150" Content="Thêm" />
                     </StackPanel>
+
+                    <materialDesign:Snackbar Grid.Row="2" 
+                                             Background="Black" Foreground="White" 
+                                             HorizontalAlignment="Left"
+                                             MessageQueue="{Binding EmployeeResultNotification}"/>
                 </Grid>
             </Border>
         </StackPanel>
@@ -147,18 +156,21 @@
 
                     <StackPanel Grid.Row="1" HorizontalAlignment="Center">
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             Text="{Binding NewAgentUrn}" Margin="0 0 0 30"
+                                 Text="{Binding NewAgentUrn}" Margin="0 0 0 30"
+                                 materialDesign:ValidationAssist.Background="Transparent"
                                  Width="380" HorizontalAlignment="Left"
-                             materialDesign:HintAssist.Hint="Số URN Đại lý"/>
+                                 materialDesign:HintAssist.Hint="Số URN Đại lý"/>
 
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             Text="{Binding NewAgentName}" Margin="0 0 0 30"
+                                 Text="{Binding NewAgentName}" Margin="0 0 0 30"
+                                 materialDesign:ValidationAssist.Background="Transparent"
                                  Width="380" HorizontalAlignment="Left"
-                             materialDesign:HintAssist.Hint="Họ tên"/>
+                                 materialDesign:HintAssist.Hint="Họ tên"/>
 
                         <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                                   ItemsSource="{Binding ListOfDepartments, IsAsync=True}"
                                   SelectedItem="{Binding DepartmentOfAgent, UpdateSourceTrigger=PropertyChanged}"
+                                  materialDesign:ValidationAssist.Background="Transparent"
                                   DisplayMemberPath="Name" IsEditable="False"
                                   HorizontalAlignment="Stretch"
                                   materialDesign:HintAssist.Hint="Phòng"/>
@@ -167,8 +179,14 @@
 
                     <StackPanel Grid.Row="2">
                         <Button Style="{StaticResource MaterialDesignFlatDarkButton}" Background="#94AF9F"
+                                Command="{Binding AddNewAgentCommand}"
                                 Height="45" Width="150" Content="Thêm"/>
                     </StackPanel>
+
+                    <materialDesign:Snackbar Grid.Row="2" 
+                                             Background="Black" Foreground="White" 
+                                             HorizontalAlignment="Left"
+                                             MessageQueue="{Binding AgentResultNotification}"/>
                 </Grid>
             </Border>
         </StackPanel>

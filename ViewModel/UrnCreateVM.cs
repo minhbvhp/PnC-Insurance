@@ -13,7 +13,15 @@ using Microsoft.EntityFrameworkCore;
 namespace PnC_Insurance.ViewModel
 {
     public partial class UrnCreateVM : BaseVM
-    {       
+    {
+        [ObservableProperty]
+        private SnackbarMessageQueue? deptResultNotification;
+
+        [ObservableProperty]
+        private SnackbarMessageQueue? employeeResultNotification;
+
+        [ObservableProperty]
+        private SnackbarMessageQueue? agentResultNotification;
 
         public List<Department>? ListOfDepartments
         {
@@ -43,7 +51,7 @@ namespace PnC_Insurance.ViewModel
         [RelayCommand(CanExecute = nameof(CanAddNewDepartmentCommand))]
         private async Task AddNewDepartmentAsync()
         {
-            ResultNotification = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
+            DeptResultNotification = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
             
             Department addingDepartment = new Department()
             {
@@ -55,7 +63,7 @@ namespace PnC_Insurance.ViewModel
             {
                 using (var context = new InsuranceDbContext())
                 {
-                    var query = from department in context.Departments
+                    var query = from department in context.Departments.AsNoTracking()
                                 where department.Urn == addingDepartment.Urn
                                 select department;
 
@@ -88,7 +96,7 @@ namespace PnC_Insurance.ViewModel
                 OnPropertyChanged(nameof(ListOfDepartments));
             }
 
-            ResultNotification.Enqueue(notificationString);
+            DeptResultNotification.Enqueue(notificationString);
         }
 
         private bool CanAddNewDepartmentCommand()
@@ -97,13 +105,6 @@ namespace PnC_Insurance.ViewModel
                 return true;
             
             return false;
-        }
-
-        private void StartDeptOver()
-        {
-            NewDeptUrn = null;
-            NewDeptName = null;
-            ValidateAllProperties();
         }
         #endregion
 
@@ -129,23 +130,22 @@ namespace PnC_Insurance.ViewModel
         [RelayCommand(CanExecute = nameof(CanAddNewEmployeeCommand))]
         private async Task AddNewEmployeeAsync()
         {
-            ResultNotification = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
+            EmployeeResultNotification = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
 
             Employee addingEmployee = new Employee()
             {
-                Urn = NewEmployeeUrn,
+                Urn = (long)NewEmployeeUrn,
                 FullName = NewEmployeeName,
-                
-
+                DeptId = DepartmentOfEmployee.Id,
             };
 
-            var existDepartment = await Task.Run(() =>
+            var existEmployee = await Task.Run(() =>
             {
                 using (var context = new InsuranceDbContext())
                 {
-                    var query = from department in context.Departments
-                                where department.Urn == addingDepartment.Urn
-                                select department;
+                    var query = from employee in context.Employees.AsNoTracking()
+                                where employee.Urn == addingEmployee.Urn
+                                select employee;
 
                     return query.ToList();
 
@@ -155,7 +155,7 @@ namespace PnC_Insurance.ViewModel
 
             string notificationString = "";
 
-            if (existDepartment.Any())
+            if (existEmployee.Any())
             {
                 notificationString = "Số URN này đã tồn tại";
             }
@@ -165,27 +165,28 @@ namespace PnC_Insurance.ViewModel
                 {
                     using (var context = new InsuranceDbContext())
                     {
-                        await context.Departments.AddAsync(addingDepartment);
+                        await context.Employees.AddAsync(addingEmployee);
                         await context.SaveChangesAsync();
                     }
 
-                    return "Đã tạo Phòng mới";
+                    return "Đã tạo Nhân viên mới";
                 });
 
-                StartDeptOver();
-                OnPropertyChanged(nameof(ListOfDepartments));
+                StartEmployeeOver();
             }
 
-            ResultNotification.Enqueue(notificationString);
+            EmployeeResultNotification.Enqueue(notificationString);
         }
 
         private bool CanAddNewEmployeeCommand()
         {
-            if (NewDeptUrn != null && NewDeptName != null)
+            if (NewEmployeeUrn != null && NewEmployeeName != null && DepartmentOfEmployee != null)
                 return true;
 
             return false;
         }
+
+        #endregion
 
         private void StartDeptOver()
         {
@@ -193,7 +194,6 @@ namespace PnC_Insurance.ViewModel
             NewDeptName = null;
             ValidateAllProperties();
         }
-        #region
 
         private void StartAgentOver()
         {
@@ -202,7 +202,10 @@ namespace PnC_Insurance.ViewModel
 
         private void StartEmployeeOver()
         {
-            
+            NewEmployeeUrn = null;
+            NewEmployeeName = null;
+            DepartmentOfEmployee = null;
+            ValidateAllProperties();
         }
 
         public UrnCreateVM()
