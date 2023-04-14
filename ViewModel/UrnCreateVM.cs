@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using MaterialDesignThemes.Wpf;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
+using MinhHelper;
 
 namespace PnC_Insurance.ViewModel
 {

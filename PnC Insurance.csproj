@@ -35,4 +35,10 @@
     <Folder Include="Model\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="MinhHelper">
+      <HintPath>..\..\Built Library\MinhHelper.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

@@ -77,7 +77,8 @@
 
             <StackPanel Grid.Row="1" VerticalAlignment="Top">
                 <ContentControl HorizontalAlignment="Stretch" VerticalAlignment="Top"
-                                Margin="30, 0, 30, 0"  Content="{Binding SelectedVM}"/>
+                                Margin="30, 0, 30, 0"  Content="{Binding SelectedVM}"
+                                Validation.ErrorTemplate="{x:Null}"/>
             </StackPanel>
         </Grid>
 
