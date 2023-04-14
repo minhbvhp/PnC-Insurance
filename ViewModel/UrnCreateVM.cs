@@ -38,8 +38,8 @@ namespace PnC_Insurance.ViewModel
         #region New Department
 
         [ObservableProperty]
-        //[RegularExpression(@"\w\d", ErrorMessage = "Không nhập khoảng trống, kí tự đặc biệt")]
         [Required(ErrorMessage = "Nhập số URN")]
+        [RegularExpression(@"[0-9a-zA-Z]+", ErrorMessage = "Không nhập khoảng trống, kí tự đặc biệt")]
         [NotifyDataErrorInfo]
         [NotifyCanExecuteChangedFor(nameof(AddNewDepartmentCommand))]
         private string? newDeptUrn;
