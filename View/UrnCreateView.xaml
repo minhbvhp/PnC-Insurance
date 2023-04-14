@@ -97,13 +97,13 @@
 
                     <StackPanel Grid.Row="1" HorizontalAlignment="Center">
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 Text="{Binding NewEmployeeUrn}" Margin="0 0 0 30"
+                                 Text="{Binding NewEmployeeUrn, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="0 0 0 30"
                                  materialDesign:ValidationAssist.Background="Transparent"
                                  Width="380" HorizontalAlignment="Left"
                                  materialDesign:HintAssist.Hint="Số URN Nhân viên"/>
 
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 Text="{Binding NewEmployeeName}" Margin="0 0 0 30"
+                                 Text="{Binding NewEmployeeName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="0 0 0 30"
                                  materialDesign:ValidationAssist.Background="Transparent"
                                  Width="380" HorizontalAlignment="Left"
                                  materialDesign:HintAssist.Hint="Họ tên"/>
@@ -158,13 +158,13 @@
 
                     <StackPanel Grid.Row="1" HorizontalAlignment="Center">
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 Text="{Binding NewAgentUrn}" Margin="0 0 0 30"
+                                 Text="{Binding NewAgentUrn, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="0 0 0 30"
                                  materialDesign:ValidationAssist.Background="Transparent"
                                  Width="380" HorizontalAlignment="Left"
                                  materialDesign:HintAssist.Hint="Số URN Đại lý"/>
 
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 Text="{Binding NewAgentName}" Margin="0 0 0 30"
+                                 Text="{Binding NewAgentName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="0 0 0 30"
                                  materialDesign:ValidationAssist.Background="Transparent"
                                  Width="380" HorizontalAlignment="Left"
                                  materialDesign:HintAssist.Hint="Họ tên"/>

@@ -51,7 +51,7 @@ namespace PnC_Insurance.ViewModel
             CustomMenuItems.Add(new CustomMenuItem("URN", PackIconKind.QrcodeScan
                                 , new List<CustomSubItem>
                                 {
-                                    new CustomSubItem(new UrnCreateVM(), "Phòng"),                                    
+                                    new CustomSubItem(new UrnCreateVM(), "Tạo mới"),                                    
                                 }));
 
             CustomMenuItems.Add(new CustomMenuItem("TRA CỨU", PackIconKind.InformationOutline

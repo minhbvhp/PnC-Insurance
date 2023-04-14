@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using MaterialDesignThemes.Wpf;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
-using MinhHelper;
+using System.Configuration;
 
 namespace PnC_Insurance.ViewModel
 {
@@ -38,6 +38,7 @@ namespace PnC_Insurance.ViewModel
         #region New Department
 
         [ObservableProperty]
+        //[RegularExpression(@"\w\d", ErrorMessage = "Không nhập khoảng trống, kí tự đặc biệt")]
         [Required(ErrorMessage = "Nhập số URN")]
         [NotifyDataErrorInfo]
         [NotifyCanExecuteChangedFor(nameof(AddNewDepartmentCommand))]
@@ -102,10 +103,10 @@ namespace PnC_Insurance.ViewModel
 
         private bool CanAddNewDepartmentCommand()
         {
-            if (NewDeptUrn != null && NewDeptName != null)
+            if (!GetErrors(nameof(NewDeptUrn)).Any() && !GetErrors(nameof(NewDeptName)).Any())
                 return true;
-            
             return false;
+            
         }
         #endregion
 
@@ -181,9 +182,8 @@ namespace PnC_Insurance.ViewModel
 
         private bool CanAddNewEmployeeCommand()
         {
-            if (NewEmployeeUrn != null && NewEmployeeName != null && DepartmentOfEmployee != null)
+            if (!GetErrors(nameof(NewEmployeeUrn)).Any() && !GetErrors(nameof(NewEmployeeName)).Any() && !GetErrors(nameof(DepartmentOfEmployee)).Any())
                 return true;
-
             return false;
         }
 
@@ -261,9 +261,8 @@ namespace PnC_Insurance.ViewModel
 
         private bool CanAddNewAgentCommand()
         {
-            if (NewAgentUrn != null && NewAgentName != null && DepartmentOfAgent != null)
+            if (!GetErrors(nameof(NewAgentUrn)).Any() && !GetErrors(nameof(NewAgentName)).Any() && !GetErrors(nameof(DepartmentOfAgent)).Any())
                 return true;
-
             return false;
         }
 
