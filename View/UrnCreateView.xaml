@@ -43,13 +43,13 @@
 
                     <StackPanel Grid.Row="1" HorizontalAlignment="Center">
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 Text="{Binding NewDeptUrn, UpdateSourceTrigger=LostFocus, Mode=TwoWay}" 
+                                 Text="{Binding NewDeptUrn, UpdateSourceTrigger=PropertyChanged}" 
                                  materialDesign:ValidationAssist.Background="Transparent"
                                  Margin="0 0 0 30" Width="260" HorizontalAlignment="Left"
                                  materialDesign:HintAssist.Hint="Số URN Phòng"/>
 
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             Text="{Binding NewDeptName, UpdateSourceTrigger=LostFocus, Mode=TwoWay}" 
+                             Text="{Binding NewDeptName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                  Width="260" HorizontalAlignment="Left"
                                  materialDesign:ValidationAssist.Background="Transparent"
                              materialDesign:HintAssist.Hint="Tên Phòng"/>
@@ -97,13 +97,13 @@
 
                     <StackPanel Grid.Row="1" HorizontalAlignment="Center">
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 Text="{Binding NewEmployeeUrn, UpdateSourceTrigger=LostFocus, Mode=TwoWay}" Margin="0 0 0 30"
+                                 Text="{Binding NewEmployeeUrn, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="0 0 0 30"
                                  materialDesign:ValidationAssist.Background="Transparent"
                                  Width="380" HorizontalAlignment="Left"
                                  materialDesign:HintAssist.Hint="Số URN Nhân viên"/>
 
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 Text="{Binding NewEmployeeName, UpdateSourceTrigger=LostFocus, Mode=TwoWay}" Margin="0 0 0 30"
+                                 Text="{Binding NewEmployeeName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="0 0 0 30"
                                  materialDesign:ValidationAssist.Background="Transparent"
                                  Width="380" HorizontalAlignment="Left"
                                  materialDesign:HintAssist.Hint="Họ tên"/>
@@ -158,13 +158,13 @@
 
                     <StackPanel Grid.Row="1" HorizontalAlignment="Center">
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 Text="{Binding NewAgentUrn, UpdateSourceTrigger=LostFocus, Mode=TwoWay}" Margin="0 0 0 30"
+                                 Text="{Binding NewAgentUrn, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="0 0 0 30"
                                  materialDesign:ValidationAssist.Background="Transparent"
                                  Width="380" HorizontalAlignment="Left"
                                  materialDesign:HintAssist.Hint="Số URN Đại lý"/>
 
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 Text="{Binding NewAgentName, UpdateSourceTrigger=LostFocus, Mode=TwoWay}" Margin="0 0 0 30"
+                                 Text="{Binding NewAgentName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="0 0 0 30"
                                  materialDesign:ValidationAssist.Background="Transparent"
                                  Width="380" HorizontalAlignment="Left"
                                  materialDesign:HintAssist.Hint="Họ tên"/>
