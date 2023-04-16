@@ -13,6 +13,7 @@
                 <!--Material Design Xaml-->
                 <materialDesign:BundledTheme BaseTheme="Dark" PrimaryColor="Teal" SecondaryColor="Orange"/>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Flipper.xaml" />
                 
             </ResourceDictionary.MergedDictionaries>
 
@@ -34,6 +35,10 @@
 
             <DataTemplate DataType="{x:Type viewmodel:UrnCreateVM}">
                 <view:UrnCreateView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewmodel:UrnEditVM}">
+                <view:UrnEditView/>
             </DataTemplate>
 
             <SolidColorBrush  Color="#f8e16c" x:Key="txtColor" />

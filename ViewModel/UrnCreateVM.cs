@@ -39,7 +39,7 @@ namespace PnC_Insurance.ViewModel
 
         [ObservableProperty]
         [Required(ErrorMessage = "Nhập số URN")]
-        [RegularExpression(@"^[0-9a-zA-Z]+$", ErrorMessage = "Số URN không gồm kí tự đặc biệt")]
+        [RegularExpression(@"^[0-9a-zA-Z]+$", ErrorMessage = "Số URN không bao gồm kí tự đặc biệt")]
         [NotifyDataErrorInfo]
         [NotifyCanExecuteChangedFor(nameof(AddNewDepartmentCommand))]
         private string? newDeptUrn;
@@ -113,7 +113,7 @@ namespace PnC_Insurance.ViewModel
         #region New Employee
         [ObservableProperty]
         [Required(ErrorMessage = "Nhập số URN")]
-        [RegularExpression(@"^[0-9a-zA-Z]+$", ErrorMessage = "Số URN không gồm kí tự đặc biệt")]
+        [RegularExpression(@"^[0-9a-zA-Z]+$", ErrorMessage = "Số URN không bao gồm kí tự đặc biệt")]
         [NotifyDataErrorInfo]
         [NotifyCanExecuteChangedFor(nameof(AddNewEmployeeCommand))]
         private string? newEmployeeUrn;
@@ -193,7 +193,7 @@ namespace PnC_Insurance.ViewModel
         #region New Agent
         [ObservableProperty]
         [Required(ErrorMessage = "Nhập số URN")]
-        [RegularExpression(@"^[0-9a-zA-Z]+$", ErrorMessage = "Số URN không gồm kí tự đặc biệt")]
+        [RegularExpression(@"^[0-9a-zA-Z]+$", ErrorMessage = "Số URN không bao gồm kí tự đặc biệt")]
         [NotifyDataErrorInfo]
         [NotifyCanExecuteChangedFor(nameof(AddNewAgentCommand))]
         private string? newAgentUrn;
