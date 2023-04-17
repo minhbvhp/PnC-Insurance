@@ -36,6 +36,8 @@
                             </TextBlock.Effect>
                         </TextBlock>
                     </StackPanel>
+                    
+                    <Border Grid.Row="0" BorderBrush="White" BorderThickness="0 0 0 0.8" Margin="0 0 0 20"/>
 
                     <StackPanel Grid.Row="1" HorizontalAlignment="Center">
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
@@ -90,6 +92,8 @@
                             </TextBlock.Effect>
                         </TextBlock>
                     </StackPanel>
+
+                    <Border Grid.Row="0" BorderBrush="White" BorderThickness="0 0 0 0.8" Margin="0 0 0 20"/>
 
                     <StackPanel Grid.Row="1" HorizontalAlignment="Center">
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
@@ -151,6 +155,8 @@
                             </TextBlock.Effect>
                         </TextBlock>
                     </StackPanel>
+                    
+                    <Border Grid.Row="0" BorderBrush="White" BorderThickness="0 0 0 0.8" Margin="0 0 0 20"/>
 
                     <StackPanel Grid.Row="1" HorizontalAlignment="Center">
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
