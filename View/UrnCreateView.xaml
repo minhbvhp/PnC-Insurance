@@ -37,18 +37,18 @@
                         </TextBlock>
                     </StackPanel>
                     
-                    <Border Grid.Row="0" BorderBrush="White" BorderThickness="0 0 0 0.8" Margin="0 0 0 20"/>
+                    <Border Grid.Row="0" BorderBrush="White" BorderThickness="0 0 0 0.5" Margin="0 0 0 20"/>
 
                     <StackPanel Grid.Row="1" HorizontalAlignment="Center">
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  Text="{Binding NewDeptUrn, UpdateSourceTrigger=PropertyChanged}" 
                                  materialDesign:ValidationAssist.Background="Transparent"
-                                 Margin="0 0 0 30" Width="260" HorizontalAlignment="Left"
+                                 Margin="0 0 0 30" Width="380" HorizontalAlignment="Left"
                                  materialDesign:HintAssist.Hint="Số URN Phòng"/>
 
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              Text="{Binding NewDeptName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                 Width="260" HorizontalAlignment="Left"
+                                 Width="380" HorizontalAlignment="Left"
                                  materialDesign:ValidationAssist.Background="Transparent"
                              materialDesign:HintAssist.Hint="Tên Phòng"/>
 
@@ -93,7 +93,7 @@
                         </TextBlock>
                     </StackPanel>
 
-                    <Border Grid.Row="0" BorderBrush="White" BorderThickness="0 0 0 0.8" Margin="0 0 0 20"/>
+                    <Border Grid.Row="0" BorderBrush="White" BorderThickness="0 0 0 0.5" Margin="0 0 0 20"/>
 
                     <StackPanel Grid.Row="1" HorizontalAlignment="Center">
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
@@ -156,7 +156,7 @@
                         </TextBlock>
                     </StackPanel>
                     
-                    <Border Grid.Row="0" BorderBrush="White" BorderThickness="0 0 0 0.8" Margin="0 0 0 20"/>
+                    <Border Grid.Row="0" BorderBrush="White" BorderThickness="0 0 0 0.5" Margin="0 0 0 20"/>
 
                     <StackPanel Grid.Row="1" HorizontalAlignment="Center">
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"

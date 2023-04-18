@@ -37,14 +37,14 @@
 
         <Grid Grid.Row="1" Margin="0 0 15 0" Grid.Column="0">
             <materialDesign:Flipper Style="{StaticResource MaterialDesignCardFlipper}" materialDesign:ElevationAssist.Elevation="Dp1">
-                <materialDesign:Flipper.FrontContent >
+                <materialDesign:Flipper.FrontContent>
                     <materialDesign:ColorZone Background="#CAD2C5">
                         <Border BorderBrush="White" BorderThickness="1.7">
-                            <Grid Height="500">
+                            <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="55"/>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="400"/>
+                                    <RowDefinition Height="45"/>
                                 </Grid.RowDefinitions>
 
                                 <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
@@ -68,7 +68,7 @@
                                 </StackPanel>
 
                                 <StackPanel Grid.Row="1" Margin="5">
-                                    <DataGrid ItemsSource="{Binding ListOfDepartments, IsAsync=True}"
+                                    <DataGrid ItemsSource="{Binding ListOfDepartments, IsAsync=True}" MaxHeight="300"
                                               SelectedItem="{Binding SelectedDepartment, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                               AutoGenerateColumns="False" VerticalAlignment="Top" SelectionMode="Single" SelectionUnit="Cell"
                                               IsReadOnly="True" HeadersVisibility="All" ColumnWidth="*">
@@ -108,8 +108,8 @@
                             <Grid Height="500">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="55"/>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="400"/>
+                                    <RowDefinition Height="45"/>
                                 </Grid.RowDefinitions>
 
                                 <StackPanel Grid.Row="0" HorizontalAlignment="Left">
@@ -120,13 +120,13 @@
 
                                 <StackPanel Grid.Row="1" HorizontalAlignment="Center">
                                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                             Text="{Binding NewDeptUrn, UpdateSourceTrigger=PropertyChanged}" 
+                                             Text="{Binding EditingDeptUrn, UpdateSourceTrigger=PropertyChanged}" 
                                              materialDesign:ValidationAssist.Background="Transparent"
                                              Margin="0 0 0 30" Width="260" HorizontalAlignment="Left"
                                              materialDesign:HintAssist.Hint="Số URN Phòng"/>
 
                                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                             Text="{Binding NewDeptName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                             Text="{Binding EditingDeptName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                              Width="260" HorizontalAlignment="Left"
                                              materialDesign:ValidationAssist.Background="Transparent"
                                              materialDesign:HintAssist.Hint="Tên Phòng"/>
@@ -150,6 +150,8 @@
                 </materialDesign:Flipper.BackContent>
             </materialDesign:Flipper>
         </Grid>
+        
+        
 
         <Grid Grid.Row="0" Grid.Column="1">
             <StackPanel Grid.Row="0" HorizontalAlignment="Center">
@@ -180,7 +182,7 @@
 
                                 <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
                                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="5 0 10 10"
-                                             Text="{Binding DepartmentSearch, UpdateSourceTrigger=PropertyChanged}" Width="180">
+                                             Text="{Binding EmployeeSearch, UpdateSourceTrigger=PropertyChanged}" Width="180">
                                         <materialDesign:HintAssist.Hint>
                                             <TextBlock>
                                                 <materialDesign:PackIcon Kind="Search" VerticalAlignment="Bottom"/>
@@ -192,8 +194,8 @@
                                     <Button Style="{StaticResource MaterialDesignFloatingActionButton}"
                                             Width="32" Height="32"
                                             materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
-                                            materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding SearchDepartmentCommand.IsRunning}"
-                                            Command="{Binding SearchDepartmentCommand}" IsDefault="True">
+                                            materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding SearchEmployeeCommand.IsRunning}"
+                                            Command="{Binding SearchEmployeeCommand}" IsDefault="True">
                                         <materialDesign:PackIcon Kind="Search" Foreground="White"/>
                                     </Button>
                                 </StackPanel>
@@ -311,7 +313,7 @@
 
                                 <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
                                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="5 0 10 10"
-                                             Text="{Binding DepartmentSearch, UpdateSourceTrigger=PropertyChanged}" Width="180">
+                                             Text="{Binding AgentSearch, UpdateSourceTrigger=PropertyChanged}" Width="180">
                                         <materialDesign:HintAssist.Hint>
                                             <TextBlock>
                                                 <materialDesign:PackIcon Kind="Search" VerticalAlignment="Bottom"/>
@@ -323,8 +325,8 @@
                                     <Button Style="{StaticResource MaterialDesignFloatingActionButton}"
                                             Width="32" Height="32"
                                             materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
-                                            materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding SearchDepartmentCommand.IsRunning}"
-                                            Command="{Binding SearchDepartmentCommand}" IsDefault="True">
+                                            materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding SearchAgentCommand.IsRunning}"
+                                            Command="{Binding SearchAgentCommand}" IsDefault="True">
                                         <materialDesign:PackIcon Kind="Search" Foreground="White"/>
                                     </Button>
                                 </StackPanel>
