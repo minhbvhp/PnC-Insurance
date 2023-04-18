@@ -68,12 +68,12 @@
                                 </StackPanel>
 
                                 <StackPanel Grid.Row="1" Margin="5">
-                                    <DataGrid ItemsSource="{Binding ListOfExtensions, IsAsync=True}"
-                                              SelectedItem="{Binding SelectedExtension, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                    <DataGrid ItemsSource="{Binding ListOfDepartments, IsAsync=True}"
+                                              SelectedItem="{Binding SelectedDepartment, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                               AutoGenerateColumns="False" VerticalAlignment="Top" SelectionMode="Single" SelectionUnit="Cell"
                                               IsReadOnly="True" HeadersVisibility="All" ColumnWidth="*">
                                         <DataGrid.Columns>
-                                            <DataGridTextColumn Binding="{Binding Code}" Width="Auto">
+                                            <DataGridTextColumn Binding="{Binding Urn}" Width="Auto">
                                                 <DataGridTextColumn.Header>
                                                     <TextBlock Text="URN"/>
                                                 </DataGridTextColumn.Header>
