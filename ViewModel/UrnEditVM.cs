@@ -13,10 +13,14 @@ namespace PnC_Insurance.ViewModel
     {
         #region Department Search
         [ObservableProperty]
+        private bool isFlipped = false;
+
+        [ObservableProperty]
         [NotifyCanExecuteChangedFor(nameof(SearchDepartmentCommand))]
         private string? departmentSearch;
 
         [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(FetchDepartmentCommand))]
         private Department? selectedDepartment;
 
         private List<Department> listOfDepartments = new List<Department>();
@@ -54,8 +58,24 @@ namespace PnC_Insurance.ViewModel
 
             return false;
         }
-        #endregion
 
+        [RelayCommand(CanExecute = nameof(CanFetchDepartment))]
+        private void FetchDepartment()
+        {
+            EditingDeptUrn = SelectedDepartment.Urn;
+            EditingDeptName = SelectedDepartment.Name;
+            IsFlipped = true;
+        }
+
+        private bool CanFetchDepartment()
+        {
+            if (SelectedDepartment != null)
+                return true;
+
+            return false;
+        }
+
+        #endregion
 
 
         #region Editing Department
@@ -64,6 +84,13 @@ namespace PnC_Insurance.ViewModel
 
         [ObservableProperty]
         private string? editingDeptName;
+
+        [RelayCommand]
+        private void DeptFlipBack()
+        {            
+            IsFlipped = false;
+        }
+
 
         #endregion
     }
