@@ -113,6 +113,7 @@ namespace PnC_Insurance.ViewModel
             await Task.Delay(2000);
             notificationString = "Đã sửa được";
             EditDeptResultNotification.Enqueue(notificationString);
+            IsFlipped = false;
         }
 
         private bool CanEditDepartment()
