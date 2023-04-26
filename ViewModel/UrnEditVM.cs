@@ -24,6 +24,7 @@ namespace PnC_Insurance.ViewModel
         [ObservableProperty]
         [NotifyCanExecuteChangedFor(nameof(FetchDepartmentCommand))]
         [NotifyCanExecuteChangedFor(nameof(EditDepartmentCommand))]
+        [NotifyCanExecuteChangedFor(nameof(DeleteDepartmentCommand))]
         private Department? selectedDepartment;
 
         private List<Department> listOfDepartments = new List<Department>();
@@ -129,6 +130,18 @@ namespace PnC_Insurance.ViewModel
             }            
 
             return false;
+        }
+
+        [RelayCommand]
+        private async Task DeleteDepartmentAsync()
+        {
+            EditDeptResultNotification = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
+            string notificationString = "";
+
+            await Task.Delay(2000);
+            notificationString = "Đã xóa";
+            EditDeptResultNotification.Enqueue(notificationString);
+            IsFlipped = false;
         }
 
         #endregion

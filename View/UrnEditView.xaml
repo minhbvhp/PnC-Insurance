@@ -162,8 +162,11 @@
                                         Command="{Binding EditDepartmentCommand}"
                                         Content="{materialDesign:PackIcon Kind=ModeEdit}" />
 
-                                <Button Style="{StaticResource MaterialDesignRaisedSecondaryDarkButton}"
-                                        Width="90"
+                                <Button Style="{StaticResource MaterialDesignOutlinedSecondaryButton}"
+                                        Width="90" Foreground="White" Background="OrangeRed"
+                                        materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+                                        materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding DeleteDepartmentCommand.IsRunning}"
+                                        Command="{Binding DeleteDepartmentCommand}"
                                         Content="{materialDesign:PackIcon Kind=Delete}" />
                             </StackPanel>
 
