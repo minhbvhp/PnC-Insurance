@@ -66,7 +66,7 @@
         </Grid>
 
         <StackPanel Grid.Row="1" Grid.Column="0" Margin="0 0 15 0">
-            <materialDesign:Flipper IsFlipped="{Binding IsFlipped, UpdateSourceTrigger=PropertyChanged}">
+            <materialDesign:Flipper IsFlipped="{Binding IsFlipped, UpdateSourceTrigger=PropertyChanged}" Height="580">
                 <materialDesign:Flipper.FrontContent>
                     <materialDesign:ColorZone Background="#CAD2C5">
                         <Grid Margin="10 5">
@@ -157,234 +157,28 @@
                             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
                                 <Button Style="{StaticResource MaterialDesignOutlinedLightButton}"
                                         Width="90" Margin="0 0 20 0"
+                                        materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+                                        materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding EditDepartmentCommand.IsRunning}"
+                                        Command="{Binding EditDepartmentCommand}"
                                         Content="{materialDesign:PackIcon Kind=ModeEdit}" />
 
                                 <Button Style="{StaticResource MaterialDesignRaisedSecondaryDarkButton}"
                                         Width="90"
                                         Content="{materialDesign:PackIcon Kind=Delete}" />
                             </StackPanel>
+
+                            <materialDesign:Snackbar Grid.Row="2" Background="Black" Foreground="White" 
+                                                     MessageQueue="{Binding EditDeptResultNotification}"/>
                         </Grid>
                     </materialDesign:ColorZone>
                 </materialDesign:Flipper.BackContent>
-                    
-                    
             </materialDesign:Flipper>
+
             
-        </StackPanel>
-
-        <StackPanel Grid.Row="1" Grid.Column="1" Margin="0 0 15 0">
-            <materialDesign:Flipper>
-                <materialDesign:Flipper.FrontContent>
-                    <materialDesign:ColorZone Background="#CAD2C5">
-                        <Grid Margin="10 5">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="55"/>
-                                <RowDefinition Height="400"/>
-                                <RowDefinition Height="45"/>
-                            </Grid.RowDefinitions>
-
-                            <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left">
-                                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0 0 10 10"
-                                         Text="{Binding a, UpdateSourceTrigger=PropertyChanged}" Width="180">
-                                    <materialDesign:HintAssist.Hint>
-                                        <TextBlock>
-                                                    <materialDesign:PackIcon Kind="Search" VerticalAlignment="Bottom"/>
-                                                    <Run Text="Tìm kiếm"/>
-                                        </TextBlock>
-                                    </materialDesign:HintAssist.Hint>
-                                </TextBox>
-
-                                <Button Style="{StaticResource MaterialDesignFloatingActionButton}"
-                                        Width="32" Height="32"
-                                        materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
-                                        materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding a.IsRunning}"
-                                        Command="{Binding a}" IsDefault="True">
-                                    <materialDesign:PackIcon Kind="Search" Foreground="White"/>
-                                </Button>
-                            </StackPanel>
-
-
-                            <DataGrid Grid.Row="1" ItemsSource="{Binding a, IsAsync=True}" Height="400"
-                                      SelectedItem="{Binding a, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                      AutoGenerateColumns="False" VerticalAlignment="Top" SelectionMode="Single" SelectionUnit="Cell"
-                                      IsReadOnly="True" HeadersVisibility="All" ColumnWidth="*">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Binding="{Binding Urn}" Width="Auto">
-                                        <DataGridTextColumn.Header>
-                                            <TextBlock Text="URN"/>
-                                        </DataGridTextColumn.Header>
-                                    </DataGridTextColumn>
-
-                                    <DataGridTextColumn Binding="{Binding Name}">
-                                        <DataGridTextColumn.Header>
-                                            <TextBlock Text="Tên Phòng"/>
-                                        </DataGridTextColumn.Header>
-                                    </DataGridTextColumn>
-                                </DataGrid.Columns>
-                            </DataGrid>
-
-                            <Button Grid.Row="2" Style="{StaticResource MaterialDesignFlatDarkButton}"
-                                    Background="#94AF9F" Width="90"
-                                    Command="{x:Static materialDesign:Flipper.FlipCommand}"
-                                    FontFamily="{StaticResource MaterialDesignFont}"
-                                    Content="Sửa..." />
-
-                        </Grid>
-                    </materialDesign:ColorZone>
-                </materialDesign:Flipper.FrontContent>
-
-                <materialDesign:Flipper.BackContent>
-                    <materialDesign:ColorZone Background="#52796F" Foreground="{DynamicResource txtColor}">
-                        <Grid Margin="10 5">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="55"/>
-                                <RowDefinition Height="400"/>
-                                <RowDefinition Height="45"/>
-                            </Grid.RowDefinitions>
-
-                            <Button Grid.Row="0" Style="{StaticResource MaterialDesignIconForegroundButton}" 
-                                    Content="{materialDesign:PackIcon Kind=ArrowBack, Size=20}"
-                                    Command="{x:Static materialDesign:Flipper.FlipCommand}"/>
-
-                            <StackPanel Grid.Row="1" HorizontalAlignment="Center" Height="400">
-                                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                             Text="{Binding a, UpdateSourceTrigger=PropertyChanged}" 
-                                             materialDesign:ValidationAssist.Background="Transparent"
-                                             Margin="0 0 0 30" Width="260" HorizontalAlignment="Left"
-                                             materialDesign:HintAssist.Hint="Số URN Phòng"/>
-
-                                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                             Text="{Binding a, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                             Width="260" HorizontalAlignment="Left"
-                                             materialDesign:ValidationAssist.Background="Transparent"
-                                             materialDesign:HintAssist.Hint="Tên Phòng"/>
-
-                            </StackPanel>
-
-                            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
-                                <Button Style="{StaticResource MaterialDesignOutlinedLightButton}"
-                                        Width="90" Margin="0 0 20 0"
-                                        Content="{materialDesign:PackIcon Kind=ModeEdit}" />
-
-                                <Button Style="{StaticResource MaterialDesignRaisedSecondaryDarkButton}"
-                                        Width="90"
-                                        Content="{materialDesign:PackIcon Kind=Delete}" />
-                            </StackPanel>
-                        </Grid>
-                    </materialDesign:ColorZone>
-                </materialDesign:Flipper.BackContent>
-
-
-            </materialDesign:Flipper>
 
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Grid.Column="2" Margin="0 0 15 0">
-            <materialDesign:Flipper>
-                <materialDesign:Flipper.FrontContent>
-                    <materialDesign:ColorZone Background="#CAD2C5">
-                        <Grid Margin="10 5">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="55"/>
-                                <RowDefinition Height="400"/>
-                                <RowDefinition Height="45"/>
-                            </Grid.RowDefinitions>
-
-                            <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left">
-                                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0 0 10 10"
-                                         Text="{Binding a, UpdateSourceTrigger=PropertyChanged}" Width="180">
-                                    <materialDesign:HintAssist.Hint>
-                                        <TextBlock>
-                                                    <materialDesign:PackIcon Kind="Search" VerticalAlignment="Bottom"/>
-                                                    <Run Text="Tìm kiếm"/>
-                                        </TextBlock>
-                                    </materialDesign:HintAssist.Hint>
-                                </TextBox>
-
-                                <Button Style="{StaticResource MaterialDesignFloatingActionButton}"
-                                        Width="32" Height="32"
-                                        materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
-                                        materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding a.IsRunning}"
-                                        Command="{Binding a}" IsDefault="True">
-                                    <materialDesign:PackIcon Kind="Search" Foreground="White"/>
-                                </Button>
-                            </StackPanel>
-
-
-                            <DataGrid Grid.Row="1" ItemsSource="{Binding a, IsAsync=True}" Height="400"
-                                      SelectedItem="{Binding a, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                      AutoGenerateColumns="False" VerticalAlignment="Top" SelectionMode="Single" SelectionUnit="Cell"
-                                      IsReadOnly="True" HeadersVisibility="All" ColumnWidth="*">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Binding="{Binding Urn}" Width="Auto">
-                                        <DataGridTextColumn.Header>
-                                            <TextBlock Text="URN"/>
-                                        </DataGridTextColumn.Header>
-                                    </DataGridTextColumn>
-
-                                    <DataGridTextColumn Binding="{Binding Name}">
-                                        <DataGridTextColumn.Header>
-                                            <TextBlock Text="Tên Phòng"/>
-                                        </DataGridTextColumn.Header>
-                                    </DataGridTextColumn>
-                                </DataGrid.Columns>
-                            </DataGrid>
-
-                            <Button Grid.Row="2" Style="{StaticResource MaterialDesignFlatDarkButton}"
-                                    Background="#94AF9F" Width="90"
-                                    Command="{x:Static materialDesign:Flipper.FlipCommand}"
-                                    FontFamily="{StaticResource MaterialDesignFont}"
-                                    Content="Sửa..." />
-
-                        </Grid>
-                    </materialDesign:ColorZone>
-                </materialDesign:Flipper.FrontContent>
-
-                <materialDesign:Flipper.BackContent>
-                    <materialDesign:ColorZone Background="#52796F" Foreground="{DynamicResource txtColor}">
-                        <Grid Margin="10 5">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="55"/>
-                                <RowDefinition Height="400"/>
-                                <RowDefinition Height="45"/>
-                            </Grid.RowDefinitions>
-
-                            <Button Grid.Row="0" Style="{StaticResource MaterialDesignIconForegroundButton}" 
-                                    Content="{materialDesign:PackIcon Kind=ArrowBack, Size=20}"
-                                    Command="{x:Static materialDesign:Flipper.FlipCommand}"/>
-
-                            <StackPanel Grid.Row="1" HorizontalAlignment="Center" Height="400">
-                                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                             Text="{Binding a, UpdateSourceTrigger=PropertyChanged}" 
-                                             materialDesign:ValidationAssist.Background="Transparent"
-                                             Margin="0 0 0 30" Width="260" HorizontalAlignment="Left"
-                                             materialDesign:HintAssist.Hint="Số URN Phòng"/>
-
-                                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                             Text="{Binding a, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                             Width="260" HorizontalAlignment="Left"
-                                             materialDesign:ValidationAssist.Background="Transparent"
-                                             materialDesign:HintAssist.Hint="Tên Phòng"/>
-
-                            </StackPanel>
-
-                            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
-                                <Button Style="{StaticResource MaterialDesignOutlinedLightButton}"
-                                        Width="90" Margin="0 0 20 0"
-                                        Content="{materialDesign:PackIcon Kind=ModeEdit}" />
-
-                                <Button Style="{StaticResource MaterialDesignRaisedSecondaryDarkButton}"
-                                        Width="90"
-                                        Content="{materialDesign:PackIcon Kind=Delete}" />
-                            </StackPanel>
-                        </Grid>
-                    </materialDesign:ColorZone>
-                </materialDesign:Flipper.BackContent>
-
-
-            </materialDesign:Flipper>
-
-        </StackPanel>
+        
 
 
 
