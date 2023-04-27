@@ -78,6 +78,7 @@
 
                             <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left">
                                 <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0 0 10 10"
+                                         Foreground="Teal"
                                          Text="{Binding DepartmentSearch, UpdateSourceTrigger=PropertyChanged}" Width="180">
                                     <materialDesign:HintAssist.Hint>
                                         <TextBlock>

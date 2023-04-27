@@ -109,12 +109,64 @@ namespace PnC_Insurance.ViewModel
         private async Task EditDepartmentAsync()
         {
             EditDeptResultNotification = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
+
+            var editingDepartment = new Department()
+            {
+                Urn = EditingDeptUrn,
+                Name = EditingDeptName,
+            };
+
+            var existDepartment = await Task.Run(() =>
+            {
+                using (var context = new InsuranceDbContext())
+                {
+                    var query = from department in context.Departments.AsNoTracking()
+                                where department.Urn == editingDepartment.Urn
+                                select department;
+
+                    return query.ToList();
+
+                }
+            }
+            );
+
             string notificationString = "";
 
-            await Task.Delay(2000);
-            notificationString = "Đã sửa được";
+            if (existDepartment.Any())
+            {
+                notificationString = "Số URN này đã tồn tại";
+            }
+            else
+            {
+                notificationString = await Task.Run(async () =>
+                {
+                    using (var context = new InsuranceDbContext())
+                    {
+                        if (SelectedDepartment != null && editingDepartment != null)
+                        {
+                            var query = from department in context.Departments
+                                                   where department.Id == SelectedDepartment.Id
+                                                   select department;
+                            if (query.Any())
+                            {
+                                var changeDepartment = await query.FirstOrDefaultAsync();
+
+                                changeDepartment.Urn = editingDepartment.Urn;
+                                changeDepartment.Name = editingDepartment.Name;
+
+                                await context.SaveChangesAsync();
+                            }                            
+                        }
+                    }
+
+                    return "Đã sửa thông tin Phòng";
+                });
+                
+                await SearchDepartmentAsync();
+                IsFlipped = false;
+            }
+
             EditDeptResultNotification.Enqueue(notificationString);
-            IsFlipped = false;
         }
 
         private bool CanEditDepartment()
@@ -139,7 +191,7 @@ namespace PnC_Insurance.ViewModel
             string notificationString = "";
 
             await Task.Delay(2000);
-            notificationString = "Đã xóa";
+            notificationString = "Đã xóa Phòng";
             EditDeptResultNotification.Enqueue(notificationString);
             IsFlipped = false;
         }
