@@ -105,6 +105,8 @@ namespace PnC_Insurance.ViewModel
             IsFlipped = false;
         }
 
+        #region Edit Part
+
         [RelayCommand(CanExecute = nameof(CanEditDepartment))]
         private async Task EditDepartmentAsync()
         {
@@ -184,6 +186,10 @@ namespace PnC_Insurance.ViewModel
             return false;
         }
 
+        #endregion
+
+        #region Delete Part
+
         [RelayCommand]
         private async Task DeleteDepartmentAsync()
         {
@@ -195,6 +201,8 @@ namespace PnC_Insurance.ViewModel
             EditDeptResultNotification.Enqueue(notificationString);
             IsFlipped = false;
         }
+
+        #endregion
 
         #endregion
     }
