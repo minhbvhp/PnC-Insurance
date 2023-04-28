@@ -190,15 +190,20 @@ namespace PnC_Insurance.ViewModel
 
         #region Delete Part
 
+        [ObservableProperty]
+        private bool isDeletedDialogOpen = false;
+
         [RelayCommand]
         private async Task DeleteDepartmentAsync()
         {
             EditDeptResultNotification = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
             string notificationString = "";
 
-            await Task.Delay(2000);
+            await Task.Delay(1000);
             notificationString = "Đã xóa Phòng";
             EditDeptResultNotification.Enqueue(notificationString);
+            IsDeletedDialogOpen = false;
+            await Task.Delay(1000);
             IsFlipped = false;
         }
 
