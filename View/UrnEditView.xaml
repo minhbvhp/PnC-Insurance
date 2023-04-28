@@ -145,7 +145,7 @@
                                                TextWrapping="Wrap" TextAlignment="Justify" Foreground="OrangeRed">
                                         <Run Text="Toàn bộ"/>
                                         <Run FontWeight="Bold" Text="Dữ liệu liên quan"/>
-                                        <Run Text="của Phòng này cũng sẽ bị xóa."/>
+                                        <Run Text="của Phòng này cũng sẽ bị xóa. Hãy cẩn thận!"/>
                                     </TextBlock>
                                 </StackPanel>
 

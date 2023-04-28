@@ -114,6 +114,7 @@ namespace PnC_Insurance.ViewModel
 
             var editingDepartment = new Department()
             {
+                Id = SelectedDepartment.Id,
                 Urn = EditingDeptUrn,
                 Name = EditingDeptName,
             };
@@ -123,7 +124,7 @@ namespace PnC_Insurance.ViewModel
                 using (var context = new InsuranceDbContext())
                 {
                     var query = from department in context.Departments.AsNoTracking()
-                                where department.Urn == editingDepartment.Urn
+                                where department.Urn == editingDepartment.Urn && department.Id != editingDepartment.Id
                                 select department;
 
                     return query.ToList();
@@ -197,10 +198,22 @@ namespace PnC_Insurance.ViewModel
         private async Task DeleteDepartmentAsync()
         {
             EditDeptResultNotification = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
-            string notificationString = "";
+            string notificationString = "Lỗi, không xóa được";
 
-            await Task.Delay(1000);
-            notificationString = "Đã xóa Phòng";
+            notificationString = await Task.Run(async () =>
+            {
+                using (var context = new InsuranceDbContext())
+                {
+                    if (SelectedDepartment != null)
+                    {
+                        context.Departments.Remove(SelectedDepartment);
+                        await context.SaveChangesAsync();
+                    }
+                }
+
+                return "Đã xóa Phòng";
+            });
+
             EditDeptResultNotification.Enqueue(notificationString);
             IsDeletedDialogOpen = false;
             await Task.Delay(1000);
