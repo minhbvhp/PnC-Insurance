@@ -25,10 +25,11 @@ namespace PnC_Insurance.ViewModel
                 {
                     using (var context = new InsuranceDbContext())
                     {
-                        var query = from customer in context.Customers
-                                    where EF.Functions.Like(customer.TaxCode, "%" + CustomerSearch + "%") ||
+                        var query = from customer in context.Customers.AsNoTracking()
+                                    where customer.IsDeleted == 0 && 
+                                          (EF.Functions.Like(customer.TaxCode, "%" + CustomerSearch + "%") ||
                                           EF.Functions.Like(customer.Name, "%" + CustomerSearch + "%") ||
-                                          EF.Functions.Like(customer.Business, "%" + CustomerSearch + "%")
+                                          EF.Functions.Like(customer.Business, "%" + CustomerSearch + "%"))                                          
                                     select customer;
 
                         if (query.Any())
@@ -56,8 +57,9 @@ namespace PnC_Insurance.ViewModel
                 {                    
                     if (SelectedCustomer != null)
                     {
-                        var query = from representative in context.Representatives
-                                    where representative.CustomerId == SelectedCustomer.Id
+                        var query = from representative in context.Representatives.AsNoTracking()
+                                    where representative.IsDeleted == 0 &&
+                                          representative.CustomerId == SelectedCustomer.Id
                                     select representative;
                         if (query.Any())
                         {
@@ -79,8 +81,9 @@ namespace PnC_Insurance.ViewModel
                 {
                     if (SelectedCustomer != null)
                     {
-                        var query = from location in context.InsuredLocations
-                                    where location.CustomerId == SelectedCustomer.Id
+                        var query = from location in context.InsuredLocations.AsNoTracking()
+                                    where location.IsDeleted == 0 &&
+                                          location.CustomerId == SelectedCustomer.Id
                                     select location;
                         if (query.Any())
                         {

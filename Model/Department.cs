@@ -11,6 +11,8 @@ public partial class Department
 
     public string Name { get; set; } = null!;
 
+    public long IsDeleted { get; set; }
+
     public virtual ICollection<Agent> Agents { get; } = new List<Agent>();
 
     public virtual ICollection<Employee> Employees { get; } = new List<Employee>();

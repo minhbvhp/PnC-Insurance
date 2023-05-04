@@ -10,6 +10,7 @@ using MaterialDesignThemes.Wpf;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
 using System.Configuration;
+using Microsoft.Data.Sqlite;
 
 namespace PnC_Insurance.ViewModel
 {
@@ -30,7 +31,10 @@ namespace PnC_Insurance.ViewModel
             {
                 using (var context = new InsuranceDbContext())
                 {
-                    return context.Departments.ToList();
+                    var query = from department in context.Departments
+                                where department.IsDeleted == 0
+                                select department;
+                    return query.ToList();
                 }
             }
         }
@@ -61,27 +65,9 @@ namespace PnC_Insurance.ViewModel
                 Name = NewDeptName,
             };
 
-            var existDepartment = await Task.Run(() =>
-            {
-                using (var context = new InsuranceDbContext())
-                {
-                    var query = from department in context.Departments.AsNoTracking()
-                                where department.Urn == addingDepartment.Urn
-                                select department;
-
-                    return query.ToList();
-
-                }
-            }
-            );
-
             string notificationString = "";
 
-            if (existDepartment.Any())
-            {
-                notificationString = "Số URN này đã tồn tại";
-            }
-            else
+            try
             {
                 notificationString = await Task.Run(async () =>
                 {
@@ -93,12 +79,29 @@ namespace PnC_Insurance.ViewModel
 
                     return "Đã tạo Phòng mới";
                 });
-                
+
                 StartDeptOver();
                 OnPropertyChanged(nameof(ListOfDepartments));
             }
+            catch (DbUpdateException ex)
+            {
+                var sqlException = ex.InnerException as SqliteException;
 
-            DeptResultNotification.Enqueue(notificationString);
+                if (sqlException.SqliteErrorCode == 19)
+                {
+                    notificationString = "Số URN này đã tồn tại";
+                }
+                else
+                {
+                    notificationString = "Lỗi CSDL: " + sqlException.SqliteErrorCode;
+                }                
+            }
+            catch (Exception ex)
+            {
+                notificationString = "Lỗi: " + ex.HResult.ToString();
+            }
+
+            DeptResultNotification.Enqueue(notificationString);            
         }
 
         private bool CanAddNewDepartmentCommand()
@@ -140,29 +143,11 @@ namespace PnC_Insurance.ViewModel
                 Urn = NewEmployeeUrn,
                 FullName = NewEmployeeName,
                 DeptId = DepartmentOfEmployee.Id,
-            };
-
-            var existEmployee = await Task.Run(() =>
-            {
-                using (var context = new InsuranceDbContext())
-                {
-                    var query = from employee in context.Employees.AsNoTracking()
-                                where employee.Urn == addingEmployee.Urn
-                                select employee;
-
-                    return query.ToList();
-
-                }
-            }
-            );
+            };            
 
             string notificationString = "";
 
-            if (existEmployee.Any())
-            {
-                notificationString = "Số URN này đã tồn tại";
-            }
-            else
+            try
             {
                 notificationString = await Task.Run(async () =>
                 {
@@ -176,6 +161,23 @@ namespace PnC_Insurance.ViewModel
                 });
 
                 StartEmployeeOver();
+            }
+            catch (DbUpdateException ex)
+            {
+                var sqlException = ex.InnerException as SqliteException;
+
+                if (sqlException.SqliteErrorCode == 19)
+                {
+                    notificationString = "Số URN này đã tồn tại";
+                }
+                else
+                {
+                    notificationString = "Lỗi CSDL: " + sqlException.SqliteErrorCode;
+                }
+            }
+            catch (Exception ex)
+            {
+                notificationString = "Lỗi: " + ex.HResult.ToString();
             }
 
             EmployeeResultNotification.Enqueue(notificationString);
@@ -220,29 +222,11 @@ namespace PnC_Insurance.ViewModel
                 Urn = NewAgentUrn,
                 FullName = NewAgentName,
                 DeptId = DepartmentOfAgent.Id,
-            };
-
-            var existAgent = await Task.Run(() =>
-            {
-                using (var context = new InsuranceDbContext())
-                {
-                    var query = from agent in context.Agents.AsNoTracking()
-                                where agent.Urn == addingAgent.Urn
-                                select agent;
-
-                    return query.ToList();
-
-                }
-            }
-            );
+            };            
 
             string notificationString = "";
 
-            if (existAgent.Any())
-            {
-                notificationString = "Số URN này đã tồn tại";
-            }
-            else
+            try
             {
                 notificationString = await Task.Run(async () =>
                 {
@@ -256,6 +240,23 @@ namespace PnC_Insurance.ViewModel
                 });
 
                 StartAgentOver();
+            }
+            catch (DbUpdateException ex)
+            {
+                var sqlException = ex.InnerException as SqliteException;
+
+                if (sqlException.SqliteErrorCode == 19)
+                {
+                    notificationString = "Số URN này đã tồn tại";
+                }
+                else
+                {
+                    notificationString = "Lỗi CSDL: " + sqlException.SqliteErrorCode;
+                }
+            }
+            catch (Exception ex)
+            {
+                notificationString = "Lỗi: " + ex.HResult.ToString();
             }
 
             AgentResultNotification.Enqueue(notificationString);

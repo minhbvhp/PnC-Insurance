@@ -49,25 +49,27 @@ public partial class InsuranceDbContext : DbContext
         {
             entity.HasIndex(e => e.Id, "IX_Agents_Id").IsUnique();
 
-            entity.HasIndex(e => e.Urn, "IX_Agents_URN").IsUnique();
+            entity.HasIndex(e => e.Urn, "available_agent_unique").IsUnique();
 
             entity.Property(e => e.Urn).HasColumnName("URN");
 
-            entity.HasOne(d => d.Dept).WithMany(p => p.Agents).HasForeignKey(d => d.DeptId);
+            entity.HasOne(d => d.Dept).WithMany(p => p.Agents)
+                .HasForeignKey(d => d.DeptId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<ClassOfInsurance>(entity =>
         {
             entity.HasIndex(e => e.Id, "IX_ClassOfInsurances_Id").IsUnique();
 
-            entity.HasIndex(e => new { e.Name, e.TermId, e.DecreeId }, "IX_ClassOfInsurances_Name_TermId_DecreeId").IsUnique();
+            entity.HasIndex(e => new { e.Name, e.TermId, e.DecreeId }, "available_class_of_insurance_unique").IsUnique();
         });
 
         modelBuilder.Entity<Customer>(entity =>
         {
             entity.HasIndex(e => e.Id, "IX_Customers_Id").IsUnique();
 
-            entity.HasIndex(e => e.TaxCode, "IX_Customers_TaxCode").IsUnique();
+            entity.HasIndex(e => e.TaxCode, "available_customer_unique").IsUnique();
 
             entity.Property(e => e.AddressEn)
                 .HasDefaultValueSql("'Chưa thiết lập'")
@@ -96,7 +98,7 @@ public partial class InsuranceDbContext : DbContext
         {
             entity.HasIndex(e => e.Id, "IX_Departments_Id").IsUnique();
 
-            entity.HasIndex(e => e.Urn, "IX_Departments_URN").IsUnique();
+            entity.HasIndex(e => e.Urn, "available_department_unique").IsUnique();
 
             entity.Property(e => e.Urn).HasColumnName("URN");
         });
@@ -105,18 +107,20 @@ public partial class InsuranceDbContext : DbContext
         {
             entity.HasIndex(e => e.Id, "IX_Employees_Id").IsUnique();
 
-            entity.HasIndex(e => e.Urn, "IX_Employees_URN").IsUnique();
+            entity.HasIndex(e => e.Urn, "available_employee_unique").IsUnique();
 
             entity.Property(e => e.Urn).HasColumnName("URN");
 
-            entity.HasOne(d => d.Dept).WithMany(p => p.Employees).HasForeignKey(d => d.DeptId);
+            entity.HasOne(d => d.Dept).WithMany(p => p.Employees)
+                .HasForeignKey(d => d.DeptId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<Extension>(entity =>
         {
-            entity.HasIndex(e => e.Code, "IX_Extensions_Code").IsUnique();
-
             entity.HasIndex(e => e.Id, "IX_Extensions_Id").IsUnique();
+
+            entity.HasIndex(e => e.Code, "available_extension_unique").IsUnique();
 
             entity.Property(e => e.Description).HasDefaultValueSql("'Chưa thiết lập'");
             entity.Property(e => e.DescriptionEn)
@@ -134,7 +138,7 @@ public partial class InsuranceDbContext : DbContext
 
             entity.HasIndex(e => e.Id, "IX_InsuredLocation_Id").IsUnique();
 
-            entity.HasIndex(e => new { e.CustomerId, e.Location }, "IX_InsuredLocation_CustomerId_Location").IsUnique();
+            entity.HasIndex(e => new { e.CustomerId, e.Location }, "available_insured_location_unique").IsUnique();
 
             entity.Property(e => e.LocationEn)
                 .HasDefaultValueSql("'Chưa thiết lập'")
@@ -149,7 +153,7 @@ public partial class InsuranceDbContext : DbContext
         {
             entity.HasIndex(e => e.Id, "IX_PropertyItems_Id").IsUnique();
 
-            entity.HasIndex(e => new { e.PolicyId, e.ItemName }, "IX_PropertyItems_PolicyId_ItemName").IsUnique();
+            entity.HasIndex(e => new { e.PolicyId, e.ItemName }, "available_property_item_unique").IsUnique();
 
             entity.Property(e => e.ItemName).HasDefaultValueSql("'Chưa thiết lập'");
             entity.Property(e => e.ItemNameEn)
@@ -198,11 +202,9 @@ public partial class InsuranceDbContext : DbContext
 
         modelBuilder.Entity<Representative>(entity =>
         {
-            entity.ToTable("Representative");
+            entity.HasIndex(e => e.Id, "IX_Representatives_Id").IsUnique();
 
-            entity.HasIndex(e => e.Id, "IX_Representative_Id").IsUnique();
-
-            entity.HasIndex(e => new { e.CustomerId, e.FullName, e.Position }, "IX_Representative_CustomerId_FullName_Position").IsUnique();
+            entity.HasIndex(e => new { e.CustomerId, e.FullName, e.Position }, "available_representative_unique").IsUnique();
 
             entity.Property(e => e.DecisionNo).HasDefaultValueSql("'Chưa thiết lập'");
             entity.Property(e => e.DecisionNoEn)

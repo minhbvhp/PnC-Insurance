@@ -19,5 +19,7 @@ public partial class Representative
 
     public string? DecisionNoEn { get; set; }
 
+    public long IsDeleted { get; set; }
+
     public virtual Customer Customer { get; set; } = null!;
 }

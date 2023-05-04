@@ -39,5 +39,7 @@ public partial class PropertyPolicy
 
     public long Confirm { get; set; }
 
+    public long IsDeleted { get; set; }
+
     public virtual Customer Cusomer { get; set; } = null!;
 }

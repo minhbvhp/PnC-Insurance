@@ -37,9 +37,10 @@ namespace PnC_Insurance.ViewModel
             {
                 using (var context = new InsuranceDbContext())
                 {
-                    var query = from extension in context.Extensions
-                                where EF.Functions.Like(extension.Code, "%" + ExtensionSearch + "%") ||
-                                      EF.Functions.Like(extension.Name, "%" + ExtensionSearch + "%")
+                    var query = from extension in context.Extensions.AsNoTracking()
+                                where extension.IsDeleted == 0 &&
+                                      (EF.Functions.Like(extension.Code, "%" + ExtensionSearch + "%") ||
+                                      EF.Functions.Like(extension.Name, "%" + ExtensionSearch + "%"))
                                 select extension;
                     return query.ToListAsync();
                 }

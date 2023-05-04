@@ -16,4 +16,6 @@ public partial class Extension
     public string NameEn { get; set; } = null!;
 
     public string DescriptionEn { get; set; } = null!;
+
+    public long IsDeleted { get; set; }
 }

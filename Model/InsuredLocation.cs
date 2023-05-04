@@ -13,5 +13,7 @@ public partial class InsuredLocation
 
     public string? LocationEn { get; set; }
 
+    public long IsDeleted { get; set; }
+
     public virtual Customer Customer { get; set; } = null!;
 }

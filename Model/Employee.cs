@@ -13,5 +13,7 @@ public partial class Employee
 
     public long DeptId { get; set; }
 
+    public long IsDeleted { get; set; }
+
     public virtual Department Dept { get; set; } = null!;
 }

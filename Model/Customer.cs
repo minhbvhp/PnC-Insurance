@@ -25,6 +25,8 @@ public partial class Customer
 
     public string? BusinessEn { get; set; }
 
+    public long IsDeleted { get; set; }
+
     public virtual ICollection<InsuredLocation> InsuredLocations { get; } = new List<InsuredLocation>();
 
     public virtual ICollection<PropertyPolicy> PropertyPolicies { get; } = new List<PropertyPolicy>();

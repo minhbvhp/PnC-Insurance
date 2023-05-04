@@ -17,7 +17,11 @@ namespace PnC_Insurance.ViewModel
             {
                 using (var context = new InsuranceDbContext())
                 {
-                    return context.Departments.ToList();
+                    var query = from department in context.Departments.AsNoTracking()
+                                where department.IsDeleted == 0
+                                select department;
+
+                    return query.ToList();
                 }
             }
 
@@ -36,8 +40,9 @@ namespace PnC_Insurance.ViewModel
                 {
                     if (SelectedDepartment != null)
                     {
-                        var query = from employee in context.Employees
-                                    where employee.DeptId == SelectedDepartment.Id
+                        var query = from employee in context.Employees.AsNoTracking()
+                                    where employee.IsDeleted == 0 &&
+                                          employee.DeptId == SelectedDepartment.Id
                                     select employee;
                         if (query.Any())
                         {
@@ -58,8 +63,9 @@ namespace PnC_Insurance.ViewModel
                 {
                     if (SelectedDepartment != null)
                     {
-                        var query = from agent in context.Agents
-                                    where agent.DeptId == SelectedDepartment.Id
+                        var query = from agent in context.Agents.AsNoTracking()
+                                    where agent.IsDeleted == 0 &&
+                                          agent.DeptId == SelectedDepartment.Id
                                     select agent;
                         if (query.Any())
                         {

@@ -12,4 +12,6 @@ public partial class ClassOfInsurance
     public long? TermId { get; set; }
 
     public long? DecreeId { get; set; }
+
+    public long IsDeleted { get; set; }
 }

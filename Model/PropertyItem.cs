@@ -14,4 +14,6 @@ public partial class PropertyItem
     public byte[] SumInsured { get; set; } = null!;
 
     public string? ItemNameEn { get; set; }
+
+    public long IsDeleted { get; set; }
 }
