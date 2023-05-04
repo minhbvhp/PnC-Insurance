@@ -29,7 +29,8 @@ namespace PnC_Insurance.ViewModel
                                     where customer.IsDeleted == 0 && 
                                           (EF.Functions.Like(customer.TaxCode, "%" + CustomerSearch + "%") ||
                                           EF.Functions.Like(customer.Name, "%" + CustomerSearch + "%") ||
-                                          EF.Functions.Like(customer.Business, "%" + CustomerSearch + "%"))                                          
+                                          EF.Functions.Like(customer.Business, "%" + CustomerSearch + "%"))
+                                    orderby customer.Id
                                     select customer;
 
                         if (query.Any())
@@ -60,6 +61,7 @@ namespace PnC_Insurance.ViewModel
                         var query = from representative in context.Representatives.AsNoTracking()
                                     where representative.IsDeleted == 0 &&
                                           representative.CustomerId == SelectedCustomer.Id
+                                    orderby representative.Id
                                     select representative;
                         if (query.Any())
                         {
@@ -84,6 +86,7 @@ namespace PnC_Insurance.ViewModel
                         var query = from location in context.InsuredLocations.AsNoTracking()
                                     where location.IsDeleted == 0 &&
                                           location.CustomerId == SelectedCustomer.Id
+                                    orderby location.Id
                                     select location;
                         if (query.Any())
                         {

@@ -41,6 +41,7 @@ namespace PnC_Insurance.ViewModel
                                 where extension.IsDeleted == 0 &&
                                       (EF.Functions.Like(extension.Code, "%" + ExtensionSearch + "%") ||
                                       EF.Functions.Like(extension.Name, "%" + ExtensionSearch + "%"))
+                                orderby extension.Id
                                 select extension;
                     return query.ToListAsync();
                 }

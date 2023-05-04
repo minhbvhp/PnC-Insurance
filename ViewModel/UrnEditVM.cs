@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MaterialDesignThemes.Wpf;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using PnC_Insurance.Model;
 using System;
@@ -43,9 +44,11 @@ namespace PnC_Insurance.ViewModel
             {
                 using (var context = new InsuranceDbContext())
                 {
-                    var query = from department in context.Departments.AsNoTracking()
-                                where EF.Functions.Like(department.Urn, "%" + DepartmentSearch + "%") ||
-                                      EF.Functions.Like(department.Name, "%" + DepartmentSearch + "%")
+                    var query = from department in context.Departments
+                                where department.IsDeleted == 0 &&
+                                      (EF.Functions.Like(department.Urn, "%" + DepartmentSearch + "%") ||
+                                      EF.Functions.Like(department.Name, "%" + DepartmentSearch + "%"))
+                                orderby department.Id
                                 select department;
                     return query.ToListAsync();
                 }
@@ -117,29 +120,11 @@ namespace PnC_Insurance.ViewModel
                 Id = SelectedDepartment.Id,
                 Urn = EditingDeptUrn,
                 Name = EditingDeptName,
-            };
-
-            var existDepartment = await Task.Run(() =>
-            {
-                using (var context = new InsuranceDbContext())
-                {
-                    var query = from department in context.Departments.AsNoTracking()
-                                where department.Urn == editingDepartment.Urn && department.Id != editingDepartment.Id
-                                select department;
-
-                    return query.ToList();
-
-                }
-            }
-            );
+            };           
 
             string notificationString = "";
 
-            if (existDepartment.Any())
-            {
-                notificationString = "Số URN này đã tồn tại";
-            }
-            else
+            try
             {
                 notificationString = await Task.Run(async () =>
                 {
@@ -148,8 +133,10 @@ namespace PnC_Insurance.ViewModel
                         if (SelectedDepartment != null && editingDepartment != null)
                         {
                             var query = from department in context.Departments
-                                                   where department.Id == SelectedDepartment.Id
-                                                   select department;
+                                        where department.Id == SelectedDepartment.Id
+                                        orderby department.Id
+                                        select department;
+
                             if (query.Any())
                             {
                                 var changeDepartment = await query.FirstOrDefaultAsync();
@@ -158,16 +145,33 @@ namespace PnC_Insurance.ViewModel
                                 changeDepartment.Name = editingDepartment.Name;
 
                                 await context.SaveChangesAsync();
-                            }                            
+                            }
                         }
                     }
 
                     return "Đã sửa thông tin Phòng";
                 });
-                
+
                 await SearchDepartmentAsync();
                 IsFlipped = false;
             }
+            catch (DbUpdateException ex)
+            {
+                var sqlException = ex.InnerException as SqliteException;
+
+                if (sqlException.SqliteErrorCode == 19)
+                {
+                    notificationString = "Số URN này đã tồn tại";
+                }
+                else
+                {
+                    notificationString = "Lỗi CSDL: " + sqlException.SqliteErrorCode;
+                }
+            }
+            catch (Exception ex)
+            {
+                notificationString = "Lỗi: " + ex.HResult.ToString();
+            }            
 
             EditDeptResultNotification.Enqueue(notificationString);
         }
@@ -198,22 +202,51 @@ namespace PnC_Insurance.ViewModel
         private async Task DeleteDepartmentAsync()
         {
             EditDeptResultNotification = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
-            string notificationString = "Lỗi, không xóa được";
+            string notificationString = "";
 
-            notificationString = await Task.Run(async () =>
+            try
             {
-                using (var context = new InsuranceDbContext())
+                notificationString = await Task.Run(async () =>
                 {
-                    if (SelectedDepartment != null)
+                    using (var context = new InsuranceDbContext())
                     {
-                        context.Departments.Remove(SelectedDepartment);
-                        await context.SaveChangesAsync();
+                        if (SelectedDepartment != null)
+                        {
+                            var query = from department in context.Departments
+                                        where department.Id == SelectedDepartment.Id
+                                        select department;
+
+                            if (query.Any())
+                            {
+                                var deleteDepartment = await query.FirstOrDefaultAsync();
+                                deleteDepartment.IsDeleted = 1;
+                                await context.SaveChangesAsync();
+                            }
+                        }
                     }
+
+                    return "Đã xóa Phòng";
+                });
+            }
+            catch (DbUpdateException ex)
+            {
+                var sqlException = ex.InnerException as SqliteException;
+
+                if (sqlException.SqliteErrorCode == 19)
+                {
+                    notificationString = "Số URN này đã xóa";
                 }
+                else
+                {
+                    notificationString = "Lỗi CSDL: " + sqlException.SqliteErrorCode;
+                }
+            }
+            catch (Exception ex)
+            {
+                notificationString = "Lỗi: " + ex.HResult.ToString();
+            }
 
-                return "Đã xóa Phòng";
-            });
-
+            await SearchDepartmentAsync();
             EditDeptResultNotification.Enqueue(notificationString);
             IsDeletedDialogOpen = false;
             await Task.Delay(1000);

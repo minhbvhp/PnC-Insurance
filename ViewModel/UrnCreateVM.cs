@@ -33,6 +33,7 @@ namespace PnC_Insurance.ViewModel
                 {
                     var query = from department in context.Departments
                                 where department.IsDeleted == 0
+                                orderby department.Id
                                 select department;
                     return query.ToList();
                 }
