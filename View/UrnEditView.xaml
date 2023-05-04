@@ -66,7 +66,7 @@
         </Grid>
 
         <Grid Grid.Row="1" Grid.Column="0" Margin="0 0 15 0">
-            <materialDesign:Flipper IsFlipped="{Binding IsFlipped, UpdateSourceTrigger=PropertyChanged}" Height="580">
+            <materialDesign:Flipper IsFlipped="{Binding IsDepartmentFlipped, UpdateSourceTrigger=PropertyChanged}" Height="580">
                 <materialDesign:Flipper.FrontContent>
                     <materialDesign:ColorZone Background="#CAD2C5">
                         <Grid Margin="10 5">
@@ -103,17 +103,9 @@
                                       AutoGenerateColumns="False" VerticalAlignment="Top" SelectionMode="Single" 
                                       IsReadOnly="True" HeadersVisibility="All" ColumnWidth="*">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Binding="{Binding Urn}" Width="Auto">
-                                        <DataGridTextColumn.Header>
-                                            <TextBlock Text="URN"/>
-                                        </DataGridTextColumn.Header>
-                                    </DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding Urn}" Width="Auto" Header="URN"/>
 
-                                    <DataGridTextColumn Binding="{Binding Name}">
-                                        <DataGridTextColumn.Header>
-                                            <TextBlock Text="Tên Phòng"/>
-                                        </DataGridTextColumn.Header>
-                                    </DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding Name}" Header="Tên Phòng"/>
                                 </DataGrid.Columns>
                             </DataGrid>
 
@@ -128,7 +120,7 @@
                 </materialDesign:Flipper.FrontContent>
 
                 <materialDesign:Flipper.BackContent>
-                    <materialDesign:DialogHost IsOpen="{Binding IsDeletedDialogOpen}" VerticalAlignment="Top">
+                    <materialDesign:DialogHost IsOpen="{Binding IsDeletedDepartmentDialogOpen}" VerticalAlignment="Top">
                         <materialDesign:DialogHost.DialogContent>
                             <Grid Height="200" Width="200" Margin="8">
                                 <Grid.RowDefinitions>
@@ -145,11 +137,12 @@
                                                TextWrapping="Wrap" TextAlignment="Justify" Foreground="OrangeRed">
                                         <Run Text="Toàn bộ"/>
                                         <Run FontWeight="Bold" Text="Dữ liệu liên quan"/>
-                                        <Run Text="của Phòng này cũng sẽ bị xóa. Hãy cẩn thận!"/>
+                                        <Run Text="tới Phòng này cũng sẽ bị xóa. Hãy cẩn thận!"/>
                                     </TextBlock>
                                 </StackPanel>
 
-                                <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"                                           FontWeight="Bold" FontSize="14"
+                                <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                           FontWeight="Bold" FontSize="14"
                                            Text="Chắc chắn xóa chứ ?"/>
 
                                 <Grid Grid.Row="2">
@@ -181,17 +174,17 @@
 
                                 <Button Grid.Row="0" Style="{StaticResource MaterialDesignIconForegroundButton}" 
                                     Content="{materialDesign:PackIcon Kind=ArrowBack, Size=20}"
-                                    Command="{Binding DeptFlipBackCommand, UpdateSourceTrigger=PropertyChanged}"/>
+                                    Command="{Binding DepartmentFlipBackCommand, UpdateSourceTrigger=PropertyChanged}"/>
 
                                 <StackPanel Grid.Row="1" HorizontalAlignment="Center" Height="400">
                                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                             Text="{Binding EditingDeptUrn, UpdateSourceTrigger=PropertyChanged}" 
+                                             Text="{Binding EditingDepartmentUrn, UpdateSourceTrigger=PropertyChanged}" 
                                              materialDesign:ValidationAssist.Background="Transparent"
                                              Margin="0 0 0 30" Width="260" HorizontalAlignment="Left"
                                              materialDesign:HintAssist.Hint="Số URN Phòng"/>
 
                                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                             Text="{Binding EditingDeptName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                             Text="{Binding EditingDepartmentName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                              Width="260" HorizontalAlignment="Left"
                                              materialDesign:ValidationAssist.Background="Transparent"
                                              materialDesign:HintAssist.Hint="Tên Phòng"/>
@@ -225,11 +218,180 @@
             </materialDesign:Flipper>
 
             <materialDesign:Snackbar Grid.Row="2" Background="Black" Foreground="White" 
-                                                     MessageQueue="{Binding EditDeptResultNotification}"/>
+                                                     MessageQueue="{Binding EditDepartmentResultNotification}"/>
 
         </Grid>
 
-        
+        <Grid Grid.Row="1" Grid.Column="1" Margin="0 0 15 0">
+            <materialDesign:Flipper IsFlipped="{Binding IsEmployeeFlipped, UpdateSourceTrigger=PropertyChanged}" Height="580">
+                <materialDesign:Flipper.FrontContent>
+                    <materialDesign:ColorZone Background="#CAD2C5">
+                        <Grid Margin="10 5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="55"/>
+                                <RowDefinition Height="400"/>
+                                <RowDefinition Height="45"/>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left">
+                                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0 0 10 10"
+                                         Foreground="Teal"
+                                         Text="{Binding EmployeeSearch, UpdateSourceTrigger=PropertyChanged}" Width="180">
+                                    <materialDesign:HintAssist.Hint>
+                                        <TextBlock>
+                                                    <materialDesign:PackIcon Kind="Search" VerticalAlignment="Bottom"/>
+                                                    <Run Text="Tìm kiếm"/>
+                                        </TextBlock>
+                                    </materialDesign:HintAssist.Hint>
+                                </TextBox>
+
+                                <Button Style="{StaticResource MaterialDesignFloatingActionButton}"
+                                        Width="32" Height="32"
+                                        materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+                                        materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding SearchEmployeeCommand.IsRunning}"
+                                        Command="{Binding SearchEmployeeCommand}">
+                                    <materialDesign:PackIcon Kind="Search" Foreground="White"/>
+                                </Button>
+                            </StackPanel>
+
+
+                            <DataGrid Grid.Row="1" ItemsSource="{Binding ListOfEmployees, IsAsync=True}" Height="400"
+                                      SelectedItem="{Binding SelectedEmployee, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                      AutoGenerateColumns="False" VerticalAlignment="Top" SelectionMode="Single" 
+                                      IsReadOnly="True" HeadersVisibility="All" ColumnWidth="*">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Binding="{Binding Urn}" Width="Auto" Header="URN"/>
+
+                                    <DataGridTextColumn Binding="{Binding FullName}" Header="Họ tên"/>
+
+                                    <DataGridTextColumn Binding="{Binding Dept.Name}" Header="Phòng">
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style TargetType="TextBlock">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Dept.IsDeleted}" Value="1">
+                                                        <Setter Property="Foreground" Value="OrangeRed"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+                                    </DataGridTextColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <Button Grid.Row="2" Style="{StaticResource MaterialDesignFlatDarkButton}"
+                                    Background="#94AF9F" Width="90"                                    
+                                    Command="{Binding FetchEmployeeCommand}"                          
+                                    FontFamily="{StaticResource MaterialDesignFont}"
+                                    Content="Sửa..." />
+
+                        </Grid>
+                    </materialDesign:ColorZone>
+                </materialDesign:Flipper.FrontContent>
+
+                <materialDesign:Flipper.BackContent>
+                    <materialDesign:DialogHost IsOpen="{Binding IsDeletedEmployeeDialogOpen}" VerticalAlignment="Top">
+                        <materialDesign:DialogHost.DialogContent>
+                            <Grid Height="200" Width="200" Margin="8">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="2*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="40"/>
+                                </Grid.RowDefinitions>
+
+                                <StackPanel VerticalAlignment="Center">
+                                    <materialDesign:PackIcon HorizontalAlignment="Center" Margin="0 5"
+                                                             Kind="Warning" Height="40" Width="40" Foreground="OrangeRed"/>
+
+                                    <TextBlock Grid.Row="1" HorizontalAlignment="Center" 
+                                               TextWrapping="Wrap" TextAlignment="Justify" Foreground="OrangeRed">
+                                        <Run Text="Toàn bộ"/>
+                                        <Run FontWeight="Bold" Text="Dữ liệu liên quan"/>
+                                        <Run Text="tới Nhân viên này cũng sẽ bị xóa. Hãy cẩn thận!"/>
+                                    </TextBlock>
+                                </StackPanel>
+
+                                <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                           FontWeight="Bold" FontSize="14"
+                                           Text="Chắc chắn xóa chứ ?"/>
+
+                                <Grid Grid.Row="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Button Grid.Column="0" Width="60" IsTabStop="False"
+                                            Style="{StaticResource MaterialDesignRaisedLightButton}"
+                                            Background="OrangeRed" Foreground="White" Content="Xóa"
+                                            Command="{Binding DeleteEmployeeCommand}"/>
+
+                                    <Button Grid.Column="1" Width="80" IsTabStop="False"
+                                            Background="#424242" Foreground="White"
+                                            Style="{StaticResource MaterialDesignRaisedLightButton}" Content="Giữ"
+                                            Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" IsCancel="True"/>
+                                </Grid>
+                            </Grid>
+                        </materialDesign:DialogHost.DialogContent>
+
+                        <materialDesign:ColorZone Background="#52796F" Foreground="{DynamicResource txtColor}">
+                            <Grid Margin="10 5">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="55"/>
+                                    <RowDefinition Height="400"/>
+                                    <RowDefinition Height="45"/>
+                                </Grid.RowDefinitions>
+
+                                <Button Grid.Row="0" Style="{StaticResource MaterialDesignIconForegroundButton}" 
+                                    Content="{materialDesign:PackIcon Kind=ArrowBack, Size=20}"
+                                    Command="{Binding EmployeeFlipBackCommand, UpdateSourceTrigger=PropertyChanged}"/>
+
+                                <StackPanel Grid.Row="1" HorizontalAlignment="Center" Height="400">
+                                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                             Text="{Binding EditingEmployeeUrn, UpdateSourceTrigger=PropertyChanged}" 
+                                             materialDesign:ValidationAssist.Background="Transparent"
+                                             Margin="0 0 0 30" Width="260" HorizontalAlignment="Left"
+                                             materialDesign:HintAssist.Hint="Số URN Nhân viên"/>
+
+                                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                             Text="{Binding EditingEmployeeName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                             Width="260" HorizontalAlignment="Left"
+                                             materialDesign:ValidationAssist.Background="Transparent"
+                                             materialDesign:HintAssist.Hint="Họ và tên"/>
+
+                                </StackPanel>
+
+                                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <Button Style="{StaticResource MaterialDesignOutlinedLightButton}"
+                                            Width="90" Margin="0 0 20 0"
+                                            materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+                                            materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding EditEmployeeCommand.IsRunning}"
+                                            Command="{Binding EditEmployeeCommand}"
+                                            Content="{materialDesign:PackIcon Kind=ModeEdit}" />
+
+                                    <Button Style="{StaticResource MaterialDesignOutlinedSecondaryButton}"
+                                            Width="90" Foreground="White" Background="OrangeRed"
+                                            materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+                                            Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
+                                            Content="{materialDesign:PackIcon Kind=Delete}" />
+                                </StackPanel>
+
+
+                            </Grid>
+                        </materialDesign:ColorZone>
+                    </materialDesign:DialogHost>
+
+
+
+
+                </materialDesign:Flipper.BackContent>
+            </materialDesign:Flipper>
+
+            <materialDesign:Snackbar Grid.Row="2" Background="Black" Foreground="White" 
+                                                     MessageQueue="{Binding EditEmployeeResultNotification}"/>
+
+        </Grid>
+
+
 
 
 

@@ -14,9 +14,11 @@ namespace PnC_Insurance.ViewModel
 {
     public partial class UrnEditVM : BaseVM
     {
+        #region Department
+
         #region Department Search
         [ObservableProperty]
-        private bool isFlipped = false;
+        private bool isDepartmentFlipped = false;
 
         [ObservableProperty]
         [NotifyCanExecuteChangedFor(nameof(SearchDepartmentCommand))]
@@ -69,9 +71,9 @@ namespace PnC_Insurance.ViewModel
         [RelayCommand(CanExecute = nameof(CanFetchDepartment))]
         private void FetchDepartment()
         {
-            EditingDeptUrn = SelectedDepartment.Urn;
-            EditingDeptName = SelectedDepartment.Name;
-            IsFlipped = true;
+            EditingDepartmentUrn = SelectedDepartment.Urn;
+            EditingDepartmentName = SelectedDepartment.Name;
+            IsDepartmentFlipped = true;
         }
 
         private bool CanFetchDepartment()
@@ -84,28 +86,27 @@ namespace PnC_Insurance.ViewModel
 
         #endregion
 
-
-        #region Editing Department
+        #region Department Modify
         [ObservableProperty]
-        private SnackbarMessageQueue? editDeptResultNotification;
+        private SnackbarMessageQueue? editDepartmentResultNotification;
 
         [ObservableProperty]
         [Required(ErrorMessage = "Nhập số URN")]
         [RegularExpression(@"^[0-9a-zA-Z]+$", ErrorMessage = "Số URN không bao gồm kí tự đặc biệt")]
         [NotifyDataErrorInfo]
         [NotifyCanExecuteChangedFor(nameof(EditDepartmentCommand))]
-        private string? editingDeptUrn;
+        private string? editingDepartmentUrn;
 
         [ObservableProperty]
         [Required(ErrorMessage = "Nhập tên Phòng")]
         [NotifyDataErrorInfo]
         [NotifyCanExecuteChangedFor(nameof(EditDepartmentCommand))]
-        private string? editingDeptName;
+        private string? editingDepartmentName;
 
         [RelayCommand]
-        private void DeptFlipBack()
+        private void DepartmentFlipBack()
         {            
-            IsFlipped = false;
+            IsDepartmentFlipped = false;
         }
 
         #region Edit Part
@@ -113,13 +114,13 @@ namespace PnC_Insurance.ViewModel
         [RelayCommand(CanExecute = nameof(CanEditDepartment))]
         private async Task EditDepartmentAsync()
         {
-            EditDeptResultNotification = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
+            EditDepartmentResultNotification = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
 
             var editingDepartment = new Department()
             {
                 Id = SelectedDepartment.Id,
-                Urn = EditingDeptUrn,
-                Name = EditingDeptName,
+                Urn = EditingDepartmentUrn,
+                Name = EditingDepartmentName,
             };           
 
             string notificationString = "";
@@ -153,7 +154,7 @@ namespace PnC_Insurance.ViewModel
                 });
 
                 await SearchDepartmentAsync();
-                IsFlipped = false;
+                IsDepartmentFlipped = false;
             }
             catch (DbUpdateException ex)
             {
@@ -173,16 +174,16 @@ namespace PnC_Insurance.ViewModel
                 notificationString = "Lỗi: " + ex.HResult.ToString();
             }            
 
-            EditDeptResultNotification.Enqueue(notificationString);
+            EditDepartmentResultNotification.Enqueue(notificationString);
         }
 
         private bool CanEditDepartment()
         {
             if (SelectedDepartment != null &&
-                (SelectedDepartment.Urn != EditingDeptUrn ||
-                SelectedDepartment.Name != EditingDeptName) &&
-                !GetErrors(nameof(EditingDeptUrn)).Any() &&
-                !GetErrors(nameof(EditingDeptName)).Any()
+                (SelectedDepartment.Urn != EditingDepartmentUrn ||
+                SelectedDepartment.Name != EditingDepartmentName) &&
+                !GetErrors(nameof(EditingDepartmentUrn)).Any() &&
+                !GetErrors(nameof(EditingDepartmentName)).Any()
                 )
             {
                 return true;
@@ -196,12 +197,12 @@ namespace PnC_Insurance.ViewModel
         #region Delete Part
 
         [ObservableProperty]
-        private bool isDeletedDialogOpen = false;
+        private bool isDeletedDepartmentDialogOpen = false;
 
         [RelayCommand]
         private async Task DeleteDepartmentAsync()
         {
-            EditDeptResultNotification = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
+            EditDepartmentResultNotification = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
             string notificationString = "";
 
             try
@@ -232,9 +233,177 @@ namespace PnC_Insurance.ViewModel
             {
                 var sqlException = ex.InnerException as SqliteException;
 
+                notificationString = "Lỗi CSDL: " + sqlException.SqliteErrorCode;                
+            }
+            catch (Exception ex)
+            {
+                notificationString = "Lỗi: " + ex.HResult.ToString();
+            }
+
+            await SearchDepartmentAsync();
+            EditDepartmentResultNotification.Enqueue(notificationString);
+            IsDeletedDepartmentDialogOpen = false;
+            await Task.Delay(1000);
+            IsDepartmentFlipped = false;
+        }
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        #region Employee
+
+        #region Employee Search        
+        [ObservableProperty]
+        private bool isEmployeeFlipped = false;
+
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(SearchEmployeeCommand))]
+        private string? employeeSearch;
+
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(FetchEmployeeCommand))]
+        [NotifyCanExecuteChangedFor(nameof(EditEmployeeCommand))]
+        [NotifyCanExecuteChangedFor(nameof(DeleteEmployeeCommand))]
+        private Employee? selectedEmployee;
+
+        private List<Employee> listOfEmployees = new List<Employee>();
+        public List<Employee>? ListOfEmployees
+        {
+            get
+            {
+                return new List<Employee>(listOfEmployees);
+            }
+        }
+
+        [RelayCommand(CanExecute = nameof(CanSearchEmployee))]
+        private async Task SearchEmployeeAsync()
+        {
+            var result = await Task.Run(() =>
+            {
+                using (var context = new InsuranceDbContext())
+                {
+                    var query = from employee in context.Employees
+                                where employee.IsDeleted == 0 &&
+                                      (EF.Functions.Like(employee.Urn, "%" + EmployeeSearch + "%") ||
+                                      EF.Functions.Like(employee.FullName, "%" + EmployeeSearch + "%") ||
+                                      EF.Functions.Like(employee.Dept.Name, "%" + EmployeeSearch + "%"))
+                                orderby employee.Id
+                                select employee;
+
+                    return query.Include("Dept").ToListAsync();
+                }
+            });
+
+            listOfEmployees = result;
+            OnPropertyChanged(nameof(ListOfEmployees));
+        }
+
+        private bool CanSearchEmployee()
+        {
+            if (!String.IsNullOrEmpty(EmployeeSearch) && !String.IsNullOrWhiteSpace(EmployeeSearch))
+                return true;
+
+            return false;
+        }
+
+        [RelayCommand(CanExecute = nameof(CanFetchEmployee))]
+        private void FetchEmployee()
+        {
+            EditingEmployeeUrn = SelectedEmployee.Urn;
+            EditingEmployeeName = SelectedEmployee.FullName;
+            IsEmployeeFlipped = true;
+        }
+
+        private bool CanFetchEmployee()
+        {
+            if (SelectedEmployee != null)
+                return true;
+
+            return false;
+        }
+
+        #endregion
+
+        #region Employee Modify
+        [ObservableProperty]
+        private SnackbarMessageQueue? editEmployeeResultNotification;
+
+        [ObservableProperty]
+        [Required(ErrorMessage = "Nhập số URN")]
+        [RegularExpression(@"^[0-9a-zA-Z]+$", ErrorMessage = "Số URN không bao gồm kí tự đặc biệt")]
+        [NotifyDataErrorInfo]
+        [NotifyCanExecuteChangedFor(nameof(EditEmployeeCommand))]
+        private string? editingEmployeeUrn;
+
+        [ObservableProperty]
+        [Required(ErrorMessage = "Nhập Họ và tên Nhân viên")]
+        [NotifyDataErrorInfo]
+        [NotifyCanExecuteChangedFor(nameof(EditEmployeeCommand))]
+        private string? editingEmployeeName;
+
+        [RelayCommand]
+        private void EmployeeFlipBack()
+        {
+            IsEmployeeFlipped = false;
+        }
+
+        #region Edit Part
+
+        [RelayCommand(CanExecute = nameof(CanEditEmployee))]
+        private async Task EditEmployeeAsync()
+        {
+            EditEmployeeResultNotification = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
+
+            var editingEmployee = new Employee()
+            {
+                Id = SelectedEmployee.Id,
+                Urn = EditingEmployeeUrn,
+                FullName = EditingEmployeeName,
+            };
+
+            string notificationString = "";
+
+            try
+            {
+                notificationString = await Task.Run(async () =>
+                {
+                    using (var context = new InsuranceDbContext())
+                    {
+                        if (SelectedEmployee != null && editingEmployee != null)
+                        {
+                            var query = from employee in context.Employees
+                                        where employee.Id == SelectedEmployee.Id
+                                        orderby employee.Id
+                                        select employee;
+
+                            if (query.Any())
+                            {
+                                var changeEmployee = await query.FirstOrDefaultAsync();
+
+                                changeEmployee.Urn = editingEmployee.Urn;
+                                changeEmployee.FullName = editingEmployee.FullName;
+
+                                await context.SaveChangesAsync();
+                            }
+                        }
+                    }
+
+                    return "Đã sửa thông tin Nhân viên";
+                });
+
+                await SearchEmployeeAsync();
+                IsEmployeeFlipped = false;
+            }
+            catch (DbUpdateException ex)
+            {
+                var sqlException = ex.InnerException as SqliteException;
+
                 if (sqlException.SqliteErrorCode == 19)
                 {
-                    notificationString = "Số URN này đã xóa";
+                    notificationString = "Số URN này đã tồn tại";
                 }
                 else
                 {
@@ -246,12 +415,79 @@ namespace PnC_Insurance.ViewModel
                 notificationString = "Lỗi: " + ex.HResult.ToString();
             }
 
-            await SearchDepartmentAsync();
-            EditDeptResultNotification.Enqueue(notificationString);
-            IsDeletedDialogOpen = false;
-            await Task.Delay(1000);
-            IsFlipped = false;
+            EditEmployeeResultNotification.Enqueue(notificationString);
         }
+
+        private bool CanEditEmployee()
+        {
+            if (SelectedEmployee != null &&
+                (SelectedEmployee.Urn != EditingEmployeeUrn ||
+                SelectedEmployee.FullName != EditingEmployeeName) &&
+                !GetErrors(nameof(EditingEmployeeUrn)).Any() &&
+                !GetErrors(nameof(EditingEmployeeName)).Any()
+                )
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        #endregion
+
+        #region Delete Part
+
+        [ObservableProperty]
+        private bool isDeletedEmployeeDialogOpen = false;
+
+        [RelayCommand]
+        private async Task DeleteEmployeeAsync()
+        {
+            EditEmployeeResultNotification = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
+            string notificationString = "";
+
+            try
+            {
+                notificationString = await Task.Run(async () =>
+                {
+                    using (var context = new InsuranceDbContext())
+                    {
+                        if (SelectedEmployee != null)
+                        {
+                            var query = from employee in context.Employees
+                                        where employee.Id == SelectedEmployee.Id
+                                        select employee;
+
+                            if (query.Any())
+                            {
+                                var deleteEmployee = await query.FirstOrDefaultAsync();
+                                deleteEmployee.IsDeleted = 1;
+                                await context.SaveChangesAsync();
+                            }
+                        }
+                    }
+
+                    return "Đã xóa Nhân viên";
+                });
+            }
+            catch (DbUpdateException ex)
+            {
+                var sqlException = ex.InnerException as SqliteException;
+                notificationString = "Lỗi CSDL: " + sqlException.SqliteErrorCode;                
+            }
+            catch (Exception ex)
+            {
+                notificationString = "Lỗi: " + ex.HResult.ToString();
+            }
+
+            await SearchEmployeeAsync();
+            EditEmployeeResultNotification.Enqueue(notificationString);
+            IsDeletedEmployeeDialogOpen = false;
+            await Task.Delay(1000);
+            IsEmployeeFlipped = false;
+        }
+
+        #endregion
 
         #endregion
 

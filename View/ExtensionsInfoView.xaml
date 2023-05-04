@@ -40,17 +40,9 @@
                               IsReadOnly="True" HeadersVisibility="All" ColumnWidth="*"
                               MaxHeight="500">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding Code}" Width="Auto">
-                        <DataGridTextColumn.Header>
-                            <TextBlock Text="Ký hiệu"/>
-                        </DataGridTextColumn.Header>
-                    </DataGridTextColumn>
+                    <DataGridTextColumn Binding="{Binding Code}" Header="Ký hiệu"/>
 
-                    <DataGridTextColumn Binding="{Binding Name}">
-                        <DataGridTextColumn.Header>
-                            <TextBlock Text="Tên ĐKBS"/>
-                        </DataGridTextColumn.Header>
-                    </DataGridTextColumn>
+                    <DataGridTextColumn Binding="{Binding Name}" Header="Tên ĐKBS"/>
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>

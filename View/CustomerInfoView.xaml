@@ -33,29 +33,13 @@
                               IsReadOnly="True" HeadersVisibility="All"
                               ColumnWidth="*" MaxHeight="400">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding TaxCode}">
-                                <DataGridTextColumn.Header>
-                                    <TextBlock Text="MST"/>
-                                </DataGridTextColumn.Header>
-                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding TaxCode}" Header="MST"/>
 
-                            <DataGridTextColumn Binding="{Binding Name}">
-                                <DataGridTextColumn.Header>
-                                    <TextBlock Text="Tên Công ty"/>
-                                </DataGridTextColumn.Header>
-                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding Name}" Header="Tên Công ty"/>
 
-                            <DataGridTextColumn Binding="{Binding Address}">
-                                <DataGridTextColumn.Header>
-                                    <TextBlock Text="Địa chỉ"/>
-                                </DataGridTextColumn.Header>
-                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding Address}" Header="Địa chỉ"/>
 
-                            <DataGridTextColumn Binding="{Binding Business}">
-                                <DataGridTextColumn.Header>
-                                    <TextBlock Text="Ngành nghề"/>
-                                </DataGridTextColumn.Header>
-                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding Business}" Header="Ngành nghề"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>
@@ -80,17 +64,9 @@
                               IsReadOnly="True" HeadersVisibility="All" 
                               MaxHeight="300" ColumnWidth="*">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding FullName}">
-                                <DataGridTextColumn.Header>
-                                    <TextBlock Text="Họ tên"/>
-                                </DataGridTextColumn.Header>
-                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding FullName}" Header="Họ tên"/>
 
-                            <DataGridTextColumn Binding="{Binding Position}">
-                                <DataGridTextColumn.Header>
-                                    <TextBlock Text="Chức vụ"/>
-                                </DataGridTextColumn.Header>
-                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding Position}" Header="Chức vụ"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>
@@ -104,11 +80,7 @@
                               IsReadOnly="True" HeadersVisibility="All"
                               MaxHeight="300" ColumnWidth="*">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding Location}">
-                                <DataGridTextColumn.Header>
-                                    <TextBlock Text="Địa chỉ"/>
-                                </DataGridTextColumn.Header>
-                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding Location}" Header="Địa chỉ"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>
