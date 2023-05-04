@@ -354,9 +354,16 @@
 
                                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                              Text="{Binding EditingEmployeeName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                             Width="260" HorizontalAlignment="Left"
+                                             Margin="0 0 0 30" Width="260" HorizontalAlignment="Left"
                                              materialDesign:ValidationAssist.Background="Transparent"
                                              materialDesign:HintAssist.Hint="Họ và tên"/>
+
+                                    <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"                                              
+                                              ItemsSource="{Binding ListOfDepartmentsOfEmployee}"
+                                              SelectedItem="{Binding DepartmentOfEmployee, UpdateSourceTrigger=PropertyChanged}"
+                                              Width="260" HorizontalAlignment="Left"
+                                              materialDesign:ValidationAssist.Background="Transparent"
+                                              materialDesign:HintAssist.Hint="Phòng"/>
 
                                 </StackPanel>
 
