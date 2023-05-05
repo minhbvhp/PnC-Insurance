@@ -11,6 +11,7 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
 using System.Configuration;
 using Microsoft.Data.Sqlite;
+using System.Windows;
 
 namespace PnC_Insurance.ViewModel
 {
@@ -99,6 +100,7 @@ namespace PnC_Insurance.ViewModel
             }
             catch (Exception ex)
             {
+                MessageBox.Show(ex.Message.ToString());
                 notificationString = "Lỗi: " + ex.HResult.ToString();
             }
 
@@ -178,6 +180,7 @@ namespace PnC_Insurance.ViewModel
             }
             catch (Exception ex)
             {
+                MessageBox.Show(ex.Message.ToString());
                 notificationString = "Lỗi: " + ex.HResult.ToString();
             }
 
@@ -257,6 +260,7 @@ namespace PnC_Insurance.ViewModel
             }
             catch (Exception ex)
             {
+                MessageBox.Show(ex.Message.ToString());
                 notificationString = "Lỗi: " + ex.HResult.ToString();
             }
 

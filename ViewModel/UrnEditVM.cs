@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace PnC_Insurance.ViewModel
 {
@@ -46,7 +47,7 @@ namespace PnC_Insurance.ViewModel
             {
                 using (var context = new InsuranceDbContext())
                 {
-                    var query = from department in context.Departments
+                    var query = from department in context.Departments.AsNoTracking()
                                 where department.IsDeleted == 0 &&
                                       (EF.Functions.Like(department.Urn, "%" + DepartmentSearch + "%") ||
                                       EF.Functions.Like(department.Name, "%" + DepartmentSearch + "%"))
@@ -155,6 +156,8 @@ namespace PnC_Insurance.ViewModel
 
                 await SearchDepartmentAsync();
                 IsDepartmentFlipped = false;
+                await SearchEmployeeAsync();
+                await SearchAgentAsync();
             }
             catch (DbUpdateException ex)
             {
@@ -171,6 +174,7 @@ namespace PnC_Insurance.ViewModel
             }
             catch (Exception ex)
             {
+                MessageBox.Show(ex.Message.ToString());
                 notificationString = "Lỗi: " + ex.HResult.ToString();
             }            
 
@@ -237,14 +241,18 @@ namespace PnC_Insurance.ViewModel
             }
             catch (Exception ex)
             {
+                MessageBox.Show(ex.Message.ToString());
                 notificationString = "Lỗi: " + ex.HResult.ToString();
             }
-
-            await SearchDepartmentAsync();
+            
+            await SearchDepartmentAsync();            
             EditDepartmentResultNotification.Enqueue(notificationString);
             IsDeletedDepartmentDialogOpen = false;
             await Task.Delay(1000);
             IsDepartmentFlipped = false;
+
+            await SearchEmployeeAsync();
+            await SearchAgentAsync();
         }
 
         #endregion
@@ -285,7 +293,7 @@ namespace PnC_Insurance.ViewModel
             {
                 using (var context = new InsuranceDbContext())
                 {
-                    var query = from employee in context.Employees
+                    var query = from employee in context.Employees.AsNoTracking()
                                 where employee.IsDeleted == 0 &&
                                       (EF.Functions.Like(employee.Urn, "%" + EmployeeSearch + "%") ||
                                       EF.Functions.Like(employee.FullName, "%" + EmployeeSearch + "%") ||
@@ -394,7 +402,7 @@ namespace PnC_Insurance.ViewModel
                 Id = SelectedEmployee.Id,
                 Urn = EditingEmployeeUrn,
                 FullName = EditingEmployeeName,
-                Dept = EditingDepartmentOfEmployee,
+                DeptId = EditingDepartmentOfEmployee.Id,
             };
 
             string notificationString = "";
@@ -418,7 +426,7 @@ namespace PnC_Insurance.ViewModel
 
                                 changeEmployee.Urn = editingEmployee.Urn;
                                 changeEmployee.FullName = editingEmployee.FullName;
-                                changeEmployee.Dept = editingEmployee.Dept;
+                                changeEmployee.DeptId = editingEmployee.DeptId;
 
                                 await context.SaveChangesAsync();
                             }
@@ -446,6 +454,7 @@ namespace PnC_Insurance.ViewModel
             }
             catch (Exception ex)
             {
+                MessageBox.Show(ex.Message.ToString());
                 notificationString = "Lỗi: " + ex.HResult.ToString();
             }
 
@@ -513,6 +522,7 @@ namespace PnC_Insurance.ViewModel
             }
             catch (Exception ex)
             {
+                MessageBox.Show(ex.Message.ToString());
                 notificationString = "Lỗi: " + ex.HResult.ToString();
             }
 
@@ -521,6 +531,284 @@ namespace PnC_Insurance.ViewModel
             IsDeletedEmployeeDialogOpen = false;
             await Task.Delay(1000);
             IsEmployeeFlipped = false;
+        }
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        #region Agent
+
+        #region Agent Search        
+        [ObservableProperty]
+        private bool isAgentFlipped = false;
+
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(SearchAgentCommand))]
+        private string? agentSearch;
+
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(FetchAgentCommand))]
+        [NotifyCanExecuteChangedFor(nameof(EditAgentCommand))]
+        [NotifyCanExecuteChangedFor(nameof(DeleteAgentCommand))]
+        private Agent? selectedAgent;
+
+        private List<Agent> listOfAgents = new List<Agent>();
+        public List<Agent>? ListOfAgents
+        {
+            get
+            {
+                return new List<Agent>(listOfAgents);
+            }
+        }
+
+        [RelayCommand(CanExecute = nameof(CanSearchAgent))]
+        private async Task SearchAgentAsync()
+        {
+            var result = await Task.Run(() =>
+            {
+                using (var context = new InsuranceDbContext())
+                {
+                    var query = from Agent in context.Agents
+                                where Agent.IsDeleted == 0 &&
+                                      (EF.Functions.Like(Agent.Urn, "%" + AgentSearch + "%") ||
+                                      EF.Functions.Like(Agent.FullName, "%" + AgentSearch + "%") ||
+                                      EF.Functions.Like(Agent.Dept.Name, "%" + AgentSearch + "%"))
+                                orderby Agent.Id
+                                select Agent;
+
+                    return query.Include("Dept").ToListAsync();
+                }
+            });
+
+            listOfAgents = result;
+            OnPropertyChanged(nameof(ListOfAgents));
+        }
+
+        private bool CanSearchAgent()
+        {
+            if (!String.IsNullOrEmpty(AgentSearch) && !String.IsNullOrWhiteSpace(AgentSearch))
+                return true;
+
+            return false;
+        }
+
+        [RelayCommand(CanExecute = nameof(CanFetchAgent))]
+        private void FetchAgent()
+        {
+            EditingAgentUrn = SelectedAgent.Urn;
+            EditingAgentName = SelectedAgent.FullName;
+
+            OnPropertyChanged(nameof(ListOfDepartmentsOfAgent));
+
+            EditingDepartmentOfAgent = SelectedAgent.Dept;
+            IsAgentFlipped = true;
+        }
+
+        private bool CanFetchAgent()
+        {
+            if (SelectedAgent != null)
+                return true;
+
+            return false;
+        }
+
+        #endregion
+
+        #region Agent Modify
+        public List<Department>? ListOfDepartmentsOfAgent
+        {
+            get
+            {
+                using (var context = new InsuranceDbContext())
+                {
+                    var query = from department in context.Departments
+                                where department.IsDeleted == 0
+                                orderby department.Id
+                                select department;
+
+                    var result = query.ToList();
+
+                    if (SelectedAgent != null)
+                        result.Add(SelectedAgent.Dept);
+
+                    return result;
+
+                }
+            }
+        }
+
+        [ObservableProperty]
+        [Required(ErrorMessage = "Chọn Phòng")]
+        [NotifyDataErrorInfo]
+        [NotifyCanExecuteChangedFor(nameof(EditAgentCommand))]
+        private Department? editingDepartmentOfAgent;
+
+        [ObservableProperty]
+        private SnackbarMessageQueue? editAgentResultNotification;
+
+        [ObservableProperty]
+        [Required(ErrorMessage = "Nhập số URN")]
+        [RegularExpression(@"^[0-9a-zA-Z]+$", ErrorMessage = "Số URN không bao gồm kí tự đặc biệt")]
+        [NotifyDataErrorInfo]
+        [NotifyCanExecuteChangedFor(nameof(EditAgentCommand))]
+        private string? editingAgentUrn;
+
+        [ObservableProperty]
+        [Required(ErrorMessage = "Nhập Họ và tên Nhân viên")]
+        [NotifyDataErrorInfo]
+        [NotifyCanExecuteChangedFor(nameof(EditAgentCommand))]
+        private string? editingAgentName;
+
+        [RelayCommand]
+        private void AgentFlipBack()
+        {
+            IsAgentFlipped = false;
+        }
+
+        #region Edit Part
+
+        [RelayCommand(CanExecute = nameof(CanEditAgent))]
+        private async Task EditAgentAsync()
+        {
+            EditAgentResultNotification = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
+
+            var editingAgent = new Agent()
+            {
+                Id = SelectedAgent.Id,
+                Urn = EditingAgentUrn,
+                FullName = EditingAgentName,
+                DeptId = EditingDepartmentOfAgent.Id,
+            };
+
+            string notificationString = "";
+
+            try
+            {
+                notificationString = await Task.Run(async () =>
+                {
+                    using (var context = new InsuranceDbContext())
+                    {
+                        if (SelectedAgent != null && editingAgent != null)
+                        {
+                            var query = from Agent in context.Agents
+                                        where Agent.Id == SelectedAgent.Id
+                                        orderby Agent.Id
+                                        select Agent;
+
+                            if (query.Any())
+                            {
+                                var changeAgent = await query.FirstOrDefaultAsync();
+
+                                changeAgent.Urn = editingAgent.Urn;
+                                changeAgent.FullName = editingAgent.FullName;
+                                changeAgent.DeptId = editingAgent.DeptId;
+
+                                await context.SaveChangesAsync();
+                            }
+                        }
+                    }
+
+                    return "Đã sửa thông tin Đại lý";
+                });
+
+                await SearchAgentAsync();
+                IsAgentFlipped = false;
+            }
+            catch (DbUpdateException ex)
+            {
+                var sqlException = ex.InnerException as SqliteException;
+
+                if (sqlException.SqliteErrorCode == 19)
+                {
+                    notificationString = "Số URN này đã tồn tại";
+                }
+                else
+                {
+                    notificationString = "Lỗi CSDL: " + sqlException.SqliteErrorCode;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString());
+                notificationString = "Lỗi: " + ex.HResult.ToString();
+            }
+
+            EditAgentResultNotification.Enqueue(notificationString);
+        }
+
+        private bool CanEditAgent()
+        {
+            if (SelectedAgent != null &&
+                (SelectedAgent.Urn != EditingAgentUrn ||
+                SelectedAgent.FullName != EditingAgentName ||
+                SelectedAgent.Dept != EditingDepartmentOfAgent) &&
+                !GetErrors(nameof(EditingAgentUrn)).Any() &&
+                !GetErrors(nameof(EditingAgentName)).Any() &&
+                !GetErrors(nameof(EditingDepartmentOfAgent)).Any()
+                )
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        #endregion
+
+        #region Delete Part
+
+        [ObservableProperty]
+        private bool isDeletedAgentDialogOpen = false;
+
+        [RelayCommand]
+        private async Task DeleteAgentAsync()
+        {
+            EditAgentResultNotification = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
+            string notificationString = "";
+
+            try
+            {
+                notificationString = await Task.Run(async () =>
+                {
+                    using (var context = new InsuranceDbContext())
+                    {
+                        if (SelectedAgent != null)
+                        {
+                            var query = from Agent in context.Agents
+                                        where Agent.Id == SelectedAgent.Id
+                                        select Agent;
+
+                            if (query.Any())
+                            {
+                                var deleteAgent = await query.FirstOrDefaultAsync();
+                                deleteAgent.IsDeleted = 1;
+                                await context.SaveChangesAsync();
+                            }
+                        }
+                    }
+
+                    return "Đã xóa Nhân viên";
+                });
+            }
+            catch (DbUpdateException ex)
+            {
+                var sqlException = ex.InnerException as SqliteException;
+                notificationString = "Lỗi CSDL: " + sqlException.SqliteErrorCode;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString());
+                notificationString = "Lỗi: " + ex.HResult.ToString();
+            }
+
+            await SearchAgentAsync();
+            EditAgentResultNotification.Enqueue(notificationString);
+            IsDeletedAgentDialogOpen = false;
+            await Task.Delay(1000);
+            IsAgentFlipped = false;
         }
 
         #endregion
