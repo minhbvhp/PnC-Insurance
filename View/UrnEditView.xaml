@@ -105,7 +105,7 @@
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Binding="{Binding Urn}" Width="Auto" Header="URN"/>
 
-                                    <DataGridTextColumn Binding="{Binding Name}" Header="Tên Phòng"/>
+                                    <DataGridTextColumn Binding="{Binding Name}" Width="Auto" Header="Tên Phòng"/>
                                 </DataGrid.Columns>
                             </DataGrid>
 
@@ -262,9 +262,9 @@
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Binding="{Binding Urn}" Width="Auto" Header="URN"/>
 
-                                    <DataGridTextColumn Binding="{Binding FullName}" Header="Họ tên"/>
+                                    <DataGridTextColumn Binding="{Binding FullName}" Width="Auto" Header="Họ tên"/>
 
-                                    <DataGridTextColumn Binding="{Binding Dept.Name}" Header="Phòng">
+                                    <DataGridTextColumn Binding="{Binding Dept.Name}" Width="Auto" Header="Phòng">
                                         <DataGridTextColumn.ElementStyle>
                                             <Style TargetType="TextBlock">
                                                 <Style.Triggers>
@@ -359,10 +359,11 @@
                                              materialDesign:HintAssist.Hint="Họ và tên"/>
 
                                     <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"                                              
-                                              ItemsSource="{Binding ListOfDepartmentsOfEmployee}"
-                                              SelectedItem="{Binding DepartmentOfEmployee, UpdateSourceTrigger=PropertyChanged}"
-                                              Width="260" HorizontalAlignment="Left"
+                                              ItemsSource="{Binding ListOfDepartmentsOfEmployee,IsAsync=True}"
+                                              SelectedItem="{Binding EditingDepartmentOfEmployee, UpdateSourceTrigger=PropertyChanged}"                                              
                                               materialDesign:ValidationAssist.Background="Transparent"
+                                              DisplayMemberPath="Name"
+                                              HorizontalAlignment="Stretch"
                                               materialDesign:HintAssist.Hint="Phòng"/>
 
                                 </StackPanel>

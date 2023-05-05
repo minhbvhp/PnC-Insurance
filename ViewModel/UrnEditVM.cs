@@ -298,7 +298,7 @@ namespace PnC_Insurance.ViewModel
             });
 
             listOfEmployees = result;
-            OnPropertyChanged(nameof(ListOfEmployees));
+            OnPropertyChanged(nameof(ListOfEmployees));            
         }
 
         private bool CanSearchEmployee()
@@ -314,6 +314,10 @@ namespace PnC_Insurance.ViewModel
         {
             EditingEmployeeUrn = SelectedEmployee.Urn;
             EditingEmployeeName = SelectedEmployee.FullName;
+
+            OnPropertyChanged(nameof(ListOfDepartmentsOfEmployee));
+
+            EditingDepartmentOfEmployee = SelectedEmployee.Dept;
             IsEmployeeFlipped = true;
         }
 
@@ -328,6 +332,34 @@ namespace PnC_Insurance.ViewModel
         #endregion
 
         #region Employee Modify
+        public List<Department>? ListOfDepartmentsOfEmployee
+        {
+            get
+            {
+                using (var context = new InsuranceDbContext())
+                {
+                    var query = from department in context.Departments
+                                where department.IsDeleted == 0
+                                orderby department.Id
+                                select department;
+
+                    var result = query.ToList();
+
+                    if (SelectedEmployee != null)
+                        result.Add(SelectedEmployee.Dept);
+
+                    return result;
+
+                }
+            }
+        }
+
+        [ObservableProperty]
+        [Required(ErrorMessage = "Chọn Phòng")]
+        [NotifyDataErrorInfo]
+        [NotifyCanExecuteChangedFor(nameof(EditEmployeeCommand))]
+        private Department? editingDepartmentOfEmployee;
+
         [ObservableProperty]
         private SnackbarMessageQueue? editEmployeeResultNotification;
 
@@ -362,6 +394,7 @@ namespace PnC_Insurance.ViewModel
                 Id = SelectedEmployee.Id,
                 Urn = EditingEmployeeUrn,
                 FullName = EditingEmployeeName,
+                Dept = EditingDepartmentOfEmployee,
             };
 
             string notificationString = "";
@@ -385,6 +418,7 @@ namespace PnC_Insurance.ViewModel
 
                                 changeEmployee.Urn = editingEmployee.Urn;
                                 changeEmployee.FullName = editingEmployee.FullName;
+                                changeEmployee.Dept = editingEmployee.Dept;
 
                                 await context.SaveChangesAsync();
                             }
@@ -422,9 +456,11 @@ namespace PnC_Insurance.ViewModel
         {
             if (SelectedEmployee != null &&
                 (SelectedEmployee.Urn != EditingEmployeeUrn ||
-                SelectedEmployee.FullName != EditingEmployeeName) &&
+                SelectedEmployee.FullName != EditingEmployeeName ||
+                SelectedEmployee.Dept != EditingDepartmentOfEmployee) &&
                 !GetErrors(nameof(EditingEmployeeUrn)).Any() &&
-                !GetErrors(nameof(EditingEmployeeName)).Any()
+                !GetErrors(nameof(EditingEmployeeName)).Any() &&
+                !GetErrors(nameof(EditingDepartmentOfEmployee)).Any()
                 )
             {
                 return true;
