@@ -289,24 +289,27 @@ namespace PnC_Insurance.ViewModel
         [RelayCommand(CanExecute = nameof(CanSearchEmployee))]
         private async Task SearchEmployeeAsync()
         {
-            var result = await Task.Run(() =>
+            if (!String.IsNullOrEmpty(EmployeeSearch) && !String.IsNullOrWhiteSpace(EmployeeSearch))
             {
-                using (var context = new InsuranceDbContext())
+                var result = await Task.Run(() =>
                 {
-                    var query = from employee in context.Employees.AsNoTracking()
-                                where employee.IsDeleted == 0 &&
-                                      (EF.Functions.Like(employee.Urn, "%" + EmployeeSearch + "%") ||
-                                      EF.Functions.Like(employee.FullName, "%" + EmployeeSearch + "%") ||
-                                      EF.Functions.Like(employee.Dept.Name, "%" + EmployeeSearch + "%"))
-                                orderby employee.Id
-                                select employee;
+                    using (var context = new InsuranceDbContext())
+                    {
+                        var query = from employee in context.Employees.AsNoTracking()
+                                    where employee.IsDeleted == 0 &&
+                                          (EF.Functions.Like(employee.Urn, "%" + EmployeeSearch + "%") ||
+                                          EF.Functions.Like(employee.FullName, "%" + EmployeeSearch + "%") ||
+                                          EF.Functions.Like(employee.Dept.Name, "%" + EmployeeSearch + "%"))
+                                    orderby employee.Id
+                                    select employee;
 
-                    return query.Include("Dept").ToListAsync();
-                }
-            });
+                        return query.Include("Dept").ToListAsync();
+                    }
+                });
 
-            listOfEmployees = result;
-            OnPropertyChanged(nameof(ListOfEmployees));            
+                listOfEmployees = result;
+                OnPropertyChanged(nameof(ListOfEmployees));            
+            }
         }
 
         private bool CanSearchEmployee()
@@ -567,24 +570,27 @@ namespace PnC_Insurance.ViewModel
         [RelayCommand(CanExecute = nameof(CanSearchAgent))]
         private async Task SearchAgentAsync()
         {
-            var result = await Task.Run(() =>
+            if (!String.IsNullOrEmpty(AgentSearch) && !String.IsNullOrWhiteSpace(AgentSearch))
             {
-                using (var context = new InsuranceDbContext())
+                var result = await Task.Run(() =>
                 {
-                    var query = from Agent in context.Agents
-                                where Agent.IsDeleted == 0 &&
-                                      (EF.Functions.Like(Agent.Urn, "%" + AgentSearch + "%") ||
-                                      EF.Functions.Like(Agent.FullName, "%" + AgentSearch + "%") ||
-                                      EF.Functions.Like(Agent.Dept.Name, "%" + AgentSearch + "%"))
-                                orderby Agent.Id
-                                select Agent;
+                    using (var context = new InsuranceDbContext())
+                    {
+                        var query = from Agent in context.Agents
+                                    where Agent.IsDeleted == 0 &&
+                                          (EF.Functions.Like(Agent.Urn, "%" + AgentSearch + "%") ||
+                                          EF.Functions.Like(Agent.FullName, "%" + AgentSearch + "%") ||
+                                          EF.Functions.Like(Agent.Dept.Name, "%" + AgentSearch + "%"))
+                                    orderby Agent.Id
+                                    select Agent;
 
-                    return query.Include("Dept").ToListAsync();
-                }
-            });
+                        return query.Include("Dept").ToListAsync();
+                    }
+                });
 
-            listOfAgents = result;
-            OnPropertyChanged(nameof(ListOfAgents));
+                listOfAgents = result;
+                OnPropertyChanged(nameof(ListOfAgents));
+            }
         }
 
         private bool CanSearchAgent()
