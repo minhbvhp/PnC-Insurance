@@ -53,7 +53,7 @@
                                      Text="{Binding NewName, UpdateSourceTrigger=PropertyChanged}" 
                                      materialDesign:ValidationAssist.Background="Transparent"
                                      Margin="0 0 0 30" Width="380" HorizontalAlignment="Left"
-                                     materialDesign:HintAssist.Hint="Tên Công ty"/>
+                                     materialDesign:HintAssist.Hint="Tên Khách hàng"/>
 
                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                      Text="{Binding NewAddress, UpdateSourceTrigger=PropertyChanged}" 
@@ -66,7 +66,6 @@
                                      materialDesign:ValidationAssist.Background="Transparent"
                                      Margin="0 0 0 30" Width="380" HorizontalAlignment="Left"
                                      materialDesign:HintAssist.Hint="Ngành nghề kinh doanh"/>
-
 
                 </StackPanel>
 
@@ -114,7 +113,7 @@
                                      Text="{Binding NewNameEn, UpdateSourceTrigger=PropertyChanged}" 
                                      materialDesign:ValidationAssist.Background="Transparent"
                                      Margin="0 0 0 30" Width="380" HorizontalAlignment="Left"
-                                     materialDesign:HintAssist.Hint="Tên Công ty (Tiếng Anh)"/>
+                                     materialDesign:HintAssist.Hint="Tên Khách hàng (Tiếng Anh)"/>
 
                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                      Text="{Binding NewAddressEn, UpdateSourceTrigger=PropertyChanged}" 
@@ -140,6 +139,11 @@
                 materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding AddNewCustomerCommand.IsRunning}">
             <materialDesign:PackIcon Kind="Add"/>
         </Button>
+
+        <materialDesign:Snackbar Grid.ColumnSpan="2" Grid.Row="1" 
+                                 Background="Black" Foreground="White" 
+                                 HorizontalAlignment="Center"
+                                 MessageQueue="{Binding ResultNotification}"/>
 
     </Grid>
 </UserControl>

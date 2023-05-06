@@ -51,8 +51,15 @@ namespace PnC_Insurance.ViewModel
         {
             CustomMenuItems = new ObservableCollection<CustomMenuItem>();
             CustomMenuItems.Add(new CustomMenuItem(new BaseVM(), "BẢN CHÀO", PackIconKind.AlphaQBoxOutline));
-            CustomMenuItems.Add(new CustomMenuItem(new BaseVM(), "GIẤY CHỨNG NHẬN", PackIconKind.FileDocumentCheck));
-            CustomMenuItems.Add(new CustomMenuItem(new BaseVM(), "HỢP ĐỒNG", PackIconKind.FileSign));
+            CustomMenuItems.Add(new CustomMenuItem(new BaseVM(), "GIẤY CHỨNG NHẬN", PackIconKind.FileDocumentCheck));           
+
+            CustomMenuItems.Add(new CustomMenuItem("HỢP ĐỒNG", PackIconKind.FileSign
+                                , new List<CustomSubItem>
+                                {
+                                    new CustomSubItem(new CustomerInfoVM(), "Khách hàng"),
+                                    new CustomSubItem(new UrnInfoVM(), "URN"),
+                                    new CustomSubItem(new ExtensionInfoVM(), "Điều khoản bổ sung"),
+                                }));
 
             CustomMenuItems.Add(new CustomMenuItem("KHÁCH HÀNG", PackIconKind.AccountCircleOutline
                                 , new List<CustomSubItem>

@@ -18,39 +18,43 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Grid Background="#354F52">
-            <StackPanel>
-                <ListView FontSize="18" FontWeight="DemiBold" ItemsSource="{Binding CustomMenuItems}"
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <Grid Background="#354F52">
+                <StackPanel>
+                    <ListView FontSize="18" FontWeight="DemiBold" ItemsSource="{Binding CustomMenuItems}"
                           HorizontalContentAlignment="Stretch">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <Expander Header="{Binding}" Background="Transparent">
-                                <Expander.HeaderTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal" Height="50">
-                                            <materialDesign:PackIcon Kind="{Binding IconKind}" Margin="0 0 20 0" Width="35" Height="35" VerticalAlignment="Center"/>
-                                            <TextBlock Text="{Binding Label}" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="17" FontFamily="{StaticResource MaterialDesignFont}"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </Expander.HeaderTemplate>
-
-                                <ListView ItemsSource="{Binding CustomSubItems}"
-                                          SelectedValue="{Binding Path=DataContext.SubItemSelected, RelativeSource={RelativeSource AncestorType=ListView}, UpdateSourceTrigger=PropertyChanged}">
-                                    <ListView.ItemTemplate>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Expander Header="{Binding}" Background="Transparent">
+                                    <Expander.HeaderTemplate>
                                         <DataTemplate>
-                                            <StackPanel Orientation="Horizontal" Margin="20 0 0 0" VerticalAlignment="Center">
-                                                <TextBlock Style="{StaticResource MaterialDesignSubtitle2TextBlock}" Text="{Binding Label}"
-                                                           VerticalAlignment="Center" TextWrapping="Wrap" FontSize="16" FontWeight="Light" FontFamily="{StaticResource MaterialDesignFont}"/>
+                                            <StackPanel Orientation="Horizontal" Height="50">
+                                                <materialDesign:PackIcon Kind="{Binding IconKind}" Margin="0 0 20 0" Width="35" Height="35" VerticalAlignment="Center"/>
+                                                <TextBlock Text="{Binding Label}" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="17" FontFamily="{StaticResource MaterialDesignFont}"/>
                                             </StackPanel>
                                         </DataTemplate>
-                                    </ListView.ItemTemplate>
-                                </ListView>
-                            </Expander>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </StackPanel>
-        </Grid>
+                                    </Expander.HeaderTemplate>
+
+                                    <ListView ItemsSource="{Binding CustomSubItems}"
+                                          SelectedValue="{Binding Path=DataContext.SubItemSelected, RelativeSource={RelativeSource AncestorType=ListView}, UpdateSourceTrigger=PropertyChanged}">
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" Margin="20 0 0 0" VerticalAlignment="Center">
+                                                    <TextBlock Style="{StaticResource MaterialDesignSubtitle2TextBlock}" Text="{Binding Label}"
+                                                           VerticalAlignment="Center" TextWrapping="Wrap" FontSize="16" FontWeight="Light" FontFamily="{StaticResource MaterialDesignFont}"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+                                </Expander>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+
+        
 
         <Grid Grid.Column="1" Background="#CAD2C5">
             <Grid.RowDefinitions>
