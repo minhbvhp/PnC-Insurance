@@ -41,6 +41,10 @@
                 <view:UrnEditView/>
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type viewmodel:CustomerCreateVM}">
+                <view:CustomerCreateView/>
+            </DataTemplate>
+
             <SolidColorBrush  Color="#f8e16c" x:Key="txtColor" />
             <SolidColorBrush  Color="#354F52" x:Key="bgColor" />
 

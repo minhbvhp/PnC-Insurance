@@ -15,9 +15,131 @@
 
         <Grid.RowDefinitions>
             <RowDefinition/>
-            <RowDefinition Height="80"/>
+            <RowDefinition Height="100"/>
         </Grid.RowDefinitions>
-        
-        
+
+
+        <Border Grid.Column="0" Grid.Row="0" BorderBrush="White" 
+                BorderThickness="0.8" Padding="20 20 20 50" Margin="10 0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="70"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" HorizontalAlignment="Center">
+                    <TextBlock Text="Thông tin bắt buộc" FontSize="20" Foreground="#1A5F7A"
+                           FontWeight="Bold" FontFamily="{StaticResource MaterialDesignFont}">
+                        <TextBlock.Effect>
+                            <DropShadowEffect ShadowDepth="4"
+                                          Direction="330"
+                                          Color="Black"
+                                          Opacity="0.3"
+                                          BlurRadius="5"/>
+                        </TextBlock.Effect>
+                    </TextBlock>
+                </StackPanel>
+
+                
+
+                <StackPanel Grid.Row="1" HorizontalAlignment="Center">
+                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                     Text="{Binding NewTaxCode, UpdateSourceTrigger=PropertyChanged}" 
+                                     materialDesign:ValidationAssist.Background="Transparent"
+                                     Margin="0 0 0 30" Width="380" HorizontalAlignment="Left"
+                                     materialDesign:HintAssist.Hint="Mã số thuế"/>
+                    
+                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                     Text="{Binding NewName, UpdateSourceTrigger=PropertyChanged}" 
+                                     materialDesign:ValidationAssist.Background="Transparent"
+                                     Margin="0 0 0 30" Width="380" HorizontalAlignment="Left"
+                                     materialDesign:HintAssist.Hint="Tên Công ty"/>
+
+                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                     Text="{Binding NewAddress, UpdateSourceTrigger=PropertyChanged}" 
+                                     materialDesign:ValidationAssist.Background="Transparent"
+                                     Margin="0 0 0 30" Width="380" HorizontalAlignment="Left"
+                                     materialDesign:HintAssist.Hint="Địa chỉ"/>
+
+                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                     Text="{Binding NewBusiness, UpdateSourceTrigger=PropertyChanged}" 
+                                     materialDesign:ValidationAssist.Background="Transparent"
+                                     Margin="0 0 0 30" Width="380" HorizontalAlignment="Left"
+                                     materialDesign:HintAssist.Hint="Ngành nghề kinh doanh"/>
+
+
+                </StackPanel>
+
+
+            </Grid>
+        </Border>
+
+        <Border Grid.Column="1" Grid.Row="0" BorderBrush="White" 
+                BorderThickness="0.8" Padding="20 20 20 50" Margin="10 0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="70"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" HorizontalAlignment="Center">
+                    <TextBlock Text="Bổ sung sau" FontSize="20" Foreground="#1A5F7A"
+                           FontWeight="Bold" FontFamily="{StaticResource MaterialDesignFont}">
+                        <TextBlock.Effect>
+                            <DropShadowEffect ShadowDepth="4"
+                                          Direction="330"
+                                          Color="Black"
+                                          Opacity="0.3"
+                                          BlurRadius="5"/>
+                        </TextBlock.Effect>
+                    </TextBlock>
+                </StackPanel>
+
+
+
+                <StackPanel Grid.Row="1" HorizontalAlignment="Center">
+                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                     Text="{Binding NewBusinessCode, UpdateSourceTrigger=PropertyChanged}" 
+                                     materialDesign:ValidationAssist.Background="Transparent"
+                                     Margin="0 0 0 30" Width="380" HorizontalAlignment="Left"
+                                     materialDesign:HintAssist.Hint="Mã ngành"/>
+
+                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                     Text="{Binding NewClientCode, UpdateSourceTrigger=PropertyChanged}" 
+                                     materialDesign:ValidationAssist.Background="Transparent"
+                                     Margin="0 0 0 30" Width="380" HorizontalAlignment="Left"
+                                     materialDesign:HintAssist.Hint="Mã khách hàng"/>
+
+                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                     Text="{Binding NewNameEn, UpdateSourceTrigger=PropertyChanged}" 
+                                     materialDesign:ValidationAssist.Background="Transparent"
+                                     Margin="0 0 0 30" Width="380" HorizontalAlignment="Left"
+                                     materialDesign:HintAssist.Hint="Tên Công ty (Tiếng Anh)"/>
+
+                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                     Text="{Binding NewAddressEn, UpdateSourceTrigger=PropertyChanged}" 
+                                     materialDesign:ValidationAssist.Background="Transparent"
+                                     Margin="0 0 0 30" Width="380" HorizontalAlignment="Left"
+                                     materialDesign:HintAssist.Hint="Địa chỉ (Tiếng Anh)"/>
+
+                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                     Text="{Binding NewBusinessEn, UpdateSourceTrigger=PropertyChanged}" 
+                                     materialDesign:ValidationAssist.Background="Transparent"
+                                     Margin="0 0 0 30" Width="380" HorizontalAlignment="Left"
+                                     materialDesign:HintAssist.Hint="Ngành nghề kinh doanh (Tiếng Anh)"/>
+
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Button Grid.ColumnSpan="2" Grid.Row="1" FontSize="18" 
+                HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="30 0"
+                Style="{StaticResource MaterialDesignFloatingActionDarkButton}" 
+                Command="{Binding AddNewCustomerCommand}"
+                materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+                materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding AddNewCustomerCommand.IsRunning}">
+            <materialDesign:PackIcon Kind="Add"/>
+        </Button>
+
     </Grid>
 </UserControl>
