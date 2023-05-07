@@ -8,9 +8,12 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using static System.Runtime.CompilerServices.RuntimeHelpers;
+using System.Xml.Linq;
 
 namespace PnC_Insurance.ViewModel
 {
@@ -50,6 +53,27 @@ namespace PnC_Insurance.ViewModel
 
         [ObservableProperty]
         private Customer? selectedCustomer;
+
+        partial void OnSelectedCustomerChanged(Customer? value)
+        {
+            if (value != null)
+            {
+                EditingTaxCode = value.TaxCode;
+                EditingName = value.Name;
+                EditingAddress = value.Address;
+                EditingBusiness = value.Business;
+                EditingBusinessCode = value.BusinessCode;
+                EditingClientCode = value.ClientCode;
+                EditingNameEn = value.NameEn;
+                EditingAddressEn = value.AddressEn;
+                EditingBusinessEn = value.BusinessEn;
+            }
+            else
+            {
+                StartOver();
+            }
+        }
+
         #endregion
 
         #region Edit Customer
@@ -152,6 +176,7 @@ namespace PnC_Insurance.ViewModel
                         }
                     }
 
+                    CustomerSearch = null;
                     return "Đã sửa thông tin Khách hàng";
                 });
 
@@ -176,7 +201,7 @@ namespace PnC_Insurance.ViewModel
                 notificationString = "Lỗi: " + ex.HResult.ToString();
             }
 
-            ResultNotification.Enqueue(notificationString);
+            ResultNotification.Enqueue(notificationString);            
         }
 
         private bool CanEditCustomerCommand()
