@@ -19,7 +19,7 @@
         </Grid.RowDefinitions>
 
 
-        <Border Grid.Column="0" Grid.Row="0" BorderBrush="White" 
+        <Border Grid.Column="0" Grid.Row="0" BorderBrush="#354f52" 
                 BorderThickness="0.8" Padding="20 20 20 50" Margin="10 0">
             <Grid>
                 <Grid.RowDefinitions>
@@ -75,7 +75,7 @@
             </Grid>
         </Border>
 
-        <Border Grid.Column="1" Grid.Row="0" BorderBrush="White" 
+        <Border Grid.Column="1" Grid.Row="0" BorderBrush="#354f52" 
                 BorderThickness="0.8" Padding="20 20 20 50" Margin="10 0">
             <Grid>
                 <Grid.RowDefinitions>

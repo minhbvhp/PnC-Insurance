@@ -105,7 +105,7 @@ namespace PnC_Insurance.ViewModel
         {
             ResultNotification = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
 
-            var addingCustomer = new Customer()
+            var editingCustomer = new Customer()
             {
                 TaxCode = EditingTaxCode,
                 Name = EditingName,
@@ -126,8 +126,30 @@ namespace PnC_Insurance.ViewModel
                 {
                     using (var context = new InsuranceDbContext())
                     {
-                        //await context.Customers.AddAsync(addingCustomer);
-                        //await context.SaveChangesAsync();
+                        if (SelectedCustomer != null && editingCustomer != null)
+                        {
+                            var query = from customer in context.Customers
+                                        where customer.Id == SelectedCustomer.Id
+                                        orderby customer.Id
+                                        select customer;
+
+                            if (query.Any())
+                            {
+                                var changeCustomer = await query.FirstOrDefaultAsync();
+
+                                changeCustomer.TaxCode = editingCustomer.TaxCode;
+                                changeCustomer.Name = editingCustomer.Name;
+                                changeCustomer.Address = editingCustomer.Address;
+                                changeCustomer.Business = editingCustomer.Business;
+                                changeCustomer.BusinessCode = editingCustomer.BusinessCode;
+                                changeCustomer.ClientCode = editingCustomer.ClientCode;
+                                changeCustomer.NameEn = editingCustomer.NameEn;
+                                changeCustomer.AddressEn = editingCustomer.AddressEn;
+                                changeCustomer.BusinessEn = editingCustomer.BusinessEn;
+
+                                await context.SaveChangesAsync();
+                            }
+                        }
                     }
 
                     return "Đã sửa thông tin Khách hàng";

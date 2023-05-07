@@ -16,7 +16,7 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Column="0" Margin="0 0 15 0">
-            <Border BorderBrush="White" BorderThickness="0.8" Padding="20">
+            <Border BorderBrush="#354f52" BorderThickness="0.8" Padding="20">
                 <Grid Height="450" DockPanel.Dock="Left">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="70"/>
@@ -74,7 +74,7 @@
         </StackPanel>
 
         <StackPanel Grid.Column="1" Margin="0 0 15 0">
-            <Border BorderBrush="White" BorderThickness="0.8" Padding="20">
+            <Border BorderBrush="#354f52" BorderThickness="0.8" Padding="20">
                 <Grid Height="450" DockPanel.Dock="Left">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="70"/>
@@ -139,7 +139,7 @@
         </StackPanel>
 
         <StackPanel Grid.Column="2" Margin="0 0 15 0">
-            <Border BorderBrush="White" BorderThickness="0.8" Padding="20">
+            <Border BorderBrush="#354f52" BorderThickness="0.8" Padding="20">
                 <Grid Height="450" DockPanel.Dock="Left">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="70"/>
