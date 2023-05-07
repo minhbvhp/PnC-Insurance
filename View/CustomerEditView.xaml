@@ -89,7 +89,7 @@
                      materialDesign:TextFieldAssist.HasClearButton="True"/>
         </StackPanel>
 
-        <Border Grid.ColumnSpan="2" Grid.Row="1" BorderBrush="#354f52" BorderThickness="0 0.3 0 0" Width="800" Margin="0 30 0 0"/>
+        <Border Grid.ColumnSpan="2" Grid.Row="1" BorderBrush="#354f52" BorderThickness="0 0.3 0 0" Margin="30 30 30 0"/>
 
         <StackPanel Grid.ColumnSpan="2" Grid.Row="1" Margin="0 40 0 0" HorizontalAlignment="Stretch" VerticalAlignment="Center">
             <TextBlock Text="THÔNG TIN KHÁC" FontSize="20" Foreground="#1A5F7A" HorizontalAlignment="Center"
