@@ -45,6 +45,10 @@
                 <view:CustomerCreateView/>
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type viewmodel:CustomerEditVM}">
+                <view:CustomerEditView/>
+            </DataTemplate>
+
             <SolidColorBrush  Color="#f8e16c" x:Key="txtColor" />
             <SolidColorBrush  Color="#354F52" x:Key="bgColor" />
 

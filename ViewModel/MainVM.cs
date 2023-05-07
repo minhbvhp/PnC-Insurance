@@ -19,6 +19,9 @@ namespace PnC_Insurance.ViewModel
         {
             switch (value.ContentViewModels)
             {
+                case CustomerEditVM custEditVM:
+                    SelectedVM = new CustomerEditVM();
+                    break;
                 case CustomerCreateVM custCreateVM:
                     SelectedVM = new CustomerCreateVM();
                     break;
@@ -65,7 +68,7 @@ namespace PnC_Insurance.ViewModel
                                 , new List<CustomSubItem>
                                 {
                                     new CustomSubItem(new CustomerCreateVM(), "Tạo mới"),
-                                    
+                                    new CustomSubItem(new CustomerEditVM(), "Sửa"),
                                 }));
 
             CustomMenuItems.Add(new CustomMenuItem("URN", PackIconKind.QrcodeScan

@@ -663,7 +663,7 @@ namespace PnC_Insurance.ViewModel
         private string? editingAgentUrn;
 
         [ObservableProperty]
-        [Required(ErrorMessage = "Nhập Họ và tên Nhân viên")]
+        [Required(ErrorMessage = "Nhập Họ và tên Đại lý")]
         [NotifyDataErrorInfo]
         [NotifyCanExecuteChangedFor(nameof(EditAgentCommand))]
         private string? editingAgentName;
@@ -796,7 +796,7 @@ namespace PnC_Insurance.ViewModel
                         }
                     }
 
-                    return "Đã xóa Nhân viên";
+                    return "Đã xóa Đại lý";
                 });
             }
             catch (DbUpdateException ex)
