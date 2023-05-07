@@ -145,8 +145,16 @@
         </StackPanel>
 
         <StackPanel Grid.ColumnSpan="2" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Content="Sửa" Margin="30 0" Command="{Binding EditCustomerCommand}"/>
-            <Button Content="Xóa" Margin="30 0"/>
+            <Button Style="{StaticResource MaterialDesignFloatingActionDarkButton}"
+                    Margin="30 0" Command="{Binding EditCustomerCommand}">
+                <materialDesign:PackIcon Kind="ModeEdit"/>
+            </Button>
+
+            <Button Style="{StaticResource MaterialDesignFloatingActionAccentButton}"
+                    Background="OrangeRed"
+                    Margin="30 0" Command="{Binding DeleteCustomerCommand}">
+                <materialDesign:PackIcon Kind="Trash"/>
+            </Button>
         </StackPanel>
 
         <materialDesign:Snackbar Grid.ColumnSpan="2" Grid.Row="3" 

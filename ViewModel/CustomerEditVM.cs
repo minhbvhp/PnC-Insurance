@@ -231,6 +231,11 @@ namespace PnC_Insurance.ViewModel
         }
         #endregion
         #endregion
+
+        public CustomerEditVM()
+        {
+            StartOver();
+        }
     }
 }
         
