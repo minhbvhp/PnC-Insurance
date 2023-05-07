@@ -39,9 +39,7 @@
                         </TextBlock.Effect>
                     </TextBlock>
                 </StackPanel>
-
                 
-
                 <StackPanel Grid.Row="1" HorizontalAlignment="Stretch" Margin="10 0">
                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              Text="{Binding NewTaxCode, UpdateSourceTrigger=PropertyChanged}" 

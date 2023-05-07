@@ -4,23 +4,24 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PnC_Insurance.View"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" Foreground="Teal" FontSize="15"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" Foreground="Teal" FontSize="14"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="1000">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="400"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
         
-        <StackPanel Grid.Row="0">
+        <StackPanel Grid.Column="0">
             <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                
-                <StackPanel Grid.Column="0" Margin="10 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="320"/>
+                    <RowDefinition Height="160"/>
+                    <RowDefinition Height="160"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Margin="10 0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <TextBox Width="380" HorizontalAlignment="Left" Margin="0 0 0 15"
                       Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                      Text="{Binding CustomerSearch, UpdateSourceTrigger=PropertyChanged}">
@@ -34,48 +35,23 @@
 
                     <DataGrid ItemsSource="{Binding ListOfCustomers, IsAsync=True}"
                               SelectedItem="{Binding SelectedCustomer, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                              AutoGenerateColumns="False" VerticalAlignment="Top" SelectionMode="Single"
-                              IsReadOnly="True" HeadersVisibility="All"
-                              ColumnWidth="*" MaxHeight="400">
+                              AutoGenerateColumns="False" SelectionMode="Single"
+                              IsReadOnly="True" HeadersVisibility="All" ColumnWidth="*" MaxHeight="300">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding TaxCode}" Header="MST"/>
+                            <DataGridTextColumn Binding="{Binding TaxCode}" Width="Auto" Header="MST"/>
 
-                            <DataGridTextColumn Binding="{Binding Name}" Header="Tên Công ty"/>
-
-                            <DataGridTextColumn Binding="{Binding Address}" Header="Địa chỉ"/>
+                            <DataGridTextColumn Binding="{Binding Name}" Header="Tên Khách hàng"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>
 
-                <StackPanel Grid.Column="1" Margin="10 0">
-                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"                             
-                             IsReadOnly="True"
-                             BorderThickness="0" TextWrapping="Wrap"
-                             materialDesign:HintAssist.Hint="Mã số thuế"
-                             materialDesign:HintAssist.Background="Transparent"
-                             Text="{Binding SelectedCustomer.TaxCode, Mode=OneWay}"
-                             materialDesign:TextFieldAssist.HasClearButton="True"/>
-                </StackPanel>
-            </Grid>
-        </StackPanel>
-
-        <Border BorderBrush="White" BorderThickness="0 0 0 0.7" Margin="20"/>
-
-        <StackPanel Grid.Row="1">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-
-                <StackPanel Margin="0 0 20 0">
+                <StackPanel Grid.Row="1" Margin="10 0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <TextBlock FontSize="11" Text="Người đại diện:" Margin="0 0 0 5"/>
 
                     <DataGrid ItemsSource="{Binding ListOfRepresentatives, IsAsync=True}"
-                              AutoGenerateColumns="False" SelectionUnit="Cell"
-                              VerticalAlignment="Top" SelectionMode="Single"
+                              AutoGenerateColumns="False" SelectionUnit="Cell" SelectionMode="Single"
                               IsReadOnly="True" HeadersVisibility="All" 
-                              MaxHeight="300" ColumnWidth="*">
+                              MaxHeight="160" ColumnWidth="*">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding FullName}" Header="Họ tên"/>
 
@@ -84,20 +60,75 @@
                     </DataGrid>
                 </StackPanel>
 
-                <StackPanel Grid.Column="1">
+                <StackPanel Grid.Row="2" Margin="10 0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <TextBlock FontSize="11" Text="Địa điểm được bảo hiểm:" Margin="0 0 0 5"/>
 
                     <DataGrid ItemsSource="{Binding MatchInsuredLocations, IsAsync=True}"
-                              AutoGenerateColumns="False" SelectionUnit="Cell"
-                              VerticalAlignment="Top" SelectionMode="Single"
+                              AutoGenerateColumns="False" SelectionUnit="Cell" SelectionMode="Single"
                               IsReadOnly="True" HeadersVisibility="All"
-                              MaxHeight="300" ColumnWidth="*">
+                              MaxHeight="140" ColumnWidth="*">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding Location}" Header="Địa chỉ"/>
+                            <DataGridTextColumn Binding="{Binding Location}" Width="Auto" Header="Địa điểm"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>
             </Grid>
+        </StackPanel>
+               
+        <StackPanel Grid.Column="1" Margin="10 0">
+            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"                             
+                             IsReadOnly="True" TextWrapping="Wrap" Margin="0 0 0 15"
+                             materialDesign:HintAssist.Hint="Mã số thuế" FontSize="14"
+                             materialDesign:HintAssist.Background="#CAD2C5"
+                             Text="{Binding SelectedCustomer.TaxCode, Mode=OneWay}"/>
+
+            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"                             
+                             IsReadOnly="True" TextWrapping="Wrap" Margin="0 0 0 15"
+                             materialDesign:HintAssist.Hint="Tên Khách hàng"
+                             materialDesign:HintAssist.Background="#CAD2C5"
+                             Text="{Binding SelectedCustomer.Name, Mode=OneWay}"/>
+
+            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"                             
+                             IsReadOnly="True" TextWrapping="Wrap" Margin="0 0 0 15"
+                             materialDesign:HintAssist.Hint="Địa chỉ"
+                             materialDesign:HintAssist.Background="#CAD2C5"
+                             Text="{Binding SelectedCustomer.Address, Mode=OneWay}"/>
+
+            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"                             
+                             IsReadOnly="True" TextWrapping="Wrap" Margin="0 0 0 15"
+                             materialDesign:HintAssist.Hint="Ngành nghề kinh doanh"
+                             materialDesign:HintAssist.Background="#CAD2C5"
+                             Text="{Binding SelectedCustomer.Business, Mode=OneWay}"/>
+
+            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"                             
+                             IsReadOnly="True" TextWrapping="Wrap" Margin="0 0 0 15"
+                             materialDesign:HintAssist.Hint="Mã ngành"
+                             materialDesign:HintAssist.Background="#CAD2C5"
+                             Text="{Binding SelectedCustomer.BusinessCode, Mode=OneWay}"/>
+
+            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"                             
+                             IsReadOnly="True" TextWrapping="Wrap" Margin="0 0 0 15"
+                             materialDesign:HintAssist.Hint="Mã Khách hàng"
+                             materialDesign:HintAssist.Background="#CAD2C5"
+                             Text="{Binding SelectedCustomer.ClientCode, Mode=OneWay}"/>
+
+            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"                             
+                             IsReadOnly="True" TextWrapping="Wrap" Margin="0 0 0 15"
+                             materialDesign:HintAssist.Hint="Tên Khách hàng (Tiếng Anh)"
+                             materialDesign:HintAssist.Background="#CAD2C5"
+                             Text="{Binding SelectedCustomer.NameEn, Mode=OneWay}"/>
+
+            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"                             
+                             IsReadOnly="True" TextWrapping="Wrap" Margin="0 0 0 15"
+                             materialDesign:HintAssist.Hint="Địa chỉ (Tiếng Anh)"
+                             materialDesign:HintAssist.Background="#CAD2C5"
+                             Text="{Binding SelectedCustomer.AddressEn, Mode=OneWay}"/>
+
+            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"                             
+                             IsReadOnly="True" TextWrapping="Wrap" Margin="0 0 0 15"
+                             materialDesign:HintAssist.Hint="Ngành nghề kinh doanh (Tiếng Anh)"
+                             materialDesign:HintAssist.Background="#CAD2C5"
+                             Text="{Binding SelectedCustomer.BusinessEn, Mode=OneWay}"/>
         </StackPanel>
     </Grid>
 </UserControl>
