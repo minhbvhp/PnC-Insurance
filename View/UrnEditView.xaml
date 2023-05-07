@@ -176,18 +176,19 @@
                                     Content="{materialDesign:PackIcon Kind=ArrowBack, Size=20}"
                                     Command="{Binding DepartmentFlipBackCommand, UpdateSourceTrigger=PropertyChanged}"/>
 
-                                <StackPanel Grid.Row="1" HorizontalAlignment="Center" Height="400">
+                                <StackPanel Grid.Row="1" HorizontalAlignment="Stretch" Height="400" Margin="10 0">
                                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                              Text="{Binding EditingDepartmentUrn, UpdateSourceTrigger=PropertyChanged}" 
                                              materialDesign:ValidationAssist.Background="Transparent"
-                                             Margin="0 0 0 30" Width="260" HorizontalAlignment="Left"
-                                             materialDesign:HintAssist.Hint="Số URN Phòng"/>
+                                             Margin="0 0 0 30"
+                                             materialDesign:HintAssist.Hint="Số URN Phòng"
+                                             materialDesign:TextFieldAssist.HasClearButton="True"/>
 
                                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                              Text="{Binding EditingDepartmentName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                             Width="260" HorizontalAlignment="Left"
                                              materialDesign:ValidationAssist.Background="Transparent"
-                                             materialDesign:HintAssist.Hint="Tên Phòng"/>
+                                             materialDesign:HintAssist.Hint="Tên Phòng"
+                                             materialDesign:TextFieldAssist.HasClearButton="True"/>
 
                                 </StackPanel>
 
@@ -345,25 +346,26 @@
                                     Content="{materialDesign:PackIcon Kind=ArrowBack, Size=20}"
                                     Command="{Binding EmployeeFlipBackCommand, UpdateSourceTrigger=PropertyChanged}"/>
 
-                                <StackPanel Grid.Row="1" HorizontalAlignment="Center" Height="400">
+                                <StackPanel Grid.Row="1" HorizontalAlignment="Stretch" Height="400" Margin="10 0">
                                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                              Text="{Binding EditingEmployeeUrn, UpdateSourceTrigger=PropertyChanged}" 
                                              materialDesign:ValidationAssist.Background="Transparent"
-                                             Margin="0 0 0 30" Width="260" HorizontalAlignment="Left"
-                                             materialDesign:HintAssist.Hint="Số URN Nhân viên"/>
+                                             Margin="0 0 0 30"
+                                             materialDesign:HintAssist.Hint="Số URN Nhân viên"
+                                             materialDesign:TextFieldAssist.HasClearButton="True"/>
 
                                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                              Text="{Binding EditingEmployeeName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                             Margin="0 0 0 30" Width="260" HorizontalAlignment="Left"
+                                             Margin="0 0 0 30"
                                              materialDesign:ValidationAssist.Background="Transparent"
-                                             materialDesign:HintAssist.Hint="Họ và tên"/>
+                                             materialDesign:HintAssist.Hint="Họ và tên"
+                                             materialDesign:TextFieldAssist.HasClearButton="True"/>
 
                                     <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"                                              
                                               ItemsSource="{Binding ListOfDepartmentsOfEmployee,IsAsync=True}"
                                               SelectedItem="{Binding EditingDepartmentOfEmployee, UpdateSourceTrigger=PropertyChanged}"                                              
                                               materialDesign:ValidationAssist.Background="Transparent"
                                               DisplayMemberPath="Name"
-                                              HorizontalAlignment="Stretch"
                                               materialDesign:HintAssist.Hint="Phòng"/>
 
                                 </StackPanel>
@@ -518,25 +520,26 @@
                                     Content="{materialDesign:PackIcon Kind=ArrowBack, Size=20}"
                                     Command="{Binding AgentFlipBackCommand, UpdateSourceTrigger=PropertyChanged}"/>
 
-                                <StackPanel Grid.Row="1" HorizontalAlignment="Center" Height="400">
+                                <StackPanel Grid.Row="1" HorizontalAlignment="Stretch" Height="400" Margin="10 0">
                                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                              Text="{Binding EditingAgentUrn, UpdateSourceTrigger=PropertyChanged}" 
                                              materialDesign:ValidationAssist.Background="Transparent"
-                                             Margin="0 0 0 30" Width="260" HorizontalAlignment="Left"
-                                             materialDesign:HintAssist.Hint="Số URN Đại lý"/>
+                                             Margin="0 0 0 30"
+                                             materialDesign:HintAssist.Hint="Số URN Đại lý"
+                                             materialDesign:TextFieldAssist.HasClearButton="True"/>
 
                                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                              Text="{Binding EditingAgentName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                             Margin="0 0 0 30" Width="260" HorizontalAlignment="Left"
+                                             Margin="0 0 0 30"
                                              materialDesign:ValidationAssist.Background="Transparent"
-                                             materialDesign:HintAssist.Hint="Họ và tên"/>
+                                             materialDesign:HintAssist.Hint="Họ và tên"
+                                             materialDesign:TextFieldAssist.HasClearButton="True"/>
 
                                     <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"                                              
                                               ItemsSource="{Binding ListOfDepartmentsOfAgent,IsAsync=True}"
                                               SelectedItem="{Binding EditingDepartmentOfAgent, UpdateSourceTrigger=PropertyChanged}"                                              
                                               materialDesign:ValidationAssist.Background="Transparent"
                                               DisplayMemberPath="Name"
-                                              HorizontalAlignment="Stretch"
                                               materialDesign:HintAssist.Hint="Phòng"/>
 
                                 </StackPanel>

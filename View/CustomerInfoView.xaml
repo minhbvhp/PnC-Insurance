@@ -13,9 +13,14 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         
-        <StackPanel>
+        <StackPanel Grid.Row="0">
             <Grid>
-                <StackPanel>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                
+                <StackPanel Grid.Column="0" Margin="10 0">
                     <TextBox Width="380" HorizontalAlignment="Left" Margin="0 0 0 15"
                       Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                      Text="{Binding CustomerSearch, UpdateSourceTrigger=PropertyChanged}">
@@ -38,10 +43,18 @@
                             <DataGridTextColumn Binding="{Binding Name}" Header="Tên Công ty"/>
 
                             <DataGridTextColumn Binding="{Binding Address}" Header="Địa chỉ"/>
-
-                            <DataGridTextColumn Binding="{Binding Business}" Header="Ngành nghề"/>
                         </DataGrid.Columns>
                     </DataGrid>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Margin="10 0">
+                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"                             
+                             IsReadOnly="True"
+                             BorderThickness="0" TextWrapping="Wrap"
+                             materialDesign:HintAssist.Hint="Mã số thuế"
+                             materialDesign:HintAssist.Background="Transparent"
+                             Text="{Binding SelectedCustomer.TaxCode, Mode=OneWay}"
+                             materialDesign:TextFieldAssist.HasClearButton="True"/>
                 </StackPanel>
             </Grid>
         </StackPanel>

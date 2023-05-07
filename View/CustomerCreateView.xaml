@@ -42,30 +42,34 @@
 
                 
 
-                <StackPanel Grid.Row="1" HorizontalAlignment="Center">
+                <StackPanel Grid.Row="1" HorizontalAlignment="Stretch" Margin="10 0">
                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                     Text="{Binding NewTaxCode, UpdateSourceTrigger=PropertyChanged}" 
-                                     materialDesign:ValidationAssist.Background="Transparent"
-                                     Margin="0 0 0 30" Width="380" HorizontalAlignment="Left"
-                                     materialDesign:HintAssist.Hint="Mã số thuế"/>
+                             Text="{Binding NewTaxCode, UpdateSourceTrigger=PropertyChanged}" 
+                             materialDesign:ValidationAssist.Background="Transparent"
+                             Margin="0 0 0 30"
+                             materialDesign:HintAssist.Hint="Mã số thuế"
+                             materialDesign:TextFieldAssist.HasClearButton="True"/>
                     
                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                     Text="{Binding NewName, UpdateSourceTrigger=PropertyChanged}" 
-                                     materialDesign:ValidationAssist.Background="Transparent"
-                                     Margin="0 0 0 30" Width="380" HorizontalAlignment="Left"
-                                     materialDesign:HintAssist.Hint="Tên Khách hàng"/>
+                             Text="{Binding NewName, UpdateSourceTrigger=PropertyChanged}" 
+                             materialDesign:ValidationAssist.Background="Transparent"
+                             Margin="0 0 0 30"
+                             materialDesign:HintAssist.Hint="Tên Khách hàng"
+                             materialDesign:TextFieldAssist.HasClearButton="True"/>
 
                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                     Text="{Binding NewAddress, UpdateSourceTrigger=PropertyChanged}" 
-                                     materialDesign:ValidationAssist.Background="Transparent"
-                                     Margin="0 0 0 30" Width="380" HorizontalAlignment="Left"
-                                     materialDesign:HintAssist.Hint="Địa chỉ"/>
+                             Text="{Binding NewAddress, UpdateSourceTrigger=PropertyChanged}" 
+                             materialDesign:ValidationAssist.Background="Transparent"
+                             Margin="0 0 0 30"
+                             materialDesign:HintAssist.Hint="Địa chỉ"
+                             materialDesign:TextFieldAssist.HasClearButton="True"/>
 
                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                     Text="{Binding NewBusiness, UpdateSourceTrigger=PropertyChanged}" 
-                                     materialDesign:ValidationAssist.Background="Transparent"
-                                     Margin="0 0 0 30" Width="380" HorizontalAlignment="Left"
-                                     materialDesign:HintAssist.Hint="Ngành nghề kinh doanh"/>
+                             Text="{Binding NewBusiness, UpdateSourceTrigger=PropertyChanged}" 
+                             materialDesign:ValidationAssist.Background="Transparent"
+                             Margin="0 0 0 30"
+                             materialDesign:HintAssist.Hint="Ngành nghề kinh doanh"
+                             materialDesign:TextFieldAssist.HasClearButton="True"/>
 
                 </StackPanel>
 
@@ -96,36 +100,41 @@
 
 
 
-                <StackPanel Grid.Row="1" HorizontalAlignment="Center">
+                <StackPanel Grid.Row="1" HorizontalAlignment="Stretch" Margin="10 0">
                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                     Text="{Binding NewBusinessCode, UpdateSourceTrigger=PropertyChanged}" 
-                                     materialDesign:ValidationAssist.Background="Transparent"
-                                     Margin="0 0 0 30" Width="380" HorizontalAlignment="Left"
-                                     materialDesign:HintAssist.Hint="Mã ngành"/>
+                             Text="{Binding NewBusinessCode, UpdateSourceTrigger=PropertyChanged}"
+                             materialDesign:ValidationAssist.Background="Transparent"
+                             Margin="0 0 0 30"
+                             materialDesign:HintAssist.Hint="Mã ngành"
+                             materialDesign:TextFieldAssist.HasClearButton="True"/>
 
                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                     Text="{Binding NewClientCode, UpdateSourceTrigger=PropertyChanged}" 
-                                     materialDesign:ValidationAssist.Background="Transparent"
-                                     Margin="0 0 0 30" Width="380" HorizontalAlignment="Left"
-                                     materialDesign:HintAssist.Hint="Mã khách hàng"/>
+                             Text="{Binding NewClientCode, UpdateSourceTrigger=PropertyChanged}" 
+                             materialDesign:ValidationAssist.Background="Transparent"
+                             Margin="0 0 0 30"
+                             materialDesign:HintAssist.Hint="Mã khách hàng"
+                             materialDesign:TextFieldAssist.HasClearButton="True"/>
 
                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                     Text="{Binding NewNameEn, UpdateSourceTrigger=PropertyChanged}" 
-                                     materialDesign:ValidationAssist.Background="Transparent"
-                                     Margin="0 0 0 30" Width="380" HorizontalAlignment="Left"
-                                     materialDesign:HintAssist.Hint="Tên Khách hàng (Tiếng Anh)"/>
+                             Text="{Binding NewNameEn, UpdateSourceTrigger=PropertyChanged}" 
+                             materialDesign:ValidationAssist.Background="Transparent"
+                             Margin="0 0 0 30"
+                             materialDesign:HintAssist.Hint="Tên Khách hàng (Tiếng Anh)"
+                             materialDesign:TextFieldAssist.HasClearButton="True"/>
 
                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                     Text="{Binding NewAddressEn, UpdateSourceTrigger=PropertyChanged}" 
-                                     materialDesign:ValidationAssist.Background="Transparent"
-                                     Margin="0 0 0 30" Width="380" HorizontalAlignment="Left"
-                                     materialDesign:HintAssist.Hint="Địa chỉ (Tiếng Anh)"/>
+                             Text="{Binding NewAddressEn, UpdateSourceTrigger=PropertyChanged}" 
+                             materialDesign:ValidationAssist.Background="Transparent"
+                             Margin="0 0 0 30" 
+                             materialDesign:HintAssist.Hint="Địa chỉ (Tiếng Anh)"
+                             materialDesign:TextFieldAssist.HasClearButton="True"/>
 
                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                     Text="{Binding NewBusinessEn, UpdateSourceTrigger=PropertyChanged}" 
-                                     materialDesign:ValidationAssist.Background="Transparent"
-                                     Margin="0 0 0 30" Width="380" HorizontalAlignment="Left"
-                                     materialDesign:HintAssist.Hint="Ngành nghề kinh doanh (Tiếng Anh)"/>
+                             Text="{Binding NewBusinessEn, UpdateSourceTrigger=PropertyChanged}" 
+                             materialDesign:ValidationAssist.Background="Transparent"
+                             Margin="0 0 0 30"
+                             materialDesign:HintAssist.Hint="Ngành nghề kinh doanh (Tiếng Anh)"
+                             materialDesign:TextFieldAssist.HasClearButton="True"/>
 
                 </StackPanel>
             </Grid>

@@ -39,18 +39,20 @@
                     
                     <Border Grid.Row="0" BorderBrush="White" BorderThickness="0 0 0 0.5" Margin="0 0 0 20"/>
 
-                    <StackPanel Grid.Row="1" HorizontalAlignment="Center">
+                    <StackPanel Grid.Row="1" HorizontalAlignment="Stretch">
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                  Text="{Binding NewDeptUrn, UpdateSourceTrigger=PropertyChanged}" 
                                  materialDesign:ValidationAssist.Background="Transparent"
-                                 Margin="0 0 0 30" Width="380" HorizontalAlignment="Left"
-                                 materialDesign:HintAssist.Hint="Số URN Phòng"/>
+                                 Margin="0 0 0 30"
+                                 materialDesign:HintAssist.Hint="Số URN Phòng"
+                                 materialDesign:TextFieldAssist.HasClearButton="True"/>
 
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              Text="{Binding NewDeptName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                                 Width="380" HorizontalAlignment="Left"
+                                 Margin="0 0 0 30"
                                  materialDesign:ValidationAssist.Background="Transparent"
-                             materialDesign:HintAssist.Hint="Tên Phòng"/>
+                                 materialDesign:HintAssist.Hint="Tên Phòng"
+                                 materialDesign:TextFieldAssist.HasClearButton="True"/>
 
                     </StackPanel>
 
@@ -95,25 +97,27 @@
 
                     <Border Grid.Row="0" BorderBrush="White" BorderThickness="0 0 0 0.5" Margin="0 0 0 20"/>
 
-                    <StackPanel Grid.Row="1" HorizontalAlignment="Center">
+                    <StackPanel Grid.Row="1" HorizontalAlignment="Stretch">
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 Text="{Binding NewEmployeeUrn, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="0 0 0 30"
-                                 materialDesign:ValidationAssist.Background="Transparent"
-                                 Width="380" HorizontalAlignment="Left"
-                                 materialDesign:HintAssist.Hint="Số URN Nhân viên"/>
+                                 Text="{Binding NewEmployeeUrn, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                 Margin="0 0 0 30"
+                                 materialDesign:ValidationAssist.Background="Transparent"                                 
+                                 materialDesign:HintAssist.Hint="Số URN Nhân viên"
+                                 materialDesign:TextFieldAssist.HasClearButton="True"/>
 
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 Text="{Binding NewEmployeeName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="0 0 0 30"
+                                 Text="{Binding NewEmployeeName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                 Margin="0 0 0 30"
                                  materialDesign:ValidationAssist.Background="Transparent"
-                                 Width="380" HorizontalAlignment="Left"
-                                 materialDesign:HintAssist.Hint="Họ tên"/>
+                                 materialDesign:HintAssist.Hint="Họ tên"
+                                 materialDesign:TextFieldAssist.HasClearButton="True"/>
 
                         <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                                   ItemsSource="{Binding ListOfDepartments, IsAsync=True}"
                                   SelectedItem="{Binding DepartmentOfEmployee, UpdateSourceTrigger=PropertyChanged}"
+                                  Margin="0 0 0 30"
                                   materialDesign:ValidationAssist.Background="Transparent"
                                   DisplayMemberPath="Name" IsEditable="False"
-                                  HorizontalAlignment="Stretch"
                                   materialDesign:HintAssist.Hint="Phòng"/>
 
                     </StackPanel>
@@ -158,25 +162,26 @@
                     
                     <Border Grid.Row="0" BorderBrush="White" BorderThickness="0 0 0 0.5" Margin="0 0 0 20"/>
 
-                    <StackPanel Grid.Row="1" HorizontalAlignment="Center">
+                    <StackPanel Grid.Row="1" HorizontalAlignment="Stretch">
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 Text="{Binding NewAgentUrn, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="0 0 0 30"
+                                 Text="{Binding NewAgentUrn, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                 Margin="0 0 0 30"
                                  materialDesign:ValidationAssist.Background="Transparent"
-                                 Width="380" HorizontalAlignment="Left"
-                                 materialDesign:HintAssist.Hint="Số URN Đại lý"/>
+                                 materialDesign:HintAssist.Hint="Số URN Đại lý"
+                                 materialDesign:TextFieldAssist.HasClearButton="True"/>
 
                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 Text="{Binding NewAgentName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="0 0 0 30"
+                                 Text="{Binding NewAgentName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                 Margin="0 0 0 30"
                                  materialDesign:ValidationAssist.Background="Transparent"
-                                 Width="380" HorizontalAlignment="Left"
-                                 materialDesign:HintAssist.Hint="Họ tên"/>
+                                 materialDesign:HintAssist.Hint="Họ tên"
+                                 materialDesign:TextFieldAssist.HasClearButton="True"/>
 
                         <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                                   ItemsSource="{Binding ListOfDepartments, IsAsync=True}"
                                   SelectedItem="{Binding DepartmentOfAgent, UpdateSourceTrigger=PropertyChanged}"
                                   materialDesign:ValidationAssist.Background="Transparent"
                                   DisplayMemberPath="Name" IsEditable="False"
-                                  HorizontalAlignment="Stretch"
                                   materialDesign:HintAssist.Hint="Phòng"/>
 
                     </StackPanel>
