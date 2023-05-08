@@ -133,11 +133,11 @@
                                     <materialDesign:PackIcon HorizontalAlignment="Center" Margin="0 5"
                                                              Kind="Warning" Height="40" Width="40" Foreground="OrangeRed"/>
                                     
-                                    <TextBlock Grid.Row="1" HorizontalAlignment="Center" 
+                                    <TextBlock HorizontalAlignment="Center" 
                                                TextWrapping="Wrap" TextAlignment="Justify" Foreground="OrangeRed">
                                         <Run Text="Toàn bộ"/>
                                         <Run FontWeight="Bold" Text="Dữ liệu liên quan"/>
-                                        <Run Text="tới Phòng này cũng sẽ bị xóa. Hãy cẩn thận!"/>
+                                        <Run Text="tới Phòng này cũng sẽ bị ảnh hưởng. Hãy cẩn thận!"/>
                                     </TextBlock>
                                 </StackPanel>
 
@@ -303,11 +303,11 @@
                                     <materialDesign:PackIcon HorizontalAlignment="Center" Margin="0 5"
                                                              Kind="Warning" Height="40" Width="40" Foreground="OrangeRed"/>
 
-                                    <TextBlock Grid.Row="1" HorizontalAlignment="Center" 
+                                    <TextBlock HorizontalAlignment="Center" 
                                                TextWrapping="Wrap" TextAlignment="Justify" Foreground="OrangeRed">
                                         <Run Text="Toàn bộ"/>
                                         <Run FontWeight="Bold" Text="Dữ liệu liên quan"/>
-                                        <Run Text="tới Nhân viên này cũng sẽ bị xóa. Hãy cẩn thận!"/>
+                                        <Run Text="tới Nhân viên này cũng sẽ bị ảnh hưởng. Hãy cẩn thận!"/>
                                     </TextBlock>
                                 </StackPanel>
 
@@ -477,11 +477,11 @@
                                     <materialDesign:PackIcon HorizontalAlignment="Center" Margin="0 5"
                                                              Kind="Warning" Height="40" Width="40" Foreground="OrangeRed"/>
 
-                                    <TextBlock Grid.Row="1" HorizontalAlignment="Center" 
+                                    <TextBlock HorizontalAlignment="Center" 
                                                TextWrapping="Wrap" TextAlignment="Justify" Foreground="OrangeRed">
                                         <Run Text="Toàn bộ"/>
                                         <Run FontWeight="Bold" Text="Dữ liệu liên quan"/>
-                                        <Run Text="tới Đại lý này cũng sẽ bị xóa. Hãy cẩn thận!"/>
+                                        <Run Text="tới Đại lý này cũng sẽ bị ảnh hưởng. Hãy cẩn thận!"/>
                                     </TextBlock>
                                 </StackPanel>
 

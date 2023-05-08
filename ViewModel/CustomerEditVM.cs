@@ -52,6 +52,8 @@ namespace PnC_Insurance.ViewModel
         }
 
         [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(OpenDeleteDialogCommand))]
+        [NotifyCanExecuteChangedFor(nameof(EditCustomerCommand))]
         private Customer? selectedCustomer;
 
         partial void OnSelectedCustomerChanged(Customer? value)
@@ -67,6 +69,7 @@ namespace PnC_Insurance.ViewModel
                 EditingNameEn = value.NameEn;
                 EditingAddressEn = value.AddressEn;
                 EditingBusinessEn = value.BusinessEn;
+
             }
             else
             {
@@ -107,18 +110,23 @@ namespace PnC_Insurance.ViewModel
         #region Not Required Information
 
         [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(EditCustomerCommand))]
         private string? editingBusinessCode;
 
         [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(EditCustomerCommand))]
         private string? editingClientCode;
 
         [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(EditCustomerCommand))]
         private string? editingNameEn;
 
         [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(EditCustomerCommand))]
         private string? editingAddressEn;
 
         [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(EditCustomerCommand))]
         private string? editingBusinessEn;
 
         #endregion
@@ -205,13 +213,25 @@ namespace PnC_Insurance.ViewModel
         }
 
         private bool CanEditCustomerCommand()
-        {
+        {            
             if (!GetErrors(nameof(EditingTaxCode)).Any() &&
                 !GetErrors(nameof(EditingName)).Any() &&
                 !GetErrors(nameof(EditingAddress)).Any() &&
                 !GetErrors(nameof(EditingBusiness)).Any())
-                return true;
-
+            {
+                if (SelectedCustomer != null &&
+                    (SelectedCustomer.TaxCode != EditingTaxCode ||
+                     SelectedCustomer.Name != EditingName ||
+                     SelectedCustomer.Address != EditingAddress ||
+                     SelectedCustomer.Business != EditingBusiness ||
+                     SelectedCustomer.BusinessCode != EditingBusinessCode ||
+                     SelectedCustomer.ClientCode != EditingClientCode ||
+                     SelectedCustomer.NameEn != EditingNameEn ||
+                     SelectedCustomer.AddressEn != EditingAddressEn ||
+                     SelectedCustomer.BusinessEn != EditingBusinessEn)
+                   )
+                    return true;             
+            }               
             return false;
 
         }
@@ -230,6 +250,81 @@ namespace PnC_Insurance.ViewModel
             ValidateAllProperties();
         }
         #endregion
+        #endregion
+
+        #region Delete Customer
+        [ObservableProperty]
+        private bool isDeletedCustomerDialogOpen = false;
+
+        [RelayCommand(CanExecute = nameof(CanOpenDeleteDialog))]
+        private void OpenDeleteDialog()
+        {
+            IsDeletedCustomerDialogOpen = true;
+        }
+
+        private bool CanOpenDeleteDialog()
+        {
+            if (SelectedCustomer != null)
+                return true;
+
+            return false;
+        }
+
+        [RelayCommand]
+        private async Task DeleteCustomerAsync()
+        {
+            ResultNotification = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
+            string notificationString = "";
+
+            try
+            {
+                notificationString = await Task.Run(async () =>
+                {
+                    using (var context = new InsuranceDbContext())
+                    {
+                        if (SelectedCustomer != null)
+                        {
+                            var query = from customer in context.Customers
+                                        where customer.Id == SelectedCustomer.Id
+                                        select customer;
+
+                            if (query.Any())
+                            {
+                                var deleteCustomer = await query.FirstOrDefaultAsync();
+                                deleteCustomer.IsDeleted = 1;
+                                await context.SaveChangesAsync();
+                            }
+                        }
+                    }
+
+                    CustomerSearch = null;
+                    return "Đã xóa Khách hàng";
+                });
+
+                IsDeletedCustomerDialogOpen = false;
+                StartOver();
+            }
+            catch (DbUpdateException ex)
+            {
+                var sqlException = ex.InnerException as SqliteException;
+
+                if (sqlException.SqliteErrorCode == 19)
+                {
+                    notificationString = "Khách hàng này đã có rồi";
+                }
+                else
+                {
+                    notificationString = "Lỗi CSDL: " + sqlException.SqliteErrorCode;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString());
+                notificationString = "Lỗi: " + ex.HResult.ToString();
+            }
+
+            ResultNotification.Enqueue(notificationString);
+        }
         #endregion
 
         public CustomerEditVM()
