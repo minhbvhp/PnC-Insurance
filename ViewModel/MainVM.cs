@@ -64,7 +64,7 @@ namespace PnC_Insurance.ViewModel
                                     new CustomSubItem(new ExtensionInfoVM(), "Điều khoản bổ sung"),
                                 }));
 
-            CustomMenuItems.Add(new CustomMenuItem("KHÁCH HÀNG", PackIconKind.AccountCircleOutline
+            CustomMenuItems.Add(new CustomMenuItem("KHÁCH HÀNG", PackIconKind.AccountBoxMultipleOutline
                                 , new List<CustomSubItem>
                                 {
                                     new CustomSubItem(new CustomerCreateVM(), "Tạo mới"),
