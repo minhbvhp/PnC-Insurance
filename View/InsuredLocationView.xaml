@@ -8,8 +8,51 @@
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="800">
     <Grid>
-        <materialDesign:DialogHost IsOpen="{Binding IsDeletedLocationDialogOpen}">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
 
+        <StackPanel Grid.Row="0" Margin="150 0 150 30" HorizontalAlignment="Stretch">
+            <TextBlock Text="THÊM MỚI" FontSize="20" Foreground="#1A5F7A" HorizontalAlignment="Center"
+                       FontWeight="Bold" FontFamily="{StaticResource MaterialDesignFont}" Margin="0 0 0 10">
+                <TextBlock.Effect>
+                    <DropShadowEffect ShadowDepth="4"
+                                          Direction="330"
+                                          Color="Black"
+                                          Opacity="0.3"
+                                          BlurRadius="5"/>
+                </TextBlock.Effect>
+            </TextBlock>
+
+            <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                     Margin="0 0 0 30" 
+                     materialDesign:ValidationAssist.Background="Transparent"
+                     materialDesign:HintAssist.Hint="Địa chỉ"
+                     Text="{Binding NewLocation, UpdateSourceTrigger=PropertyChanged}"
+                     materialDesign:TextFieldAssist.HasClearButton="True"/>
+
+            <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"                             
+                     Margin="0 0 0 10" TextWrapping="Wrap"
+                     materialDesign:ValidationAssist.Background="Transparent"
+                     materialDesign:HintAssist.Hint="Địa chỉ (Tiếng Anh)"
+                     Text="{Binding NewLocationEn, UpdateSourceTrigger=PropertyChanged}"
+                     materialDesign:TextFieldAssist.HasClearButton="True"/>
+
+            <Button Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
+                    Margin="30" Command="{Binding AddLocationCommand}">
+                <materialDesign:PackIcon Kind="Add"/>
+            </Button>
+        </StackPanel>
+
+        <materialDesign:Snackbar Grid.Row="0" 
+                                 Background="Black" Foreground="White" 
+                                 HorizontalAlignment="Center"
+                                 MessageQueue="{Binding AddResultNotification}"/>
+
+        <Border Grid.ColumnSpan="2" Grid.Row="0" BorderBrush="#354f52" BorderThickness="0 0 0 0.3" Margin="30"/>
+
+        <materialDesign:DialogHost Grid.Row="1" IsOpen="{Binding IsDeletedLocationDialogOpen}">
             <materialDesign:DialogHost.DialogContent>
                 <Grid Height="200" Width="300" Margin="8">
                     <Grid.RowDefinitions>
@@ -56,95 +99,16 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
 
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="290"/>
-                    <RowDefinition Height="80"/>
-                    <RowDefinition Height="200"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition/>
                     <RowDefinition Height="80"/>
                 </Grid.RowDefinitions>
 
-
-                <Border BorderBrush="#354f52" BorderThickness="0.5" Grid.Column="0" Grid.Row="0">
-                    <StackPanel>
-                        <StackPanel Margin="10 0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                            <TextBox Width="380" HorizontalAlignment="Left" Margin="0 0 0 15"
-                            Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                            Text="{Binding CustomerSearch, UpdateSourceTrigger=PropertyChanged}">
-                                <materialDesign:HintAssist.Hint>
-                                    <TextBlock>
-                            <materialDesign:PackIcon Kind="Search" VerticalAlignment="Bottom"/>
-                            <Run Text="Tìm kiếm khách hàng"/>
-                                    </TextBlock>
-                                </materialDesign:HintAssist.Hint>
-                            </TextBox>
-
-                            <DataGrid ItemsSource="{Binding ListOfCustomers, IsAsync=True}"
-                                    SelectedItem="{Binding SelectedCustomer, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                    AutoGenerateColumns="False" SelectionMode="Single"
-                                    IsReadOnly="True" HeadersVisibility="All" ColumnWidth="*" MaxHeight="200">
-                                <DataGrid.RowStyle>
-                                    <Style TargetType="DataGridRow" BasedOn="{StaticResource MaterialDesignDataGridRow}">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsDeleted}" Value="1">
-                                                <Setter Property="Foreground" Value="OrangeRed"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </DataGrid.RowStyle>
-                                                              
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Binding="{Binding TaxCode}" Width="Auto" Header="MST"/>
-
-                                    <DataGridTextColumn Binding="{Binding Name}" Header="Tên Khách hàng"/>
-                                </DataGrid.Columns>
-                            </DataGrid>
-                        </StackPanel>
-                    </StackPanel>
-                </Border>
-
-                <StackPanel Grid.Column="1" Grid.Row="0" Margin="30 0" HorizontalAlignment="Stretch">
-                    <TextBlock Text="THÊM MỚI" FontSize="20" Foreground="#1A5F7A" HorizontalAlignment="Center"
-                       FontWeight="Bold" FontFamily="{StaticResource MaterialDesignFont}" Margin="0 0 0 10">
-                        <TextBlock.Effect>
-                            <DropShadowEffect ShadowDepth="4"
-                                          Direction="330"
-                                          Color="Black"
-                                          Opacity="0.3"
-                                          BlurRadius="5"/>
-                        </TextBlock.Effect>
-                    </TextBlock>
-
-                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                     Margin="0 0 0 50" 
-                     materialDesign:ValidationAssist.Background="Transparent"
-                     materialDesign:HintAssist.Hint="Địa chỉ"
-                     Text="{Binding NewLocation, UpdateSourceTrigger=PropertyChanged}"
-                     materialDesign:TextFieldAssist.HasClearButton="True"/>
-
-                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"                             
-                     Margin="0 0 0 30" TextWrapping="Wrap"
-                     materialDesign:ValidationAssist.Background="Transparent"
-                     materialDesign:HintAssist.Hint="Địa chỉ (Tiếng Anh)"
-                     Text="{Binding NewLocationEn, UpdateSourceTrigger=PropertyChanged}"
-                     materialDesign:TextFieldAssist.HasClearButton="True"/>
-
-                    <Button Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
-                    Margin="30" Command="{Binding AddLocationCommand}">
-                        <materialDesign:PackIcon Kind="Add"/>
-                    </Button>
-                </StackPanel>
-
-                <materialDesign:Snackbar Grid.ColumnSpan="2" Grid.Row="0" 
-                                 Background="Black" Foreground="White" 
-                                 HorizontalAlignment="Center"
-                                 MessageQueue="{Binding AddResultNotification}"/>
-
-                <Border Grid.ColumnSpan="2" Grid.Row="1" BorderBrush="#354f52" BorderThickness="0 0.3 0 0" Margin="30 30 30 0"/>
-
-                <StackPanel Grid.ColumnSpan="2" Grid.Row="1" Margin="0 40 0 0" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                <StackPanel Grid.ColumnSpan="2" Grid.Row="0" HorizontalAlignment="Stretch">
                     <TextBlock Text="SỬA ĐỔI" FontSize="20" Foreground="#1A5F7A" HorizontalAlignment="Center"
                        FontWeight="Bold" FontFamily="{StaticResource MaterialDesignFont}" Margin="0 0 0 10">
                         <TextBlock.Effect>
@@ -157,11 +121,20 @@
                     </TextBlock>
                 </StackPanel>
 
-                <StackPanel Grid.Column="0" Grid.Row="2" Margin="10 0" HorizontalAlignment="Stretch">
-                    <TextBlock FontSize="11" Text="Địa điểm được bảo hiểm:" Margin="0 0 0 5"/>
+                <StackPanel Grid.Column="0" Grid.Row="1" Margin="10 0" HorizontalAlignment="Stretch">
+                    <TextBox Width="380" HorizontalAlignment="Left" Margin="0 0 0 15"
+                            Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                            Text="{Binding LocationSearch, UpdateSourceTrigger=PropertyChanged}">
+                        <materialDesign:HintAssist.Hint>
+                            <TextBlock>
+                            <materialDesign:PackIcon Kind="Search" VerticalAlignment="Bottom"/>
+                            <Run Text="Tìm kiếm địa điểm"/>
+                            </TextBlock>
+                        </materialDesign:HintAssist.Hint>
+                    </TextBox>
 
-                    <DataGrid ItemsSource="{Binding MatchInsuredLocations, IsAsync=True}"
-                              SelectedItem="{Binding SelectedInsuredLocation}"
+                    <DataGrid ItemsSource="{Binding ListOfLocations, IsAsync=True}"
+                              SelectedItem="{Binding SelectedLocation}"
                               AutoGenerateColumns="False" SelectionMode="Single"
                               IsReadOnly="True" HeadersVisibility="All"
                               MaxHeight="150" ColumnWidth="*">
@@ -171,7 +144,7 @@
                     </DataGrid>
                 </StackPanel>
 
-                <StackPanel Grid.Column="1" Grid.Row="2" Margin="30 0" HorizontalAlignment="Stretch">
+                <StackPanel Grid.Column="1" Grid.Row="1" Margin="30 0" HorizontalAlignment="Stretch">
                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"                             
                      Margin="0 0 0 30" TextWrapping="Wrap"
                      materialDesign:ValidationAssist.Background="Transparent"
@@ -187,7 +160,7 @@
                      materialDesign:TextFieldAssist.HasClearButton="True"/>
                 </StackPanel>
 
-                <StackPanel Grid.ColumnSpan="2" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                <StackPanel Grid.ColumnSpan="2" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button Style="{StaticResource MaterialDesignFloatingActionDarkButton}"
                     Margin="30 0" Command="{Binding EditLocationCommand}">
                         <materialDesign:PackIcon Kind="ModeEdit"/>
@@ -205,6 +178,8 @@
                                  HorizontalAlignment="Center"
                                  MessageQueue="{Binding EditResultNotification}"/>
             </Grid>
+            
         </materialDesign:DialogHost>
+
     </Grid>
 </UserControl>

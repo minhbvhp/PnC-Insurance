@@ -16,57 +16,6 @@ namespace PnC_Insurance.ViewModel
 {
     public partial class InsuredLocationVM : BaseVM
     {
-        #region Search Customer
-        [NotifyPropertyChangedFor(nameof(ListOfCustomers))]
-        [ObservableProperty]
-        private string? customerSearch;
-        public List<Customer>? ListOfCustomers
-        {
-            get
-            {
-                if (!String.IsNullOrEmpty(CustomerSearch) && !String.IsNullOrWhiteSpace(CustomerSearch))
-                {
-                    using (var context = new InsuranceDbContext())
-                    {
-                        var query = from customer in context.Customers.AsNoTracking()
-                                    where EF.Functions.Like(customer.TaxCode, "%" + CustomerSearch + "%") ||
-                                          EF.Functions.Like(customer.Name, "%" + CustomerSearch + "%") ||
-                                          EF.Functions.Like(customer.Business, "%" + CustomerSearch + "%")
-                                    orderby customer.Id
-                                    select customer;
-
-                        if (query.Any())
-                        {
-                            return query.ToList();
-                        }
-                    }
-                }
-
-                return new List<Customer>();
-            }
-
-        }
-
-        [ObservableProperty]        
-        private Customer? selectedCustomer;
-
-        partial void OnSelectedCustomerChanged(Customer? value)
-        {
-            if (value != null)
-            {
-                
-
-            }
-            else
-            {
-                StartOver();
-            }
-        }
-
-        
-
-        #endregion
-
         #region Add Location
         [ObservableProperty]
         [Required(ErrorMessage = "Nhập Địa chỉ")]
@@ -141,7 +90,52 @@ namespace PnC_Insurance.ViewModel
 
         #endregion
 
+        #region Search Location
+        [NotifyPropertyChangedFor(nameof(ListOfLocations))]
+        [ObservableProperty]
+        private string? locationSearch;
+        public List<InsuredLocation>? ListOfLocations
+        {
+            get
+            {
+                if (!String.IsNullOrEmpty(LocationSearch) && !String.IsNullOrWhiteSpace(LocationSearch))
+                {
+                    using (var context = new InsuranceDbContext())
+                    {
+                        var query = from insuredLocation in context.InsuredLocations.AsNoTracking()
+                                    where EF.Functions.Like(insuredLocation.Location, "%" + LocationSearch + "%")
+                                    orderby insuredLocation.Id
+                                    select insuredLocation;
 
+                        if (query.Any())
+                        {
+                            return query.ToList();
+                        }
+                    }
+                }
+
+                return new List<InsuredLocation>();
+            }
+
+        }
+
+        [ObservableProperty]   
+        private InsuredLocation? selectedLocation;
+
+        partial void OnLocationSearchChanged(string? value)
+        {
+            if (value != null)
+            {
+
+
+            }
+            else
+            {
+                StartOver();
+            }
+        }
+        
+        #endregion  
 
         private void StartOver()
         {
