@@ -56,6 +56,7 @@ namespace PnC_Insurance.ViewModel
                 });
 
                 StartOver();
+                OnPropertyChanged(nameof(ListOfLocations));
             }
             catch (DbUpdateException ex)
             {
@@ -76,7 +77,7 @@ namespace PnC_Insurance.ViewModel
                 notificationString = "Lỗi: " + ex.HResult.ToString();
             }
 
-            ResultNotification.Enqueue(notificationString);
+            AddResultNotification.Enqueue(notificationString);
         }
 
         private bool CanAddLocationCommand()
@@ -85,7 +86,6 @@ namespace PnC_Insurance.ViewModel
                 return true;
 
             return false;
-
         }
 
         #endregion
@@ -119,27 +119,153 @@ namespace PnC_Insurance.ViewModel
 
         }
 
-        [ObservableProperty]   
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(OpenDeleteDialogCommand))]
         private InsuredLocation? selectedLocation;
 
-        partial void OnLocationSearchChanged(string? value)
+        partial void OnSelectedLocationChanged(InsuredLocation? value)
         {
             if (value != null)
             {
-
-
+                EditingLocation = value.Location;
+                EditingLocationEn = value.LocationEn;
             }
             else
             {
                 StartOver();
             }
         }
-        
-        #endregion  
+
+        #endregion
+
+        #region Edit Location
+        [ObservableProperty]
+        [Required(ErrorMessage = "Nhập Địa chỉ")]
+        [NotifyDataErrorInfo]
+        [NotifyCanExecuteChangedFor(nameof(EditLocationCommand))]
+        private string? editingLocation;
+
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(EditLocationCommand))]
+        private string? editingLocationEn;
+
+        [ObservableProperty]
+        private SnackbarMessageQueue? editResultNotification;
+
+        [RelayCommand(CanExecute = nameof(CanEditLocation))]
+        private async Task EditLocationAsync()
+        {
+            EditResultNotification = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
+
+            var editingInsuredLocation = new InsuredLocation()
+            {
+                Id = SelectedLocation.Id,
+                Location = EditingLocation,
+                LocationEn = EditingLocationEn,
+            };
+
+            string notificationString = "";
+
+            try
+            {
+                notificationString = await Task.Run(async () =>
+                {
+                    using (var context = new InsuranceDbContext())
+                    {
+                        if (SelectedLocation != null && editingInsuredLocation != null)
+                        {
+                            var query = from location in context.InsuredLocations
+                                        where location.Id == SelectedLocation.Id
+                                        orderby location.Id
+                                        select location;
+
+                            if (query.Any())
+                            {
+                                var changeLocation = await query.FirstOrDefaultAsync();
+
+                                changeLocation.Location = editingInsuredLocation.Location;
+                                changeLocation.LocationEn = editingInsuredLocation.LocationEn;
+                                
+
+                                await context.SaveChangesAsync();
+                            }
+                        }
+                    }
+
+                    return "Đã sửa thông tin Địa điểm";
+                });
+
+                OnPropertyChanged(nameof(ListOfLocations));
+                StartOver();
+            }
+            catch (DbUpdateException ex)
+            {
+                var sqlException = ex.InnerException as SqliteException;
+
+                if (sqlException.SqliteErrorCode == 19)
+                {
+                    notificationString = "Số URN này đã tồn tại";
+                }
+                else
+                {
+                    notificationString = "Lỗi CSDL: " + sqlException.SqliteErrorCode;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString());
+                notificationString = "Lỗi: " + ex.HResult.ToString();
+            }
+            
+            EditResultNotification.Enqueue(notificationString);
+        }
+
+        private bool CanEditLocation()
+        {
+            if (SelectedLocation != null &&
+                (SelectedLocation.Location != EditingLocation ||
+                SelectedLocation.LocationEn != EditingLocationEn) &&
+                !GetErrors(nameof(EditingLocation)).Any()
+                )
+            {
+                return true;
+            }
+
+            return false;
+        }
+        #endregion
+
+        #region Delete Location
+        [ObservableProperty]
+        private bool isDeletedLocationDialogOpen = false;
+
+        [RelayCommand(CanExecute = nameof(CanOpenDeleteDialog))]
+        private void OpenDeleteDialog()
+        {
+            IsDeletedLocationDialogOpen = true;
+        }
+
+        private bool CanOpenDeleteDialog()
+        {
+            if (SelectedLocation != null)
+                return true;
+
+            return false;
+        }
+        #endregion
 
         private void StartOver()
         {
+            NewLocation = null;
+            NewLocationEn = null;
+            EditingLocation = null;
+            EditingLocationEn = null;
+            ValidateAllProperties();
+        }
 
+        public InsuredLocationVM()
+        {
+            StartOver();
         }
     }
 }
