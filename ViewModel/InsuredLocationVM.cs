@@ -103,7 +103,7 @@ namespace PnC_Insurance.ViewModel
                     using (var context = new InsuranceDbContext())
                     {
                         var query = from insuredLocation in context.InsuredLocations.AsNoTracking()
-                                    where EF.Functions.Like(insuredLocation.Location, "%" + LocationSearch + "%")
+                                    where insuredLocation.IsDeleted == 0 && EF.Functions.Like(insuredLocation.Location, "%" + LocationSearch + "%")
                                     orderby insuredLocation.Id
                                     select insuredLocation;
 
@@ -251,6 +251,53 @@ namespace PnC_Insurance.ViewModel
                 return true;
 
             return false;
+        }
+
+        [RelayCommand]
+        private async Task DeleteLocationAsync()
+        {
+            EditResultNotification = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
+            string notificationString = "";
+
+            try
+            {
+                notificationString = await Task.Run(async () =>
+                {
+                    using (var context = new InsuranceDbContext())
+                    {
+                        if (SelectedLocation != null)
+                        {
+                            var query = from location in context.InsuredLocations
+                                        where location.Id == SelectedLocation.Id
+                                        select location;
+
+                            if (query.Any())
+                            {
+                                var deleteDepartment = await query.FirstOrDefaultAsync();
+                                deleteDepartment.IsDeleted = 1;
+                                await context.SaveChangesAsync();
+                            }
+                        }
+                    }
+
+                    return "Đã xóa Địa điểm";
+                });
+
+                OnPropertyChanged(nameof(ListOfLocations));
+                StartOver();
+                IsDeletedLocationDialogOpen = false;
+            }
+            catch (DbUpdateException ex)
+            {
+                var sqlException = ex.InnerException as SqliteException;
+
+                notificationString = "Lỗi CSDL: " + sqlException.SqliteErrorCode;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString());
+                notificationString = "Lỗi: " + ex.HResult.ToString();
+            }
         }
         #endregion
 
