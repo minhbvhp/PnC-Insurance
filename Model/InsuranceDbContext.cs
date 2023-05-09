@@ -21,6 +21,8 @@ public partial class InsuranceDbContext : DbContext
 
     public virtual DbSet<Customer> Customers { get; set; }
 
+    public virtual DbSet<CustomersInsuredLocation> CustomersInsuredLocations { get; set; }
+
     public virtual DbSet<Decree> Decrees { get; set; }
 
     public virtual DbSet<Department> Departments { get; set; }
@@ -84,6 +86,23 @@ public partial class InsuranceDbContext : DbContext
                 .HasColumnName("NameEN");
         });
 
+        modelBuilder.Entity<CustomersInsuredLocation>(entity =>
+        {
+            entity.ToTable("Customers_InsuredLocations");
+
+            entity.HasIndex(e => e.Id, "IX_Customers_InsuredLocations_Id").IsUnique();
+
+            entity.HasIndex(e => new { e.CustomerId, e.InsuredLocationId }, "IX_Customers_InsuredLocations_CustomerId_InsuredLocationId").IsUnique();
+
+            entity.HasOne(d => d.Customer).WithMany(p => p.CustomersInsuredLocations)
+                .HasForeignKey(d => d.CustomerId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+
+            entity.HasOne(d => d.InsuredLocation).WithMany(p => p.CustomersInsuredLocations)
+                .HasForeignKey(d => d.InsuredLocationId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+        });
+
         modelBuilder.Entity<Decree>(entity =>
         {
             entity.HasIndex(e => e.Id, "IX_Decrees_Id").IsUnique();
@@ -134,19 +153,13 @@ public partial class InsuranceDbContext : DbContext
 
         modelBuilder.Entity<InsuredLocation>(entity =>
         {
-            entity.ToTable("InsuredLocation");
+            entity.HasIndex(e => e.Id, "IX_InsuredLocations_Id").IsUnique();
 
-            entity.HasIndex(e => e.Id, "IX_InsuredLocation_Id").IsUnique();
-
-            entity.HasIndex(e => new { e.CustomerId, e.Location }, "available_insured_location_unique").IsUnique();
+            entity.HasIndex(e => e.Location, "available_insured_location_unique").IsUnique();
 
             entity.Property(e => e.LocationEn)
                 .HasDefaultValueSql("'Chưa thiết lập'")
                 .HasColumnName("LocationEN");
-
-            entity.HasOne(d => d.Customer).WithMany(p => p.InsuredLocations)
-                .HasForeignKey(d => d.CustomerId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<PropertyItem>(entity =>

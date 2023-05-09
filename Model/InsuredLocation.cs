@@ -7,13 +7,11 @@ public partial class InsuredLocation
 {
     public long Id { get; set; }
 
-    public long CustomerId { get; set; }
-
     public string Location { get; set; } = null!;
 
     public string? LocationEn { get; set; }
 
     public long IsDeleted { get; set; }
 
-    public virtual Customer Customer { get; set; } = null!;
+    public virtual ICollection<CustomersInsuredLocation> CustomersInsuredLocations { get; } = new List<CustomersInsuredLocation>();
 }

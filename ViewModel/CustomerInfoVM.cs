@@ -84,10 +84,11 @@ namespace PnC_Insurance.ViewModel
                     if (SelectedCustomer != null)
                     {
                         var query = from location in context.InsuredLocations.AsNoTracking()
-                                    where location.IsDeleted == 0 &&
-                                          location.CustomerId == SelectedCustomer.Id
-                                    orderby location.Id
+                                    from customer_location_combine in context.CustomersInsuredLocations.AsNoTracking()
+                                    where customer_location_combine.CustomerId == SelectedCustomer.Id &&
+                                          customer_location_combine.InsuredLocationId == location.Id
                                     select location;
+
                         if (query.Any())
                         {
                             return query.ToList();

@@ -27,7 +27,7 @@ public partial class Customer
 
     public long IsDeleted { get; set; }
 
-    public virtual ICollection<InsuredLocation> InsuredLocations { get; } = new List<InsuredLocation>();
+    public virtual ICollection<CustomersInsuredLocation> CustomersInsuredLocations { get; } = new List<CustomersInsuredLocation>();
 
     public virtual ICollection<PropertyPolicy> PropertyPolicies { get; } = new List<PropertyPolicy>();
 
