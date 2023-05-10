@@ -1,0 +1,256 @@
+﻿<UserControl x:Class="PnC_Insurance.View.RepresentativeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PnC_Insurance.View"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" Foreground="Teal" FontSize="14"
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            
+            <TextBlock Text="THÊM MỚI" FontSize="20" Foreground="#1A5F7A" HorizontalAlignment="Center"
+                       FontWeight="Bold" FontFamily="{StaticResource MaterialDesignFont}" Margin="0 0 0 10">
+                <TextBlock.Effect>
+                    <DropShadowEffect ShadowDepth="4"
+                                          Direction="330"
+                                          Color="Black"
+                                          Opacity="0.3"
+                                          BlurRadius="5"/>
+                </TextBlock.Effect>
+            </TextBlock>
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Row="0" Margin="10 0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <TextBox Width="380" HorizontalAlignment="Left" Margin="0 0 0 15"
+                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                     Text="{Binding CustomerSearch, UpdateSourceTrigger=PropertyChanged}">
+                        <materialDesign:HintAssist.Hint>
+                            <TextBlock>
+                        <materialDesign:PackIcon Kind="Search" VerticalAlignment="Bottom"/>
+                        <Run Text="Tìm kiếm khách hàng"/>
+                            </TextBlock>
+                        </materialDesign:HintAssist.Hint>
+                    </TextBox>
+
+                    <DataGrid ItemsSource="{Binding ListOfCustomers, IsAsync=True}"
+                              SelectedItem="{Binding SelectedCustomer, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                              AutoGenerateColumns="False" SelectionMode="Single"
+                              IsReadOnly="True" HeadersVisibility="All" ColumnWidth="*" MaxHeight="300">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding TaxCode}" Width="Auto" Header="MST"/>
+
+                            <DataGridTextColumn Binding="{Binding Name}" Header="Tên Khách hàng"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" HorizontalAlignment="Stretch" Margin="30 0">
+                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"          
+                             Margin="0 0 0 3"
+                         materialDesign:ValidationAssist.Background="Transparent"
+                         materialDesign:HintAssist.Hint="Họ tên"
+                         Text="{Binding NewRepresentativeFullName, UpdateSourceTrigger=PropertyChanged}"
+                         materialDesign:TextFieldAssist.HasClearButton="True"/>
+
+                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                             Margin="0 0 0 3"
+                         materialDesign:ValidationAssist.Background="Transparent"
+                         materialDesign:HintAssist.Hint="Chức vụ"
+                         Text="{Binding NewRepresentativePosition, UpdateSourceTrigger=PropertyChanged}"
+                         materialDesign:TextFieldAssist.HasClearButton="True"/>
+
+                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"    
+                             Margin="0 0 0 3"
+                         materialDesign:ValidationAssist.Background="Transparent"
+                         materialDesign:HintAssist.Hint="Số quyết định"
+                         Text="{Binding NewRepresentativeDecisionNo, UpdateSourceTrigger=PropertyChanged}"
+                         materialDesign:TextFieldAssist.HasClearButton="True"/>
+
+                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                             Margin="0 0 0 3"
+                         materialDesign:ValidationAssist.Background="Transparent"
+                         materialDesign:HintAssist.Hint="Chức vụ (Tiếng Anh)"
+                         Text="{Binding NewRepresentativePositionEn, UpdateSourceTrigger=PropertyChanged}"
+                         materialDesign:TextFieldAssist.HasClearButton="True"/>
+
+                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                             Margin="0 0 0 3"
+                         materialDesign:ValidationAssist.Background="Transparent"
+                         materialDesign:HintAssist.Hint="Số quyết định (Tiếng Anh)"
+                         Text="{Binding NewRepresentativeDecisionNoEn, UpdateSourceTrigger=PropertyChanged}"
+                         materialDesign:TextFieldAssist.HasClearButton="True"/>
+
+                    <Button Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
+                        Margin="0 10" Command="{Binding AddRepresentativeCommand}">
+                        <materialDesign:PackIcon Kind="Add"/>
+                    </Button>
+                </StackPanel>
+
+            </Grid>
+        </Grid>
+
+        <materialDesign:Snackbar Grid.Row="0" Margin="30 20"
+                                 Background="Black" Foreground="White" 
+                                 HorizontalAlignment="Center"
+                                 MessageQueue="{Binding AddResultNotification}"/>
+
+        <Border Grid.ColumnSpan="2" Grid.Row="0" BorderBrush="#354f52" BorderThickness="0 0 0 0.3" Margin="30 20"/>
+
+        <materialDesign:DialogHost Grid.Row="1" IsOpen="{Binding IsDeletedRepresentativeDialogOpen}">
+            <materialDesign:DialogHost.DialogContent>
+                <Grid Height="200" Width="300" Margin="15">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="40"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel VerticalAlignment="Center">
+                        <materialDesign:PackIcon HorizontalAlignment="Center" Margin="0 5"
+                                                             Kind="Warning" Height="40" Width="40" Foreground="OrangeRed"/>
+
+                        <TextBlock HorizontalAlignment="Center" 
+                                               TextWrapping="Wrap" TextAlignment="Justify" Foreground="OrangeRed">
+                                        <Run Text="Toàn bộ"/>
+                                        <Run FontWeight="Bold" Text="Dữ liệu liên quan"/>
+                                        <Run Text="tới Người đại diện này sẽ bị ảnh hưởng. Hãy cẩn thận!"/>
+                        </TextBlock>
+                    </StackPanel>
+
+                    <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                           FontWeight="Bold" FontSize="14"
+                                           Text="Chắc chắn xóa chứ ?"/>
+
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button Grid.Column="0" Width="60" IsTabStop="False"
+                                            Style="{StaticResource MaterialDesignRaisedLightButton}"
+                                            Background="OrangeRed" Foreground="White" Content="Xóa"
+                                            Command="{Binding DeleteRepresentativeCommand}"/>
+
+                        <Button Grid.Column="1" Width="80" IsTabStop="False"
+                                            Background="#424242" Foreground="White"
+                                            Style="{StaticResource MaterialDesignRaisedLightButton}" Content="Giữ"
+                                            Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" IsCancel="True"/>
+                    </Grid>
+                </Grid>
+            </materialDesign:DialogHost.DialogContent>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="80"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.ColumnSpan="2" Grid.Row="0" HorizontalAlignment="Stretch">
+                    <TextBlock Text="SỬA ĐỔI" FontSize="20" Foreground="#1A5F7A" HorizontalAlignment="Center"
+                       FontWeight="Bold" FontFamily="{StaticResource MaterialDesignFont}" Margin="0 10 0 10">
+                        <TextBlock.Effect>
+                            <DropShadowEffect ShadowDepth="4"
+                                          Direction="330"
+                                          Color="Black"
+                                          Opacity="0.3"
+                                          BlurRadius="5"/>
+                        </TextBlock.Effect>
+                    </TextBlock>
+                </StackPanel>
+
+                <StackPanel Grid.Column="0" Grid.Row="1" Margin="10 0" HorizontalAlignment="Stretch">
+                    <DataGrid ItemsSource="{Binding ListOfRepresentatives, IsAsync=True}"
+                              SelectedItem="{Binding SelectedRepresentative}"
+                              AutoGenerateColumns="False" SelectionMode="Single"
+                              IsReadOnly="True" HeadersVisibility="All"
+                              Height="180" ColumnWidth="*">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding FullName}" Width="Auto" Header="Họ tên"/>
+
+                            <DataGridTextColumn Binding="{Binding Position}" Width="Auto" Header="Chức vụ"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Grid.Row="1" Margin="30 0" HorizontalAlignment="Stretch">
+                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"          
+                             Margin="0 0 0 3"
+                         materialDesign:ValidationAssist.Background="Transparent"
+                         materialDesign:HintAssist.Hint="Họ tên"
+                         Text="{Binding EditingRepresentativeFullName, UpdateSourceTrigger=PropertyChanged}"
+                         materialDesign:TextFieldAssist.HasClearButton="True"/>
+
+                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                             Margin="0 0 0 3"
+                         materialDesign:ValidationAssist.Background="Transparent"
+                         materialDesign:HintAssist.Hint="Chức vụ"
+                         Text="{Binding EditingRepresentativePosition, UpdateSourceTrigger=PropertyChanged}"
+                         materialDesign:TextFieldAssist.HasClearButton="True"/>
+
+                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"    
+                             Margin="0 0 0 3"
+                         materialDesign:ValidationAssist.Background="Transparent"
+                         materialDesign:HintAssist.Hint="Số quyết định"
+                         Text="{Binding EditingRepresentativeDecisionNo, UpdateSourceTrigger=PropertyChanged}"
+                         materialDesign:TextFieldAssist.HasClearButton="True"/>
+
+                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                             Margin="0 0 0 3"
+                         materialDesign:ValidationAssist.Background="Transparent"
+                         materialDesign:HintAssist.Hint="Chức vụ (Tiếng Anh)"
+                         Text="{Binding EditingRepresentativePositionEn, UpdateSourceTrigger=PropertyChanged}"
+                         materialDesign:TextFieldAssist.HasClearButton="True"/>
+
+                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                             Margin="0 0 0 3"
+                         materialDesign:ValidationAssist.Background="Transparent"
+                         materialDesign:HintAssist.Hint="Số quyết định (Tiếng Anh)"
+                         Text="{Binding EditingRepresentativeDecisionNoEn, UpdateSourceTrigger=PropertyChanged}"
+                         materialDesign:TextFieldAssist.HasClearButton="True"/>
+                </StackPanel>
+
+                <StackPanel Grid.ColumnSpan="2" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
+                    Margin="30 0" Command="{Binding EditRepresentativeCommand}">
+                        <materialDesign:PackIcon Kind="ModeEdit"/>
+                    </Button>
+
+                    <Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                    Background="OrangeRed" Foreground="White"
+                    Margin="30 0" Command="{Binding OpenDeleteDialogCommand}">
+                        <materialDesign:PackIcon Kind="Delete"/>
+                    </Button>
+                </StackPanel>
+
+                <materialDesign:Snackbar Grid.ColumnSpan="2" Grid.Row="3" 
+                                 Background="Black" Foreground="White" 
+                                 HorizontalAlignment="Center"
+                                 MessageQueue="{Binding EditResultNotification}"/>
+            </Grid>
+
+        </materialDesign:DialogHost>
+    </Grid>
+</UserControl>

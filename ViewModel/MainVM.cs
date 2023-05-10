@@ -19,6 +19,9 @@ namespace PnC_Insurance.ViewModel
         {
             switch (value.ContentViewModels)
             {
+                case RepresentativeVM representativeVM:
+                    SelectedVM = new RepresentativeVM();
+                    break;
                 case InsuredLocationVM locationVM:
                     SelectedVM = new InsuredLocationVM();
                     break;
@@ -72,7 +75,8 @@ namespace PnC_Insurance.ViewModel
                                 {
                                     new CustomSubItem(new CustomerCreateVM(), "Tạo mới"),
                                     new CustomSubItem(new CustomerEditVM(), "Sửa"),
-                                    new CustomSubItem(new InsuredLocationVM(), "Địa điểm bảo hiểm"),
+                                    new CustomSubItem(new InsuredLocationVM(), "Địa điểm"),
+                                    new CustomSubItem(new RepresentativeVM(), "Người đại diện"),
                                 }));
 
             CustomMenuItems.Add(new CustomMenuItem("URN", PackIconKind.QrcodeScan

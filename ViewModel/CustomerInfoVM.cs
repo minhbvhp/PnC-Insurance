@@ -3,12 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using PnC_Insurance.Model;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Globalization;
 using System.Linq;
-using System.Net.Mime;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace PnC_Insurance.ViewModel
 {

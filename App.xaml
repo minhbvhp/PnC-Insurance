@@ -53,6 +53,10 @@
                 <view:InsuredLocationView/>
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type viewmodel:RepresentativeVM}">
+                <view:RepresentativeView/>
+            </DataTemplate>
+
             <SolidColorBrush  Color="#f8e16c" x:Key="txtColor" />
             <SolidColorBrush  Color="#354F52" x:Key="bgColor" />
 

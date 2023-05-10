@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -204,7 +203,7 @@ namespace PnC_Insurance.ViewModel
 
                 if (sqlException.SqliteErrorCode == 19)
                 {
-                    notificationString = "Số URN này đã tồn tại";
+                    notificationString = "Địa điểm này đã tồn tại";
                 }
                 else
                 {
@@ -273,8 +272,8 @@ namespace PnC_Insurance.ViewModel
 
                             if (query.Any())
                             {
-                                var deleteDepartment = await query.FirstOrDefaultAsync();
-                                deleteDepartment.IsDeleted = 1;
+                                var deleteLocation = await query.FirstOrDefaultAsync();
+                                deleteLocation.IsDeleted = 1;
                                 await context.SaveChangesAsync();
                             }
                         }
@@ -307,6 +306,7 @@ namespace PnC_Insurance.ViewModel
             NewLocationEn = null;
             EditingLocation = null;
             EditingLocationEn = null;
+            LocationSearch = null;
             ValidateAllProperties();
         }
 

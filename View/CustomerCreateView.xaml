@@ -28,7 +28,7 @@
                 </Grid.RowDefinitions>
 
                 <StackPanel Grid.Row="0" HorizontalAlignment="Center">
-                    <TextBlock Text="Thông tin bắt buộc" FontSize="20" Foreground="#1A5F7A"
+                    <TextBlock Text="THÔNG TIN BẮT BUỘC" FontSize="20" Foreground="#1A5F7A"
                            FontWeight="Bold" FontFamily="{StaticResource MaterialDesignFont}">
                         <TextBlock.Effect>
                             <DropShadowEffect ShadowDepth="4"
@@ -84,7 +84,7 @@
                 </Grid.RowDefinitions>
 
                 <StackPanel Grid.Row="0" HorizontalAlignment="Center">
-                    <TextBlock Text="Bổ sung sau" FontSize="20" Foreground="#1A5F7A"
+                    <TextBlock Text="BỔ SUNG SAU" FontSize="20" Foreground="#1A5F7A"
                            FontWeight="Bold" FontFamily="{StaticResource MaterialDesignFont}">
                         <TextBlock.Effect>
                             <DropShadowEffect ShadowDepth="4"
