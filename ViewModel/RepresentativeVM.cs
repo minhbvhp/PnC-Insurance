@@ -50,7 +50,17 @@ namespace PnC_Insurance.ViewModel
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(ListOfRepresentatives))]
+        [NotifyPropertyChangedFor(nameof(SelectedRepresentative))]
         private Customer? selectedCustomer;
+
+        partial void OnSelectedCustomerChanged(Customer? value)
+        {
+            EditingRepresentativeFullName = null;
+            EditingRepresentativePosition = null;
+            EditingRepresentativeDecisionNo = null;
+            EditingRepresentativePositionEn = null;
+            EditingRepresentativeDecisionNoEn = null;            
+        }
 
         public List<Representative>? ListOfRepresentatives
         {
@@ -80,6 +90,18 @@ namespace PnC_Insurance.ViewModel
         [ObservableProperty]
         [NotifyCanExecuteChangedFor(nameof(OpenDeleteDialogCommand))]
         private Representative? selectedRepresentative;
+
+        partial void OnSelectedRepresentativeChanged(Representative? value)
+        {
+            if (value != null)
+            {
+                EditingRepresentativeFullName = SelectedRepresentative.FullName;
+                EditingRepresentativePosition = SelectedRepresentative.Position;
+                EditingRepresentativeDecisionNo = SelectedRepresentative.DecisionNo;
+                EditingRepresentativePositionEn = SelectedRepresentative.PositionEn;
+                EditingRepresentativeDecisionNoEn = SelectedRepresentative.DecisionNoEn;
+            }
+        }
         #endregion
 
         #region Add Representative
@@ -114,6 +136,7 @@ namespace PnC_Insurance.ViewModel
 
             var addingRepresentative = new Representative()
             {
+                CustomerId = SelectedCustomer.Id,
                 FullName = NewRepresentativeFullName,
                 Position = NewRepresentativePosition,
                 DecisionNo = NewRepresentativeDecisionNo,
@@ -204,6 +227,7 @@ namespace PnC_Insurance.ViewModel
 
             var editingRepresentative = new Representative()
             {
+                CustomerId = SelectedCustomer.Id,
                 FullName = EditingRepresentativeFullName,
                 Position = EditingRepresentativePosition,
                 DecisionNo = EditingRepresentativeDecisionNo,
@@ -271,7 +295,7 @@ namespace PnC_Insurance.ViewModel
 
         private bool CanEditRepresentative()
         {
-            if (SelectedRepresentative != null &&
+            if (SelectedRepresentative != null && SelectedCustomer != null &&
                 (SelectedRepresentative.FullName != EditingRepresentativeFullName ||
                 SelectedRepresentative.Position != EditingRepresentativePosition ||
                 SelectedRepresentative.DecisionNo != EditingRepresentativeDecisionNo ||
@@ -360,6 +384,13 @@ namespace PnC_Insurance.ViewModel
             NewRepresentativeDecisionNo = null;
             NewRepresentativePositionEn = null;
             NewRepresentativeDecisionNoEn = null;
+
+            EditingRepresentativeFullName = null;
+            EditingRepresentativePosition = null;
+            EditingRepresentativeDecisionNo = null;
+            EditingRepresentativePositionEn = null;
+            EditingRepresentativeDecisionNoEn = null;
+
             CustomerSearch = null;
 
             ValidateAllProperties();
