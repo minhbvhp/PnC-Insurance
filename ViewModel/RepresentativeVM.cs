@@ -49,8 +49,11 @@ namespace PnC_Insurance.ViewModel
         }
 
         [ObservableProperty]
+        [Required(ErrorMessage = "Chọn khách hàng")]
+        [NotifyDataErrorInfo]
         [NotifyPropertyChangedFor(nameof(ListOfRepresentatives))]
-        [NotifyPropertyChangedFor(nameof(SelectedRepresentative))]
+        [NotifyPropertyChangedFor(nameof(SelectedRepresentative))]        
+        [NotifyCanExecuteChangedFor(nameof(AddRepresentativeCommand))]
         private Customer? selectedCustomer;
 
         partial void OnSelectedCustomerChanged(Customer? value)
@@ -187,7 +190,8 @@ namespace PnC_Insurance.ViewModel
         private bool CanAddRepresentativeCommand()
         {
             if (!GetErrors(nameof(NewRepresentativeFullName)).Any() &&
-                !GetErrors(nameof(NewRepresentativePosition)).Any())
+                !GetErrors(nameof(NewRepresentativePosition)).Any() &&
+                !GetErrors(nameof(SelectedCustomer)).Any())
                 return true;
 
             return false;
@@ -209,12 +213,15 @@ namespace PnC_Insurance.ViewModel
         private string? editingRepresentativePosition;
 
         [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(EditRepresentativeCommand))]
         private string? editingRepresentativeDecisionNo;
 
         [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(EditRepresentativeCommand))]
         private string? editingRepresentativePositionEn;
 
         [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(EditRepresentativeCommand))]
         private string? editingRepresentativeDecisionNoEn;
 
         [ObservableProperty]

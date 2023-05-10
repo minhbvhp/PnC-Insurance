@@ -110,7 +110,7 @@
                                  HorizontalAlignment="Center"
                                  MessageQueue="{Binding AddResultNotification}"/>
 
-        <Border Grid.ColumnSpan="2" Grid.Row="0" BorderBrush="#354f52" BorderThickness="0 0 0 0.3" Margin="30 20"/>
+        <Border Grid.ColumnSpan="2" Grid.Row="0" BorderBrush="#354f52" BorderThickness="0 0 0 0.3" Margin="30 0"/>
 
         <materialDesign:DialogHost Grid.Row="1" IsOpen="{Binding IsDeletedRepresentativeDialogOpen}">
             <materialDesign:DialogHost.DialogContent>
