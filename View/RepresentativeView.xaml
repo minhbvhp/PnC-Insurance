@@ -15,12 +15,12 @@
 
         <Grid Grid.Row="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="50"/>
+                <RowDefinition Height="28"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
             
             <TextBlock Text="THÊM MỚI" FontSize="20" Foreground="#1A5F7A" HorizontalAlignment="Center"
-                       FontWeight="Bold" FontFamily="{StaticResource MaterialDesignFont}" Margin="0 0 0 10">
+                       FontWeight="Bold" FontFamily="{StaticResource MaterialDesignFont}">
                 <TextBlock.Effect>
                     <DropShadowEffect ShadowDepth="4"
                                           Direction="330"
@@ -36,7 +36,7 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Row="0" Margin="10 0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <StackPanel Grid.Row="0" Margin="10 0" HorizontalAlignment="Stretch">
                     <TextBox Width="380" HorizontalAlignment="Left" Margin="0 0 0 15"
                       Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                      Text="{Binding CustomerSearch, UpdateSourceTrigger=PropertyChanged}">
@@ -62,35 +62,35 @@
 
                 <StackPanel Grid.Column="1" HorizontalAlignment="Stretch" Margin="30 0">
                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"          
-                             Margin="0 0 0 3"
+                             Margin="0 0 0 8"
                          materialDesign:ValidationAssist.Background="Transparent"
                          materialDesign:HintAssist.Hint="Họ tên"
                          Text="{Binding NewRepresentativeFullName, UpdateSourceTrigger=PropertyChanged}"
                          materialDesign:TextFieldAssist.HasClearButton="True"/>
 
                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                             Margin="0 0 0 3"
+                             Margin="0 0 0 8"
                          materialDesign:ValidationAssist.Background="Transparent"
                          materialDesign:HintAssist.Hint="Chức vụ"
                          Text="{Binding NewRepresentativePosition, UpdateSourceTrigger=PropertyChanged}"
                          materialDesign:TextFieldAssist.HasClearButton="True"/>
 
                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"    
-                             Margin="0 0 0 3"
+                             Margin="0 0 0 8"
                          materialDesign:ValidationAssist.Background="Transparent"
                          materialDesign:HintAssist.Hint="Số quyết định"
                          Text="{Binding NewRepresentativeDecisionNo, UpdateSourceTrigger=PropertyChanged}"
                          materialDesign:TextFieldAssist.HasClearButton="True"/>
 
                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                             Margin="0 0 0 3"
+                             Margin="0 0 0 8"
                          materialDesign:ValidationAssist.Background="Transparent"
                          materialDesign:HintAssist.Hint="Chức vụ (Tiếng Anh)"
                          Text="{Binding NewRepresentativePositionEn, UpdateSourceTrigger=PropertyChanged}"
                          materialDesign:TextFieldAssist.HasClearButton="True"/>
 
                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                             Margin="0 0 0 3"
+                             Margin="0 0 0 8"
                          materialDesign:ValidationAssist.Background="Transparent"
                          materialDesign:HintAssist.Hint="Số quyết định (Tiếng Anh)"
                          Text="{Binding NewRepresentativeDecisionNoEn, UpdateSourceTrigger=PropertyChanged}"
@@ -105,7 +105,7 @@
             </Grid>
         </Grid>
 
-        <materialDesign:Snackbar Grid.Row="0" Margin="30 20"
+        <materialDesign:Snackbar Grid.Row="0"
                                  Background="Black" Foreground="White" 
                                  HorizontalAlignment="Center"
                                  MessageQueue="{Binding AddResultNotification}"/>
@@ -197,35 +197,35 @@
 
                 <StackPanel Grid.Column="1" Grid.Row="1" Margin="30 0" HorizontalAlignment="Stretch">
                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"          
-                             Margin="0 0 0 3"
+                             Margin="0 0 0 8"
                          materialDesign:ValidationAssist.Background="Transparent"
                          materialDesign:HintAssist.Hint="Họ tên"
                          Text="{Binding EditingRepresentativeFullName, UpdateSourceTrigger=PropertyChanged}"
                          materialDesign:TextFieldAssist.HasClearButton="True"/>
 
                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                             Margin="0 0 0 3"
+                             Margin="0 0 0 8"
                          materialDesign:ValidationAssist.Background="Transparent"
                          materialDesign:HintAssist.Hint="Chức vụ"
                          Text="{Binding EditingRepresentativePosition, UpdateSourceTrigger=PropertyChanged}"
                          materialDesign:TextFieldAssist.HasClearButton="True"/>
 
                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"    
-                             Margin="0 0 0 3"
+                             Margin="0 0 0 8"
                          materialDesign:ValidationAssist.Background="Transparent"
                          materialDesign:HintAssist.Hint="Số quyết định"
                          Text="{Binding EditingRepresentativeDecisionNo, UpdateSourceTrigger=PropertyChanged}"
                          materialDesign:TextFieldAssist.HasClearButton="True"/>
 
                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                             Margin="0 0 0 3"
+                             Margin="0 0 0 8"
                          materialDesign:ValidationAssist.Background="Transparent"
                          materialDesign:HintAssist.Hint="Chức vụ (Tiếng Anh)"
                          Text="{Binding EditingRepresentativePositionEn, UpdateSourceTrigger=PropertyChanged}"
                          materialDesign:TextFieldAssist.HasClearButton="True"/>
 
                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                             Margin="0 0 0 3"
+                             Margin="0 0 0 8"
                          materialDesign:ValidationAssist.Background="Transparent"
                          materialDesign:HintAssist.Hint="Số quyết định (Tiếng Anh)"
                          Text="{Binding EditingRepresentativeDecisionNoEn, UpdateSourceTrigger=PropertyChanged}"
