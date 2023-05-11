@@ -297,6 +297,8 @@ namespace PnC_Insurance.ViewModel
                 MessageBox.Show(ex.Message.ToString());
                 notificationString = "Lỗi: " + ex.HResult.ToString();
             }
+
+            EditResultNotification.Enqueue(notificationString);
         }
         #endregion
 

@@ -55,6 +55,11 @@ namespace PnC_Insurance.ViewModel
         [NotifyCanExecuteChangedFor(nameof(AddLocationCommand))]
         private Customer? selectedCustomer;
 
+        partial void OnSelectedCustomerChanged(Customer? value)
+        {
+            SelectedMatchLocation = null;
+        }
+
         public List<InsuredLocation>? ListOfMatchLocations
         {
             get
@@ -84,7 +89,8 @@ namespace PnC_Insurance.ViewModel
         [ObservableProperty]
         [Required(ErrorMessage = "Chọn địa điểm")]
         [NotifyDataErrorInfo]
-        private Customer? selectedMatchLocation;
+        [NotifyCanExecuteChangedFor(nameof(OpenDeleteDialogCommand))]
+        private InsuredLocation? selectedMatchLocation;
         #endregion
 
         #region Location Search
@@ -202,7 +208,7 @@ namespace PnC_Insurance.ViewModel
 
         private bool CanOpenDeleteDialog()
         {
-            if (SelectedLocation != null)
+            if (SelectedMatchLocation != null)
                 return true;
 
             return false;
@@ -225,7 +231,7 @@ namespace PnC_Insurance.ViewModel
                             var query = from location in context.InsuredLocations
                                         from customer_location_combine in context.CustomersInsuredLocations
                                         where customer_location_combine.CustomerId == SelectedCustomer.Id &&
-                                              customer_location_combine.InsuredLocationId == location.Id
+                                              customer_location_combine.InsuredLocationId == SelectedMatchLocation.Id
                                         select customer_location_combine;
 
                             if (query.Any())
@@ -239,8 +245,7 @@ namespace PnC_Insurance.ViewModel
 
                     return "Đã xóa Địa điểm được bảo hiểm của Khách hàng này";
                 });
-
-                OnPropertyChanged(nameof(ListOfMatchLocations));
+                
                 StartOver();
                 IsDeletedLocationDialogOpen = false;
             }
@@ -255,12 +260,15 @@ namespace PnC_Insurance.ViewModel
                 MessageBox.Show(ex.Message.ToString());
                 notificationString = "Lỗi: " + ex.HResult.ToString();
             }
+
+            DeleteResultNotification.Enqueue(notificationString);
         }
         #endregion
 
         private void StartOver()
         {
-            
+            CustomerSearch = null;
+            LocationSearch = null;
             ValidateAllProperties();
         }
 
