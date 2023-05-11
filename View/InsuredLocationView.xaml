@@ -122,9 +122,10 @@
                 </StackPanel>
 
                 <StackPanel Grid.Column="0" Grid.Row="1" Margin="10 0" HorizontalAlignment="Stretch">
-                    <TextBox Width="380" HorizontalAlignment="Left" Margin="0 0 0 15"
+                    <TextBox HorizontalAlignment="Stretch" Margin="0 0 0 15"
                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                            Text="{Binding LocationSearch, UpdateSourceTrigger=PropertyChanged}">
+                            Text="{Binding LocationSearch, UpdateSourceTrigger=PropertyChanged}"
+                             materialDesign:TextFieldAssist.HasClearButton="True">
                         <materialDesign:HintAssist.Hint>
                             <TextBlock>
                             <materialDesign:PackIcon Kind="Search" VerticalAlignment="Bottom"/>

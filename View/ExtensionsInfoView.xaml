@@ -16,7 +16,8 @@
         <StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0 0 15 15"
-                     Text="{Binding ExtensionSearch, UpdateSourceTrigger=PropertyChanged}" Width="220">
+                     Text="{Binding ExtensionSearch, UpdateSourceTrigger=PropertyChanged}" Width="220"
+                         materialDesign:TextFieldAssist.HasClearButton="True">
                     <materialDesign:HintAssist.Hint>
                         <TextBlock>
                         <materialDesign:PackIcon Kind="Search" VerticalAlignment="Bottom"/>

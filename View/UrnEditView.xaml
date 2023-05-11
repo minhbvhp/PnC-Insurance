@@ -79,7 +79,8 @@
                             <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left">
                                 <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0 0 10 10"
                                          Foreground="Teal"
-                                         Text="{Binding DepartmentSearch, UpdateSourceTrigger=PropertyChanged}" Width="180">
+                                         Text="{Binding DepartmentSearch, UpdateSourceTrigger=PropertyChanged}" Width="180"
+                                         materialDesign:TextFieldAssist.HasClearButton="True">
                                     <materialDesign:HintAssist.Hint>
                                         <TextBlock>
                                                     <materialDesign:PackIcon Kind="Search" VerticalAlignment="Bottom"/>
@@ -237,7 +238,8 @@
                             <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left">
                                 <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0 0 10 10"
                                          Foreground="Teal"
-                                         Text="{Binding EmployeeSearch, UpdateSourceTrigger=PropertyChanged}" Width="180">
+                                         Text="{Binding EmployeeSearch, UpdateSourceTrigger=PropertyChanged}" Width="180"
+                                         materialDesign:TextFieldAssist.HasClearButton="True">
                                     <materialDesign:HintAssist.Hint>
                                         <TextBlock>
                                                     <materialDesign:PackIcon Kind="Search" VerticalAlignment="Bottom"/>
@@ -411,7 +413,8 @@
                             <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left">
                                 <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0 0 10 10"
                                          Foreground="Teal"
-                                         Text="{Binding AgentSearch, UpdateSourceTrigger=PropertyChanged}" Width="180">
+                                         Text="{Binding AgentSearch, UpdateSourceTrigger=PropertyChanged}" Width="180"
+                                         materialDesign:TextFieldAssist.HasClearButton="True">
                                     <materialDesign:HintAssist.Hint>
                                         <TextBlock>
                                                     <materialDesign:PackIcon Kind="Search" VerticalAlignment="Bottom"/>
