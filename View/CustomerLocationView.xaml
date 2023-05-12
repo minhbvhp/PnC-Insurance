@@ -10,35 +10,37 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="1.5*"/>
         </Grid.ColumnDefinitions>
 
 
         <Grid Grid.Column="0">
-            <StackPanel Grid.Row="0" Margin="10 0" HorizontalAlignment="Stretch">
-                <TextBox HorizontalAlignment="Stretch" Margin="0 0 0 30"
+            <Border BorderBrush="#354f52" BorderThickness="0.3" Padding="10">
+                <StackPanel Margin="10 0" HorizontalAlignment="Stretch">
+                    <TextBox HorizontalAlignment="Stretch" Margin="0 0 0 30"
                       Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                      Text="{Binding CustomerSearch, UpdateSourceTrigger=PropertyChanged}"
                          materialDesign:TextFieldAssist.HasClearButton="True">
-                    <materialDesign:HintAssist.Hint>
-                        <TextBlock>
+                        <materialDesign:HintAssist.Hint>
+                            <TextBlock>
                         <materialDesign:PackIcon Kind="Search" VerticalAlignment="Bottom"/>
                         <Run Text="Tìm kiếm khách hàng"/>
-                        </TextBlock>
-                    </materialDesign:HintAssist.Hint>
-                </TextBox>
+                            </TextBlock>
+                        </materialDesign:HintAssist.Hint>
+                    </TextBox>
 
-                <DataGrid ItemsSource="{Binding ListOfCustomers, IsAsync=True}"
+                    <DataGrid ItemsSource="{Binding ListOfCustomers, IsAsync=True}"
                               SelectedItem="{Binding SelectedCustomer, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                               AutoGenerateColumns="False" SelectionMode="Single"
                               IsReadOnly="True" HeadersVisibility="All" ColumnWidth="*" MaxHeight="550">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding TaxCode}" Width="Auto" Header="MST"/>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding TaxCode}" Width="Auto" Header="MST"/>
 
-                        <DataGridTextColumn Binding="{Binding Name}" Header="Tên Khách hàng"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </StackPanel>
+                            <DataGridTextColumn Binding="{Binding Name}" Header="Tên Khách hàng"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Border>
         </Grid>
 
         <Grid Grid.Column="1" Margin="10 0">

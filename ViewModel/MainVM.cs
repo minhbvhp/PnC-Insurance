@@ -19,6 +19,9 @@ namespace PnC_Insurance.ViewModel
         {
             switch (value.ContentViewModels)
             {
+                case PropertyQuotationCreateVM propertyQuotationCreateVM:
+                    SelectedVM = new PropertyQuotationCreateVM();
+                    break;
                 case CustomerLocationVM customerLocationVM:
                     SelectedVM = new CustomerLocationVM();
                     break;
@@ -62,7 +65,14 @@ namespace PnC_Insurance.ViewModel
         private void CreateMenu()
         {
             CustomMenuItems = new ObservableCollection<CustomMenuItem>();
-            CustomMenuItems.Add(new CustomMenuItem(new BaseVM(), "BẢN CHÀO", PackIconKind.AlphaQBoxOutline));
+
+            CustomMenuItems.Add(new CustomMenuItem("BẢN CHÀO", PackIconKind.AlphaQBoxOutline
+                                , new List<CustomSubItem>
+                                {
+                                    new CustomSubItem(new PropertyQuotationCreateVM(), "Tạo mới"),
+                                }));
+
+
             CustomMenuItems.Add(new CustomMenuItem(new BaseVM(), "GIẤY CHỨNG NHẬN", PackIconKind.FileDocumentCheck));           
 
             CustomMenuItems.Add(new CustomMenuItem("HỢP ĐỒNG", PackIconKind.FileSign
