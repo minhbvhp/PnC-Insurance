@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using MinhHelper;
 using PnC_Insurance.Model;
 using System;
 using System.Collections.Generic;
@@ -140,11 +141,11 @@ namespace PnC_Insurance.ViewModel
             var addingRepresentative = new Representative()
             {
                 CustomerId = SelectedCustomer.Id,
-                FullName = NewRepresentativeFullName,
-                Position = NewRepresentativePosition,
-                DecisionNo = NewRepresentativeDecisionNo,
-                PositionEn = NewRepresentativePositionEn,
-                DecisionNoEn = NewRepresentativeDecisionNoEn,
+                FullName = StringHelper.RemoveRedundantWhitespaces(NewRepresentativeFullName),
+                Position = StringHelper.RemoveRedundantWhitespaces(NewRepresentativePosition),
+                DecisionNo = StringHelper.RemoveRedundantWhitespaces(NewRepresentativeDecisionNo),
+                PositionEn = StringHelper.RemoveRedundantWhitespaces(NewRepresentativePositionEn),
+                DecisionNoEn = StringHelper.RemoveRedundantWhitespaces(NewRepresentativeDecisionNoEn),
             };
 
             string notificationString = "";
@@ -261,11 +262,11 @@ namespace PnC_Insurance.ViewModel
                             {
                                 var changeRepresentative = await query.FirstOrDefaultAsync();
 
-                                changeRepresentative.FullName = editingRepresentative.FullName;
-                                changeRepresentative.Position = editingRepresentative.Position;
-                                changeRepresentative.DecisionNo = editingRepresentative.DecisionNo;
-                                changeRepresentative.PositionEn = editingRepresentative.PositionEn;
-                                changeRepresentative.DecisionNoEn = editingRepresentative.DecisionNoEn;
+                                changeRepresentative.FullName = StringHelper.RemoveRedundantWhitespaces(editingRepresentative.FullName);
+                                changeRepresentative.Position = StringHelper.RemoveRedundantWhitespaces(editingRepresentative.Position);
+                                changeRepresentative.DecisionNo = StringHelper.RemoveRedundantWhitespaces(editingRepresentative.DecisionNo);
+                                changeRepresentative.PositionEn = StringHelper.RemoveRedundantWhitespaces(editingRepresentative.PositionEn);
+                                changeRepresentative.DecisionNoEn = StringHelper.RemoveRedundantWhitespaces(editingRepresentative.DecisionNoEn);
 
                                 await context.SaveChangesAsync();
                             }

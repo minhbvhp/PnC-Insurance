@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using MinhHelper;
 using PnC_Insurance.Model;
 using System;
 using System.Collections.Generic;
@@ -143,8 +144,8 @@ namespace PnC_Insurance.ViewModel
                             {
                                 var changeDepartment = await query.FirstOrDefaultAsync();
 
-                                changeDepartment.Urn = editingDepartment.Urn;
-                                changeDepartment.Name = editingDepartment.Name;
+                                changeDepartment.Urn = StringHelper.RemoveRedundantWhitespaces(editingDepartment.Urn);
+                                changeDepartment.Name = StringHelper.RemoveRedundantWhitespaces(editingDepartment.Name);
 
                                 await context.SaveChangesAsync();
                             }
@@ -427,8 +428,8 @@ namespace PnC_Insurance.ViewModel
                             {
                                 var changeEmployee = await query.FirstOrDefaultAsync();
 
-                                changeEmployee.Urn = editingEmployee.Urn;
-                                changeEmployee.FullName = editingEmployee.FullName;
+                                changeEmployee.Urn = StringHelper.RemoveRedundantWhitespaces(editingEmployee.Urn);
+                                changeEmployee.FullName = StringHelper.RemoveRedundantWhitespaces(editingEmployee.FullName);
                                 changeEmployee.DeptId = editingEmployee.DeptId;
 
                                 await context.SaveChangesAsync();
@@ -708,8 +709,8 @@ namespace PnC_Insurance.ViewModel
                             {
                                 var changeAgent = await query.FirstOrDefaultAsync();
 
-                                changeAgent.Urn = editingAgent.Urn;
-                                changeAgent.FullName = editingAgent.FullName;
+                                changeAgent.Urn = StringHelper.RemoveRedundantWhitespaces(editingAgent.Urn);
+                                changeAgent.FullName = StringHelper.RemoveRedundantWhitespaces(editingAgent.FullName);
                                 changeAgent.DeptId = editingAgent.DeptId;
 
                                 await context.SaveChangesAsync();

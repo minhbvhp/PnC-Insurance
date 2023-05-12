@@ -8,12 +8,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using static System.Runtime.CompilerServices.RuntimeHelpers;
-using System.Xml.Linq;
+using MinhHelper;
 
 namespace PnC_Insurance.ViewModel
 {
@@ -169,15 +166,15 @@ namespace PnC_Insurance.ViewModel
                             {
                                 var changeCustomer = await query.FirstOrDefaultAsync();
 
-                                changeCustomer.TaxCode = editingCustomer.TaxCode;
-                                changeCustomer.Name = editingCustomer.Name;
-                                changeCustomer.Address = editingCustomer.Address;
-                                changeCustomer.Business = editingCustomer.Business;
-                                changeCustomer.BusinessCode = editingCustomer.BusinessCode;
-                                changeCustomer.ClientCode = editingCustomer.ClientCode;
-                                changeCustomer.NameEn = editingCustomer.NameEn;
-                                changeCustomer.AddressEn = editingCustomer.AddressEn;
-                                changeCustomer.BusinessEn = editingCustomer.BusinessEn;
+                                changeCustomer.TaxCode = StringHelper.RemoveRedundantWhitespaces(editingCustomer.TaxCode);
+                                changeCustomer.Name = StringHelper.RemoveRedundantWhitespaces(editingCustomer.Name);
+                                changeCustomer.Address = StringHelper.RemoveRedundantWhitespaces(editingCustomer.Address);
+                                changeCustomer.Business = StringHelper.RemoveRedundantWhitespaces(editingCustomer.Business);
+                                changeCustomer.BusinessCode = StringHelper.RemoveRedundantWhitespaces(editingCustomer.BusinessCode);
+                                changeCustomer.ClientCode = StringHelper.RemoveRedundantWhitespaces(editingCustomer.ClientCode);
+                                changeCustomer.NameEn = StringHelper.RemoveRedundantWhitespaces(editingCustomer.NameEn);
+                                changeCustomer.AddressEn = StringHelper.RemoveRedundantWhitespaces(editingCustomer.AddressEn);
+                                changeCustomer.BusinessEn = StringHelper.RemoveRedundantWhitespaces(editingCustomer.BusinessEn);
 
                                 await context.SaveChangesAsync();
                             }

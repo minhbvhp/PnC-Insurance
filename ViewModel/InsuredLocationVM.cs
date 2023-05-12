@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using MinhHelper;
 using PnC_Insurance.Model;
 using System;
 using System.Collections.Generic;
@@ -35,8 +36,8 @@ namespace PnC_Insurance.ViewModel
 
             var addingLocation = new InsuredLocation()
             {
-                Location = NewLocation,
-                LocationEn = NewLocationEn,
+                Location = StringHelper.RemoveRedundantWhitespaces(NewLocation),
+                LocationEn = StringHelper.RemoveRedundantWhitespaces(NewLocationEn),
             };
 
             string notificationString = "";
@@ -182,10 +183,9 @@ namespace PnC_Insurance.ViewModel
                             {
                                 var changeLocation = await query.FirstOrDefaultAsync();
 
-                                changeLocation.Location = editingInsuredLocation.Location;
-                                changeLocation.LocationEn = editingInsuredLocation.LocationEn;
+                                changeLocation.Location = StringHelper.RemoveRedundantWhitespaces(editingInsuredLocation.Location);
+                                changeLocation.LocationEn = StringHelper.RemoveRedundantWhitespaces(editingInsuredLocation.LocationEn);
                                 
-
                                 await context.SaveChangesAsync();
                             }
                         }

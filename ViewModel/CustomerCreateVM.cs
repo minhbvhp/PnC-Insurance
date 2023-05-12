@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using MinhHelper;
 
 namespace PnC_Insurance.ViewModel
 {
@@ -71,15 +72,15 @@ namespace PnC_Insurance.ViewModel
 
             var addingCustomer = new Customer()
             {
-                TaxCode = NewTaxCode,
-                Name = NewName,
-                Address = NewAddress,
-                Business = NewBusiness,
-                BusinessCode = NewBusinessCode,
-                ClientCode= NewClientCode,
-                NameEn= NewNameEn,
-                AddressEn= NewAddressEn,
-                BusinessEn= NewBusinessEn,
+                TaxCode = StringHelper.RemoveRedundantWhitespaces(NewTaxCode),
+                Name = StringHelper.RemoveRedundantWhitespaces(NewName),
+                Address = StringHelper.RemoveRedundantWhitespaces(NewAddress),
+                Business = StringHelper.RemoveRedundantWhitespaces(NewBusiness),
+                BusinessCode = StringHelper.RemoveRedundantWhitespaces(NewBusinessCode),
+                ClientCode= StringHelper.RemoveRedundantWhitespaces(NewClientCode),
+                NameEn= StringHelper.RemoveRedundantWhitespaces(NewNameEn),
+                AddressEn= StringHelper.RemoveRedundantWhitespaces(NewAddressEn),
+                BusinessEn= StringHelper.RemoveRedundantWhitespaces(NewBusinessEn),
             };
 
             string notificationString = "";

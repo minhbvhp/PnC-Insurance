@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Configuration;
 using Microsoft.Data.Sqlite;
 using System.Windows;
+using MinhHelper;
 
 namespace PnC_Insurance.ViewModel
 {
@@ -63,8 +64,8 @@ namespace PnC_Insurance.ViewModel
             
             var addingDepartment = new Department()
             {
-                Urn = NewDeptUrn,
-                Name = NewDeptName,
+                Urn = StringHelper.RemoveRedundantWhitespaces(NewDeptUrn),
+                Name = StringHelper.RemoveRedundantWhitespaces(NewDeptName),
             };
 
             string notificationString = "";
@@ -143,8 +144,8 @@ namespace PnC_Insurance.ViewModel
 
             var addingEmployee = new Employee()
             {
-                Urn = NewEmployeeUrn,
-                FullName = NewEmployeeName,
+                Urn = StringHelper.RemoveRedundantWhitespaces(NewEmployeeUrn),
+                FullName = StringHelper.RemoveRedundantWhitespaces(NewEmployeeName),
                 DeptId = DepartmentOfEmployee.Id,
             };            
 
@@ -223,8 +224,8 @@ namespace PnC_Insurance.ViewModel
 
             var addingAgent = new Agent()
             {
-                Urn = NewAgentUrn,
-                FullName = NewAgentName,
+                Urn = StringHelper.RemoveRedundantWhitespaces(NewAgentUrn),
+                FullName = StringHelper.RemoveRedundantWhitespaces(NewAgentName),
                 DeptId = DepartmentOfAgent.Id,
             };            
 
