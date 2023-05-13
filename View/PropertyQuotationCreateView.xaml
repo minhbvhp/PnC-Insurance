@@ -8,135 +8,165 @@
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="800">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-
         <Grid.RowDefinitions>
+            <RowDefinition/>
             <RowDefinition/>
             <RowDefinition Height="100"/>
         </Grid.RowDefinitions>
 
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="28"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
 
-        <Border Grid.Column="0" Grid.Row="0" BorderBrush="#354f52" 
-                BorderThickness="0.8" Padding="20 20 20 50" Margin="10 0">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="70"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-
-                <StackPanel Grid.Row="0" HorizontalAlignment="Center">
-                    <TextBlock Text="THÔNG TIN BẮT BUỘC" FontSize="20" Foreground="#1A5F7A"
-                           FontWeight="Bold" FontFamily="{StaticResource MaterialDesignFont}">
-                        <TextBlock.Effect>
-                            <DropShadowEffect ShadowDepth="4"
+            <TextBlock Text="THÔNG TIN BẮT BUỘC" FontSize="20" Foreground="#1A5F7A" HorizontalAlignment="Center"
+                       FontWeight="Bold" FontFamily="{StaticResource MaterialDesignFont}">
+                <TextBlock.Effect>
+                    <DropShadowEffect ShadowDepth="4"
                                           Direction="330"
                                           Color="Black"
                                           Opacity="0.3"
                                           BlurRadius="5"/>
-                        </TextBlock.Effect>
-                    </TextBlock>
-                </StackPanel>
+                </TextBlock.Effect>
+            </TextBlock>
 
-                <StackPanel Grid.Row="1" HorizontalAlignment="Stretch" Margin="10 0">
-                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             Text="{Binding NewTaxCode, UpdateSourceTrigger=PropertyChanged}" 
-                             materialDesign:ValidationAssist.Background="Transparent"
-                             Margin="0 0 0 30"
-                             materialDesign:HintAssist.Hint="Mã số thuế"
-                             materialDesign:TextFieldAssist.HasClearButton="True"/>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
 
-                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             Text="{Binding NewName, UpdateSourceTrigger=PropertyChanged}" 
-                             materialDesign:ValidationAssist.Background="Transparent"
-                             Margin="0 0 0 30"
+                <materialDesign:DialogHost Grid.Column="0">
+                    <materialDesign:DialogHost.DialogContent>
+                        <StackPanel Height="280" Width="450" Margin="10 0" 
+                                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <TextBox Width="380" HorizontalAlignment="Left" Margin="0 0 0 15"
+                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                     Text="{Binding CustomerSearch, UpdateSourceTrigger=PropertyChanged}"
+                                     materialDesign:TextFieldAssist.HasClearButton="True">
+                                <materialDesign:HintAssist.Hint>
+                                    <TextBlock>
+                                        <materialDesign:PackIcon Kind="Search" VerticalAlignment="Bottom"/>
+                                        <Run Text="Tìm kiếm khách hàng"/>
+                                    </TextBlock>
+                                </materialDesign:HintAssist.Hint>
+                            </TextBox>
+
+                            <DataGrid ItemsSource="{Binding ListOfCustomers, IsAsync=True}"
+                                      SelectedItem="{Binding SelectedCustomer, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                      AutoGenerateColumns="False" SelectionMode="Single"
+                                      IsReadOnly="True" HeadersVisibility="All" Height="150">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Binding="{Binding TaxCode}" Header="MST"/>
+
+                                    <DataGridTextColumn Binding="{Binding Name}" Header="Tên Khách hàng"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <Button Style="{StaticResource MaterialDesignFlatDarkBgButton}"
+                                    Background="#94AF9F" Width="80" Height="40" Margin="0 15"
+                                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                    Content="Chọn"/>
+                        </StackPanel>
+                    </materialDesign:DialogHost.DialogContent>
+
+                    <StackPanel Margin="10" HorizontalAlignment="Stretch">
+                        <StackPanel Orientation="Horizontal" Margin="0 0 0 20">
+                            <TextBlock Text="Lựa chọn khách hàng:" Margin="0 0 30 0" VerticalAlignment="Center"/>
+
+                            <Button Style="{StaticResource MaterialDesignFlatDarkButton}"
+                                    Background="#94AF9F" Width="50"
+                                    Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
+                                    Content="..." />
+                        </StackPanel>
+
+                        <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"                             
+                             IsReadOnly="True" TextWrapping="Wrap" Margin="0 0 0 15"
+                             materialDesign:HintAssist.Hint="Mã số thuế" FontSize="14"
+                             materialDesign:HintAssist.Background="#CAD2C5"
+                             Text="{Binding SelectedCustomer.TaxCode, Mode=OneWay}"/>
+
+                        <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"                             
+                             IsReadOnly="True" TextWrapping="Wrap" Margin="0 0 0 15"
                              materialDesign:HintAssist.Hint="Tên Khách hàng"
-                             materialDesign:TextFieldAssist.HasClearButton="True"/>
+                             materialDesign:HintAssist.Background="#CAD2C5"
+                             Text="{Binding SelectedCustomer.Name, Mode=OneWay}"/>
+                    </StackPanel>
+                    
+                </materialDesign:DialogHost>
 
-                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             Text="{Binding NewAddress, UpdateSourceTrigger=PropertyChanged}" 
-                             materialDesign:ValidationAssist.Background="Transparent"
-                             Margin="0 0 0 30"
-                             materialDesign:HintAssist.Hint="Địa chỉ"
-                             materialDesign:TextFieldAssist.HasClearButton="True"/>
+                <materialDesign:DialogHost Grid.Column="1">
+                    <materialDesign:DialogHost.DialogContent>
+                        <Grid Height="200" Width="200" Margin="8">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="2*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="40"/>
+                            </Grid.RowDefinitions>
 
-                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             Text="{Binding NewBusiness, UpdateSourceTrigger=PropertyChanged}" 
-                             materialDesign:ValidationAssist.Background="Transparent"
-                             Margin="0 0 0 30"
-                             materialDesign:HintAssist.Hint="Ngành nghề kinh doanh"
-                             materialDesign:TextFieldAssist.HasClearButton="True"/>
+                            <StackPanel VerticalAlignment="Center">
+                                <materialDesign:PackIcon HorizontalAlignment="Center" Margin="0 5"
+                                                             Kind="Warning" Height="40" Width="40" Foreground="OrangeRed"/>
 
-                </StackPanel>
+                                <TextBlock HorizontalAlignment="Center" 
+                                               TextWrapping="Wrap" TextAlignment="Justify" Foreground="OrangeRed">
+                                        <Run Text="Toàn bộ"/>
+                                        <Run FontWeight="Bold" Text="Dữ liệu liên quan"/>
+                                        <Run Text="tới Phòng này cũng sẽ bị ảnh hưởng. Hãy cẩn thận!"/>
+                                </TextBlock>
+                            </StackPanel>
 
+                            <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                           FontWeight="Bold" FontSize="14"
+                                           Text="Chắc chắn xóa chứ ?"/>
 
+                            <Grid Grid.Row="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Button Grid.Column="0" Width="60" IsTabStop="False"
+                                            Style="{StaticResource MaterialDesignRaisedLightButton}"
+                                            Background="OrangeRed" Foreground="White" Content="Xóa"
+                                            Command="{Binding DeleteDepartmentCommand}"/>
+
+                                <Button Grid.Column="1" Width="80" IsTabStop="False"
+                                            Background="#424242" Foreground="White"
+                                            Style="{StaticResource MaterialDesignRaisedLightButton}" Content="Giữ"
+                                            Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" IsCancel="True"/>
+                            </Grid>
+                        </Grid>
+                    </materialDesign:DialogHost.DialogContent>
+
+                    <StackPanel Margin="10" HorizontalAlignment="Stretch">
+                        <StackPanel Orientation="Horizontal" Margin="0 0 0 20">
+                            <TextBlock Text="Lựa chọn khách hàng:" Margin="0 0 30 0" VerticalAlignment="Center"/>
+
+                            <Button Style="{StaticResource MaterialDesignFlatDarkButton}"
+                                    Background="#94AF9F" Width="50"
+                                    Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
+                                    Content="..." />
+                        </StackPanel>
+
+                        <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"                             
+                             IsReadOnly="True" TextWrapping="Wrap" Margin="0 0 0 15"
+                             materialDesign:HintAssist.Hint="Mã số thuế" FontSize="14"
+                             materialDesign:HintAssist.Background="#CAD2C5"
+                             Text="{Binding SelectedCustomer.TaxCode, Mode=OneWay}"/>
+
+                        <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"                             
+                             IsReadOnly="True" TextWrapping="Wrap" Margin="0 0 0 15"
+                             materialDesign:HintAssist.Hint="Tên Khách hàng"
+                             materialDesign:HintAssist.Background="#CAD2C5"
+                             Text="{Binding SelectedCustomer.Name, Mode=OneWay}"/>
+                    </StackPanel>
+                </materialDesign:DialogHost>
             </Grid>
-        </Border>
-
-        <Border Grid.Column="1" Grid.Row="0" BorderBrush="#354f52" 
-                BorderThickness="0.8" Padding="20 20 20 50" Margin="10 0">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="70"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-
-                <StackPanel Grid.Row="0" HorizontalAlignment="Center">
-                    <TextBlock Text="BỔ SUNG SAU" FontSize="20" Foreground="#1A5F7A"
-                           FontWeight="Bold" FontFamily="{StaticResource MaterialDesignFont}">
-                        <TextBlock.Effect>
-                            <DropShadowEffect ShadowDepth="4"
-                                          Direction="330"
-                                          Color="Black"
-                                          Opacity="0.3"
-                                          BlurRadius="5"/>
-                        </TextBlock.Effect>
-                    </TextBlock>
-                </StackPanel>
+        </Grid>
 
 
-
-                <StackPanel Grid.Row="1" HorizontalAlignment="Stretch" Margin="10 0">
-                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             Text="{Binding NewBusinessCode, UpdateSourceTrigger=PropertyChanged}"
-                             materialDesign:ValidationAssist.Background="Transparent"
-                             Margin="0 0 0 30"
-                             materialDesign:HintAssist.Hint="Mã ngành"
-                             materialDesign:TextFieldAssist.HasClearButton="True"/>
-
-                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             Text="{Binding NewClientCode, UpdateSourceTrigger=PropertyChanged}" 
-                             materialDesign:ValidationAssist.Background="Transparent"
-                             Margin="0 0 0 30"
-                             materialDesign:HintAssist.Hint="Mã khách hàng"
-                             materialDesign:TextFieldAssist.HasClearButton="True"/>
-
-                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             Text="{Binding NewNameEn, UpdateSourceTrigger=PropertyChanged}" 
-                             materialDesign:ValidationAssist.Background="Transparent"
-                             Margin="0 0 0 30"
-                             materialDesign:HintAssist.Hint="Tên Khách hàng (Tiếng Anh)"
-                             materialDesign:TextFieldAssist.HasClearButton="True"/>
-
-                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             Text="{Binding NewAddressEn, UpdateSourceTrigger=PropertyChanged}" 
-                             materialDesign:ValidationAssist.Background="Transparent"
-                             Margin="0 0 0 30" 
-                             materialDesign:HintAssist.Hint="Địa chỉ (Tiếng Anh)"
-                             materialDesign:TextFieldAssist.HasClearButton="True"/>
-
-                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             Text="{Binding NewBusinessEn, UpdateSourceTrigger=PropertyChanged}" 
-                             materialDesign:ValidationAssist.Background="Transparent"
-                             Margin="0 0 0 30"
-                             materialDesign:HintAssist.Hint="Ngành nghề kinh doanh (Tiếng Anh)"
-                             materialDesign:TextFieldAssist.HasClearButton="True"/>
-
-                </StackPanel>
-            </Grid>
-        </Border>
 
         <Button Grid.ColumnSpan="2" Grid.Row="1" FontSize="18"
                 HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="30 10"
