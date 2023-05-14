@@ -133,7 +133,7 @@ namespace PnC_Insurance.ViewModel
         [ObservableProperty]
         private SnackbarMessageQueue? addResultNotification;
 
-        [RelayCommand(CanExecute = nameof(CanAddRepresentativeCommand))]
+        [RelayCommand(CanExecute = nameof(CanAddRepresentative))]
         private async Task AddRepresentativeAsync()
         {
             AddResultNotification = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
@@ -188,7 +188,7 @@ namespace PnC_Insurance.ViewModel
             AddResultNotification.Enqueue(notificationString);
         }
 
-        private bool CanAddRepresentativeCommand()
+        private bool CanAddRepresentative()
         {
             if (!GetErrors(nameof(NewRepresentativeFullName)).Any() &&
                 !GetErrors(nameof(NewRepresentativePosition)).Any() &&

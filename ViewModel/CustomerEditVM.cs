@@ -129,7 +129,7 @@ namespace PnC_Insurance.ViewModel
         #endregion
 
         #region Add New Customer
-        [RelayCommand(CanExecute = nameof(CanEditCustomerCommand))]
+        [RelayCommand(CanExecute = nameof(CanEditCustomer))]
         private async Task EditCustomerAsync()
         {
             ResultNotification = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
@@ -209,7 +209,7 @@ namespace PnC_Insurance.ViewModel
             ResultNotification.Enqueue(notificationString);            
         }
 
-        private bool CanEditCustomerCommand()
+        private bool CanEditCustomer()
         {            
             if (!GetErrors(nameof(EditingTaxCode)).Any() &&
                 !GetErrors(nameof(EditingName)).Any() &&

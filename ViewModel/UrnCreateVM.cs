@@ -57,7 +57,7 @@ namespace PnC_Insurance.ViewModel
         [NotifyCanExecuteChangedFor(nameof(AddNewDepartmentCommand))]
         private string? newDeptName;
 
-        [RelayCommand(CanExecute = nameof(CanAddNewDepartmentCommand))]
+        [RelayCommand(CanExecute = nameof(CanAddNewDepartment))]
         private async Task AddNewDepartmentAsync()
         {
             DeptResultNotification = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
@@ -108,7 +108,7 @@ namespace PnC_Insurance.ViewModel
             DeptResultNotification.Enqueue(notificationString);            
         }
 
-        private bool CanAddNewDepartmentCommand()
+        private bool CanAddNewDepartment()
         {
             if (!GetErrors(nameof(NewDeptUrn)).Any() && !GetErrors(nameof(NewDeptName)).Any())
                 return true;
@@ -137,7 +137,7 @@ namespace PnC_Insurance.ViewModel
         [NotifyCanExecuteChangedFor(nameof(AddNewEmployeeCommand))]
         private Department? departmentOfEmployee;
 
-        [RelayCommand(CanExecute = nameof(CanAddNewEmployeeCommand))]
+        [RelayCommand(CanExecute = nameof(CanAddNewEmployee))]
         private async Task AddNewEmployeeAsync()
         {
             EmployeeResultNotification = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
@@ -188,7 +188,7 @@ namespace PnC_Insurance.ViewModel
             EmployeeResultNotification.Enqueue(notificationString);
         }
 
-        private bool CanAddNewEmployeeCommand()
+        private bool CanAddNewEmployee()
         {
             if (!GetErrors(nameof(NewEmployeeUrn)).Any() && !GetErrors(nameof(NewEmployeeName)).Any() && !GetErrors(nameof(DepartmentOfEmployee)).Any())
                 return true;
@@ -217,7 +217,7 @@ namespace PnC_Insurance.ViewModel
         [NotifyCanExecuteChangedFor(nameof(AddNewAgentCommand))]
         private Department? departmentOfAgent;
 
-        [RelayCommand(CanExecute = nameof(CanAddNewAgentCommand))]
+        [RelayCommand(CanExecute = nameof(CanAddNewAgent))]
         private async Task AddNewAgentAsync()
         {
             AgentResultNotification = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
@@ -268,7 +268,7 @@ namespace PnC_Insurance.ViewModel
             AgentResultNotification.Enqueue(notificationString);
         }
 
-        private bool CanAddNewAgentCommand()
+        private bool CanAddNewAgent()
         {
             if (!GetErrors(nameof(NewAgentUrn)).Any() && !GetErrors(nameof(NewAgentName)).Any() && !GetErrors(nameof(DepartmentOfAgent)).Any())
                 return true;

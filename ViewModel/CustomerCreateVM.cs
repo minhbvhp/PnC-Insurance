@@ -65,7 +65,7 @@ namespace PnC_Insurance.ViewModel
         #endregion
 
         #region Add New Customer
-        [RelayCommand(CanExecute = nameof(CanAddNewCustomerCommand))]
+        [RelayCommand(CanExecute = nameof(CanAddNewCustomer))]
         private async Task AddNewCustomerAsync()
         {
             ResultNotification = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
@@ -122,7 +122,7 @@ namespace PnC_Insurance.ViewModel
             ResultNotification.Enqueue(notificationString);
         }
         
-        private bool CanAddNewCustomerCommand()
+        private bool CanAddNewCustomer()
         {
             if (!GetErrors(nameof(NewTaxCode)).Any() && 
                 !GetErrors(nameof(NewName)).Any() &&

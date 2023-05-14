@@ -133,7 +133,7 @@ namespace PnC_Insurance.ViewModel
         [ObservableProperty]
         private SnackbarMessageQueue? addResultNotification;
 
-        [RelayCommand(CanExecute = nameof(CanAddLocationCommand))]
+        [RelayCommand(CanExecute = nameof(CanAddLocation))]
         private async Task AddLocationAsync()
         {
             AddResultNotification = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
@@ -183,7 +183,7 @@ namespace PnC_Insurance.ViewModel
             AddResultNotification.Enqueue(notificationString);
         }
 
-        private bool CanAddLocationCommand()
+        private bool CanAddLocation()
         {
             if (!GetErrors(nameof(SelectedLocation)).Any() &&
                 !GetErrors(nameof(SelectedCustomer)).Any())

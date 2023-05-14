@@ -37,7 +37,7 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <materialDesign:DialogHost Grid.Column="0">
+                <materialDesign:DialogHost Grid.Column="0" IsOpen="{Binding IsChoosingCustomerDialogOpen}">
                     <materialDesign:DialogHost.DialogContent>
                         <StackPanel Height="280" Width="450" Margin="10 0" 
                                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -66,7 +66,7 @@
 
                             <Button Style="{StaticResource MaterialDesignFlatDarkBgButton}"
                                     Background="#94AF9F" Width="80" Height="40" Margin="0 15"
-                                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                    Command="{Binding ChooseCustomerCommand}"
                                     Content="Chọn"/>
                         </StackPanel>
                     </materialDesign:DialogHost.DialogContent>
@@ -85,59 +85,35 @@
                              IsReadOnly="True" TextWrapping="Wrap" Margin="0 0 0 15"
                              materialDesign:HintAssist.Hint="Mã số thuế" FontSize="14"
                              materialDesign:HintAssist.Background="#CAD2C5"
-                             Text="{Binding SelectedCustomer.TaxCode, Mode=OneWay}"/>
+                             Text="{Binding ChosenCustomer.TaxCode, Mode=OneWay}"/>
 
                         <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"                             
                              IsReadOnly="True" TextWrapping="Wrap" Margin="0 0 0 15"
                              materialDesign:HintAssist.Hint="Tên Khách hàng"
                              materialDesign:HintAssist.Background="#CAD2C5"
-                             Text="{Binding SelectedCustomer.Name, Mode=OneWay}"/>
+                             Text="{Binding ChosenCustomer.Name, Mode=OneWay}"/>
                     </StackPanel>
                     
                 </materialDesign:DialogHost>
 
-                <materialDesign:DialogHost Grid.Column="1">
+                <materialDesign:DialogHost Grid.Column="1" IsOpen="{Binding IsChoosingLocationDialogOpen}">
                     <materialDesign:DialogHost.DialogContent>
-                        <Grid Height="200" Width="200" Margin="8">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="2*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="40"/>
-                            </Grid.RowDefinitions>
+                        <StackPanel Height="220" Width="450" Margin="10" 
+                                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <DataGrid ItemsSource="{Binding ListOfMatchLocations, IsAsync=True}"
+                                      SelectedItem="{Binding SelectedLocation, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                      AutoGenerateColumns="False" SelectionMode="Single"
+                                      IsReadOnly="True" HeadersVisibility="All" Height="150">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Binding="{Binding Location}" Header="Địa điểm"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
 
-                            <StackPanel VerticalAlignment="Center">
-                                <materialDesign:PackIcon HorizontalAlignment="Center" Margin="0 5"
-                                                             Kind="Warning" Height="40" Width="40" Foreground="OrangeRed"/>
-
-                                <TextBlock HorizontalAlignment="Center" 
-                                               TextWrapping="Wrap" TextAlignment="Justify" Foreground="OrangeRed">
-                                        <Run Text="Toàn bộ"/>
-                                        <Run FontWeight="Bold" Text="Dữ liệu liên quan"/>
-                                        <Run Text="tới Phòng này cũng sẽ bị ảnh hưởng. Hãy cẩn thận!"/>
-                                </TextBlock>
-                            </StackPanel>
-
-                            <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"
-                                           FontWeight="Bold" FontSize="14"
-                                           Text="Chắc chắn xóa chứ ?"/>
-
-                            <Grid Grid.Row="2">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-
-                                <Button Grid.Column="0" Width="60" IsTabStop="False"
-                                            Style="{StaticResource MaterialDesignRaisedLightButton}"
-                                            Background="OrangeRed" Foreground="White" Content="Xóa"
-                                            Command="{Binding DeleteDepartmentCommand}"/>
-
-                                <Button Grid.Column="1" Width="80" IsTabStop="False"
-                                            Background="#424242" Foreground="White"
-                                            Style="{StaticResource MaterialDesignRaisedLightButton}" Content="Giữ"
-                                            Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" IsCancel="True"/>
-                            </Grid>
-                        </Grid>
+                            <Button Style="{StaticResource MaterialDesignFlatDarkBgButton}"
+                                    Background="#94AF9F" Width="80" Height="40" Margin="0 15"
+                                    Command="{Binding ChooseLocationCommand}"
+                                    Content="Chọn"/>
+                        </StackPanel>
                     </materialDesign:DialogHost.DialogContent>
 
                     <StackPanel Margin="10" HorizontalAlignment="Stretch">
@@ -146,27 +122,19 @@
 
                             <Button Style="{StaticResource MaterialDesignFlatDarkButton}"
                                     Background="#94AF9F" Width="50"
-                                    Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
+                                    Command="{Binding FetchMatchLocationsCommand}"
                                     Content="..." />
                         </StackPanel>
 
                         <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"                             
                              IsReadOnly="True" TextWrapping="Wrap" Margin="0 0 0 15"
-                             materialDesign:HintAssist.Hint="Mã số thuế" FontSize="14"
+                             materialDesign:HintAssist.Hint="Địa điểm" FontSize="14"
                              materialDesign:HintAssist.Background="#CAD2C5"
-                             Text="{Binding SelectedCustomer.TaxCode, Mode=OneWay}"/>
-
-                        <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"                             
-                             IsReadOnly="True" TextWrapping="Wrap" Margin="0 0 0 15"
-                             materialDesign:HintAssist.Hint="Tên Khách hàng"
-                             materialDesign:HintAssist.Background="#CAD2C5"
-                             Text="{Binding SelectedCustomer.Name, Mode=OneWay}"/>
+                             Text="{Binding ChosenLocation.Location, Mode=OneWay}"/>
                     </StackPanel>
                 </materialDesign:DialogHost>
             </Grid>
         </Grid>
-
-
 
         <Button Grid.ColumnSpan="2" Grid.Row="1" FontSize="18"
                 HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="30 10"
