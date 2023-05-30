@@ -54,7 +54,7 @@ namespace PnC_Insurance.ViewModel
         private Customer? selectedCustomer;
 
         [ObservableProperty]        
-        private bool? isChoosingCustomerDialogOpen;
+        private bool isChoosingCustomerDialogOpen = false;
 
         [ObservableProperty]
         [Required(ErrorMessage = "Chọn khách hàng")]
@@ -65,6 +65,7 @@ namespace PnC_Insurance.ViewModel
         private void ChooseCustomer()
         {
             ChosenCustomer = SelectedCustomer;
+            ListOfChosenLocation = new List<InsuredLocation>();
             IsChoosingCustomerDialogOpen = false;
         }
 
@@ -80,7 +81,7 @@ namespace PnC_Insurance.ViewModel
 
         #region Insured Location
         [ObservableProperty]
-        private bool? isChoosingLocationDialogOpen;
+        private bool isChoosingLocationDialogOpen = false;
 
         public List<InsuredLocation>? ListOfMatchLocations
         {
@@ -130,13 +131,21 @@ namespace PnC_Insurance.ViewModel
 
         [ObservableProperty]
         [Required(ErrorMessage = "Chọn Địa điểm")]
+        private List<InsuredLocation>? listOfChosenLocation = new List<InsuredLocation>();
+
+        [ObservableProperty]
         private InsuredLocation? chosenLocation;
 
 
         [RelayCommand(CanExecute = nameof(CanChooseLocation))]
         private void ChooseLocation()
-        {
-            ChosenLocation = SelectedLocation;
+        {        
+            if (SelectedLocation != null && !ListOfChosenLocation.Any(location => location.Id == SelectedLocation.Id))
+            {
+                ListOfChosenLocation.Add(SelectedLocation);
+                OnPropertyChanged(nameof(ListOfChosenLocation));
+            }
+
             IsChoosingLocationDialogOpen = false;
         }
 

@@ -118,7 +118,7 @@
 
                     <StackPanel Margin="10" HorizontalAlignment="Stretch">
                         <StackPanel Orientation="Horizontal" Margin="0 0 0 20">
-                            <TextBlock Text="Lựa chọn khách hàng:" Margin="0 0 30 0" VerticalAlignment="Center"/>
+                            <TextBlock Text="Lựa chọn địa điểm:" Margin="0 0 30 0" VerticalAlignment="Center"/>
 
                             <Button Style="{StaticResource MaterialDesignFlatDarkButton}"
                                     Background="#94AF9F" Width="50"
@@ -126,11 +126,23 @@
                                     Content="..." />
                         </StackPanel>
 
-                        <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"                             
-                             IsReadOnly="True" TextWrapping="Wrap" Margin="0 0 0 15"
-                             materialDesign:HintAssist.Hint="Địa điểm" FontSize="14"
-                             materialDesign:HintAssist.Background="#CAD2C5"
-                             Text="{Binding ChosenLocation.Location, Mode=OneWay}"/>
+                        <DataGrid x:Name="ListOfChosenLocationDataGrid" ItemsSource="{Binding ListOfChosenLocation, IsAsync=True}"
+                                  SelectedItem="{Binding ChosenLocation, UpdateSourceTrigger=PropertyChanged}"
+                                  AutoGenerateColumns="False" SelectionMode="Single"
+                                  IsReadOnly="True" HeadersVisibility="All" Height="150" Padding="10 0"
+                                  LoadingRow="ListOfChosenLocationDataGrid_LoadingRow">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding Location}" Header="Địa điểm trên bản chào"/>
+                            </DataGrid.Columns>
+
+                            <DataGrid.RowHeaderTemplate>
+                                <DataTemplate>
+                                    <Label Width="20" HorizontalContentAlignment="Center" 
+                                           Foreground="{DynamicResource txtColor}"
+                                           Content="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=Header}"/>
+                                </DataTemplate>
+                            </DataGrid.RowHeaderTemplate>
+                        </DataGrid>
                     </StackPanel>
                 </materialDesign:DialogHost>
             </Grid>
