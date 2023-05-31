@@ -12,4 +12,6 @@ public partial class Term
     public string ContentEn { get; set; } = null!;
 
     public long IsDeleted { get; set; }
+
+    public virtual ICollection<ClassOfInsurance> ClassOfInsurances { get; } = new List<ClassOfInsurance>();
 }

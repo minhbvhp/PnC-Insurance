@@ -16,11 +16,11 @@
 
         <Grid Grid.Row="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="28"/>
+                <RowDefinition Height="30"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <TextBlock Text="THÔNG TIN BẮT BUỘC" FontSize="20" Foreground="#1A5F7A" HorizontalAlignment="Center"
+            <TextBlock Text="TẠO BẢN CHÀO PHÍ" FontSize="20" Foreground="#1A5F7A" HorizontalAlignment="Center"
                        FontWeight="Bold" FontFamily="{StaticResource MaterialDesignFont}">
                 <TextBlock.Effect>
                     <DropShadowEffect ShadowDepth="4"
@@ -93,7 +93,7 @@
                              materialDesign:HintAssist.Background="#CAD2C5"
                              Text="{Binding ChosenCustomer.Name, Mode=OneWay}"/>
                     </StackPanel>
-                    
+
                 </materialDesign:DialogHost>
 
                 <materialDesign:DialogHost Grid.Column="1" IsOpen="{Binding IsChoosingLocationDialogOpen}">
@@ -128,8 +128,8 @@
 
                         <DataGrid x:Name="ListOfChosenLocationDataGrid" ItemsSource="{Binding ListOfChosenLocation, IsAsync=True}"
                                   SelectedItem="{Binding ChosenLocation, UpdateSourceTrigger=PropertyChanged}"
-                                  AutoGenerateColumns="False" SelectionMode="Single"
-                                  IsReadOnly="True" HeadersVisibility="All" Height="150" Padding="10 0"
+                                  AutoGenerateColumns="False" SelectionMode="Single" FontSize="12"
+                                  IsReadOnly="True" HeadersVisibility="All" Height="120" Padding="10 0"
                                   LoadingRow="ListOfChosenLocationDataGrid_LoadingRow">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Binding="{Binding Location}" Header="Địa điểm trên bản chào"/>
@@ -148,18 +148,135 @@
             </Grid>
         </Grid>
 
-        <Button Grid.ColumnSpan="2" Grid.Row="1" FontSize="18"
-                HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="30 10"
+        <Border BorderBrush="#354f52" BorderThickness="0 0 0 0.2" Margin="10 0"/>
+
+        <Grid Grid.Row="1" Margin="0 10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" HorizontalAlignment="Stretch" Margin="10 0 20 0">
+                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             Text="{Binding NewPolicyNo, UpdateSourceTrigger=PropertyChanged}" 
+                             materialDesign:ValidationAssist.Background="Transparent"
+                             Margin="0 0 0 20"
+                             materialDesign:HintAssist.Hint="Số đơn/Số bản chào"
+                             materialDesign:TextFieldAssist.HasClearButton="True"/>
+
+                <DatePicker Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
+                            SelectedDate="{Binding NewIssueDate, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
+                            materialDesign:ValidationAssist.Background="Transparent"
+                            Margin="0 0 0 20"
+                            materialDesign:HintAssist.Hint="Ngày cấp"/>
+
+                <DatePicker Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
+                            SelectedDate="{Binding NewFromDate, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
+                            materialDesign:ValidationAssist.Background="Transparent"
+                            Margin="0 0 0 20"
+                            materialDesign:HintAssist.Hint="Từ ngày"/>
+
+                <DatePicker Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
+                            SelectedDate="{Binding NewToDate, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
+                            materialDesign:ValidationAssist.Background="Transparent"
+                            Margin="0 0 0 20"
+                            materialDesign:HintAssist.Hint="Đến ngày"/>
+
+                <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                          ItemsSource="{Binding ListOfClassOfInsurances, IsAsync=True}"
+                          SelectedItem="{Binding NewClassOfInsurance, UpdateSourceTrigger=PropertyChanged}"
+                          Margin="0 0 0 20"
+                          materialDesign:ValidationAssist.Background="Transparent"
+                          DisplayMemberPath="Name" IsEditable="False"
+                          materialDesign:HintAssist.Hint="Nghiệp vụ bảo hiểm"/>
+
+                <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                          ItemsSource="{Binding ListOfDepartments, IsAsync=True}"
+                          SelectedItem="{Binding NewDepartment, UpdateSourceTrigger=PropertyChanged}"
+                          Margin="0 0 0 20"
+                          materialDesign:ValidationAssist.Background="Transparent"
+                          DisplayMemberPath="Name" IsEditable="False"
+                          materialDesign:HintAssist.Hint="Phòng"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" HorizontalAlignment="Stretch" Margin="10 0 20 0">
+                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                         Text="{Binding NewFnERate, UpdateSourceTrigger=PropertyChanged}" 
+                         materialDesign:ValidationAssist.Background="Transparent"
+                         Margin="0 0 0 20"
+                         materialDesign:HintAssist.Hint="Tỷ lệ phí CNBB"
+                         materialDesign:TextFieldAssist.SuffixText = "% "
+                         materialDesign:TextFieldAssist.HasClearButton="True"/>
+
+                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                         Text="{Binding NewArRate, UpdateSourceTrigger=PropertyChanged}" 
+                         materialDesign:ValidationAssist.Background="Transparent"
+                         Margin="0 0 0 20"
+                         materialDesign:HintAssist.Hint="Tỷ lệ phí bổ sung"
+                         materialDesign:TextFieldAssist.SuffixText = "% "
+                         materialDesign:TextFieldAssist.HasClearButton="True"/>
+
+                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                         Text="{Binding NewFnEPremium, UpdateSourceTrigger=PropertyChanged}" 
+                         materialDesign:ValidationAssist.Background="Transparent"
+                         Margin="0 0 0 20"
+                         materialDesign:HintAssist.Hint="Phí thuần Cháy nổ"
+                         materialDesign:TextFieldAssist.SuffixText = "VND "
+                         materialDesign:TextFieldAssist.HasClearButton="True"/>
+
+                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                         Text="{Binding NewArPremium, UpdateSourceTrigger=PropertyChanged}" 
+                         materialDesign:ValidationAssist.Background="Transparent"
+                         Margin="0 0 0 20"
+                         materialDesign:HintAssist.Hint="Phí thuần bổ sung"
+                         materialDesign:TextFieldAssist.SuffixText = "VND "
+                         materialDesign:TextFieldAssist.HasClearButton="True"/>
+
+                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                         Text="{Binding NewVAT, UpdateSourceTrigger=PropertyChanged}" 
+                         materialDesign:ValidationAssist.Background="Transparent"
+                         Margin="0 0 0 20"
+                         materialDesign:HintAssist.Hint="Thuế VAT"
+                         materialDesign:TextFieldAssist.SuffixText = "VND "
+                         materialDesign:TextFieldAssist.HasClearButton="True"/>
+
+                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                         Text="{Binding NewTotalDue, UpdateSourceTrigger=PropertyChanged}" 
+                         materialDesign:ValidationAssist.Background="Transparent"
+                         Margin="0 0 0 20"
+                         materialDesign:HintAssist.Hint="Tổng phí"
+                         materialDesign:TextFieldAssist.SuffixText = "VND "
+                         materialDesign:TextFieldAssist.HasClearButton="True"/>
+
+            </StackPanel>
+
+            <StackPanel Grid.Column="2" HorizontalAlignment="Stretch" Margin="10 0 20 0">
+                <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                         TextWrapping="Wrap" Margin="0 0 0 20"
+                         materialDesign:HintAssist.Hint="Mức khấu trừ Cháy nổ" FontSize="14"
+                         materialDesign:HintAssist.Background="#CAD2C5"
+                         Text="{Binding NewFnEDeductible}"/>
+
+                <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                         TextWrapping="Wrap" 
+                         materialDesign:HintAssist.Hint="Mức khấu trừ Bổ sung" FontSize="14"
+                         materialDesign:HintAssist.Background="#CAD2C5"
+                         Text="{Binding NewArDeductible}"/>
+
+            </StackPanel>
+        </Grid>
+        
+        <Button Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Top"
                 Style="{StaticResource MaterialDesignFloatingActionDarkButton}" 
-                Command="{Binding AddNewCustomerCommand}"
+                Command="{Binding AddNewPropertyQuotationCommand}"
                 materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
-                materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding AddNewCustomerCommand.IsRunning}">
+                materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding AddNewPropertyQuotationCommand.IsRunning}">
             <materialDesign:PackIcon Kind="Add"/>
         </Button>
 
-        <materialDesign:Snackbar Grid.ColumnSpan="2" Grid.Row="1" 
-                                 Background="Black" Foreground="White" 
-                                 HorizontalAlignment="Center"
-                                 MessageQueue="{Binding ResultNotification}"/>
+        <materialDesign:Snackbar Grid.Row="2" 
+                                 Background="Black" Foreground="White"
+                                 MessageQueue="{Binding ResultNotification}" VerticalAlignment="Top"/>
     </Grid>
 </UserControl>

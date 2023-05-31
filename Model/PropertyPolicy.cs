@@ -17,8 +17,6 @@ public partial class PropertyPolicy
 
     public string ToDate { get; set; } = null!;
 
-    public long InsuredLocationId { get; set; }
-
     public long ClassOfInsuranceId { get; set; }
 
     public double FnEpremiumRate { get; set; }
@@ -35,9 +33,9 @@ public partial class PropertyPolicy
 
     public string Ardeductible { get; set; } = null!;
 
-    public long TermId { get; set; }
-
     public long Confirm { get; set; }
+
+    public long DepartmentId { get; set; }
 
     public long IsDeleted { get; set; }
 

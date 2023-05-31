@@ -14,4 +14,8 @@ public partial class ClassOfInsurance
     public long? DecreeId { get; set; }
 
     public long IsDeleted { get; set; }
+
+    public virtual Decree? Decree { get; set; }
+
+    public virtual Term? Term { get; set; }
 }

@@ -35,6 +35,8 @@ public partial class InsuranceDbContext : DbContext
 
     public virtual DbSet<PropertyItem> PropertyItems { get; set; }
 
+    public virtual DbSet<PropertyPoliciesInsuredLocation> PropertyPoliciesInsuredLocations { get; set; }
+
     public virtual DbSet<PropertyPolicy> PropertyPolicies { get; set; }
 
     public virtual DbSet<Representative> Representatives { get; set; }
@@ -65,6 +67,10 @@ public partial class InsuranceDbContext : DbContext
             entity.HasIndex(e => e.Id, "IX_ClassOfInsurances_Id").IsUnique();
 
             entity.HasIndex(e => new { e.Name, e.TermId, e.DecreeId }, "available_class_of_insurance_unique").IsUnique();
+
+            entity.HasOne(d => d.Decree).WithMany(p => p.ClassOfInsurances).HasForeignKey(d => d.DecreeId);
+
+            entity.HasOne(d => d.Term).WithMany(p => p.ClassOfInsurances).HasForeignKey(d => d.TermId);
         });
 
         modelBuilder.Entity<Customer>(entity =>
@@ -178,6 +184,15 @@ public partial class InsuranceDbContext : DbContext
                 .HasColumnType("NUMERIC");
         });
 
+        modelBuilder.Entity<PropertyPoliciesInsuredLocation>(entity =>
+        {
+            entity.ToTable("PropertyPolicies_InsuredLocations");
+
+            entity.HasIndex(e => e.Id, "IX_PropertyPolicies_InsuredLocations_Id").IsUnique();
+
+            entity.HasIndex(e => new { e.PropertyPolicyId, e.InsuredLocationId }, "IX_PropertyPolicies_InsuredLocations_PropertyPolicyId_InsuredLocationId").IsUnique();
+        });
+
         modelBuilder.Entity<PropertyPolicy>(entity =>
         {
             entity.HasIndex(e => e.Id, "IX_PropertyPolicies_Id").IsUnique();
@@ -194,7 +209,6 @@ public partial class InsuranceDbContext : DbContext
                 .HasColumnName("FnEPremiumRate");
             entity.Property(e => e.FneDeductible).HasDefaultValueSql("'Chưa thiết lập'");
             entity.Property(e => e.FromDate).HasDefaultValueSql("'Chưa thiết lập'");
-            entity.Property(e => e.InsuredLocationId).HasDefaultValueSql("'Chưa thiết lập'");
             entity.Property(e => e.PolicyNo).HasDefaultValueSql("'Chưa thiết lập'");
             entity.Property(e => e.Premium)
                 .HasDefaultValueSql("0")
