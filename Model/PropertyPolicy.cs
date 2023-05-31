@@ -19,15 +19,19 @@ public partial class PropertyPolicy
 
     public long ClassOfInsuranceId { get; set; }
 
-    public double FnEpremiumRate { get; set; }
+    public long SumInsured { get; set; }
 
-    public double ArpremiumRate { get; set; }
+    public byte[] FnEpremiumRate { get; set; } = null!;
 
-    public byte[] Premium { get; set; } = null!;
+    public byte[] ArpremiumRate { get; set; } = null!;
 
-    public byte[] Vat { get; set; } = null!;
+    public long FnEpremium { get; set; }
 
-    public byte[] TotalDue { get; set; } = null!;
+    public long Arpremium { get; set; }
+
+    public long Vat { get; set; }
+
+    public long TotalDue { get; set; }
 
     public string FneDeductible { get; set; } = null!;
 

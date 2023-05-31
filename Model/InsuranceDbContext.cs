@@ -200,27 +200,22 @@ public partial class InsuranceDbContext : DbContext
             entity.Property(e => e.Ardeductible)
                 .HasDefaultValueSql("'Chưa thiết lập'")
                 .HasColumnName("ARDeductible");
+            entity.Property(e => e.Arpremium).HasColumnName("ARPremium");
             entity.Property(e => e.ArpremiumRate)
-                .HasDefaultValueSql("'Chưa thiết lập'")
+                .HasDefaultValueSql("0")
+                .HasColumnType("NUMERIC")
                 .HasColumnName("ARPremiumRate");
             entity.Property(e => e.DateIssue).HasDefaultValueSql("'Chưa thiết lập'");
+            entity.Property(e => e.FnEpremium).HasColumnName("FnEPremium");
             entity.Property(e => e.FnEpremiumRate)
-                .HasDefaultValueSql("'Chưa thiết lập'")
+                .HasDefaultValueSql("0")
+                .HasColumnType("NUMERIC")
                 .HasColumnName("FnEPremiumRate");
             entity.Property(e => e.FneDeductible).HasDefaultValueSql("'Chưa thiết lập'");
             entity.Property(e => e.FromDate).HasDefaultValueSql("'Chưa thiết lập'");
             entity.Property(e => e.PolicyNo).HasDefaultValueSql("'Chưa thiết lập'");
-            entity.Property(e => e.Premium)
-                .HasDefaultValueSql("0")
-                .HasColumnType("NUMERIC");
             entity.Property(e => e.ToDate).HasDefaultValueSql("'Chưa thiết lập'");
-            entity.Property(e => e.TotalDue)
-                .HasDefaultValueSql("0")
-                .HasColumnType("NUMERIC");
-            entity.Property(e => e.Vat)
-                .HasDefaultValueSql("0")
-                .HasColumnType("NUMERIC")
-                .HasColumnName("VAT");
+            entity.Property(e => e.Vat).HasColumnName("VAT");
 
             entity.HasOne(d => d.Cusomer).WithMany(p => p.PropertyPolicies)
                 .HasForeignKey(d => d.CusomerId)
