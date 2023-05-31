@@ -73,12 +73,12 @@ namespace PnC_Insurance.ViewModel
             var addingCustomer = new Customer()
             {
                 TaxCode = StringHelper.RemoveRedundantWhitespaces(NewTaxCode),
-                Name = StringHelper.RemoveRedundantWhitespaces(NewName),
+                Name = StringHelper.RemoveRedundantWhitespaces(NewName).ToUpper(),
                 Address = StringHelper.RemoveRedundantWhitespaces(NewAddress),
                 Business = StringHelper.RemoveRedundantWhitespaces(NewBusiness),
                 BusinessCode = StringHelper.RemoveRedundantWhitespaces(NewBusinessCode),
                 ClientCode= StringHelper.RemoveRedundantWhitespaces(NewClientCode),
-                NameEn= StringHelper.RemoveRedundantWhitespaces(NewNameEn),
+                NameEn= StringHelper.RemoveRedundantWhitespaces(NewNameEn).ToUpper(),
                 AddressEn= StringHelper.RemoveRedundantWhitespaces(NewAddressEn),
                 BusinessEn= StringHelper.RemoveRedundantWhitespaces(NewBusinessEn),
             };

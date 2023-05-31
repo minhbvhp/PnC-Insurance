@@ -128,7 +128,7 @@ namespace PnC_Insurance.ViewModel
 
         #endregion
 
-        #region Add New Customer
+        #region Edit Customer
         [RelayCommand(CanExecute = nameof(CanEditCustomer))]
         private async Task EditCustomerAsync()
         {
@@ -167,12 +167,12 @@ namespace PnC_Insurance.ViewModel
                                 var changeCustomer = await query.FirstOrDefaultAsync();
 
                                 changeCustomer.TaxCode = StringHelper.RemoveRedundantWhitespaces(editingCustomer.TaxCode);
-                                changeCustomer.Name = StringHelper.RemoveRedundantWhitespaces(editingCustomer.Name);
+                                changeCustomer.Name = StringHelper.RemoveRedundantWhitespaces(editingCustomer.Name).ToUpper();
                                 changeCustomer.Address = StringHelper.RemoveRedundantWhitespaces(editingCustomer.Address);
                                 changeCustomer.Business = StringHelper.RemoveRedundantWhitespaces(editingCustomer.Business);
                                 changeCustomer.BusinessCode = StringHelper.RemoveRedundantWhitespaces(editingCustomer.BusinessCode);
                                 changeCustomer.ClientCode = StringHelper.RemoveRedundantWhitespaces(editingCustomer.ClientCode);
-                                changeCustomer.NameEn = StringHelper.RemoveRedundantWhitespaces(editingCustomer.NameEn);
+                                changeCustomer.NameEn = StringHelper.RemoveRedundantWhitespaces(editingCustomer.NameEn).ToUpper();
                                 changeCustomer.AddressEn = StringHelper.RemoveRedundantWhitespaces(editingCustomer.AddressEn);
                                 changeCustomer.BusinessEn = StringHelper.RemoveRedundantWhitespaces(editingCustomer.BusinessEn);
 
