@@ -49,6 +49,8 @@ namespace PnC_Insurance.ViewModel
         }
 
         [ObservableProperty]
+        [Required]
+        [NotifyDataErrorInfo]
         [NotifyCanExecuteChangedFor(nameof(OpenDeleteDialogCommand))]
         [NotifyCanExecuteChangedFor(nameof(EditCustomerCommand))]
         private Customer? selectedCustomer;
@@ -210,27 +212,23 @@ namespace PnC_Insurance.ViewModel
         }
 
         private bool CanEditCustomer()
-        {            
-            if (!GetErrors(nameof(EditingTaxCode)).Any() &&
-                !GetErrors(nameof(EditingName)).Any() &&
-                !GetErrors(nameof(EditingAddress)).Any() &&
-                !GetErrors(nameof(EditingBusiness)).Any())
-            {
-                if (SelectedCustomer != null &&
-                    (SelectedCustomer.TaxCode != EditingTaxCode ||
-                     SelectedCustomer.Name != EditingName ||
-                     SelectedCustomer.Address != EditingAddress ||
-                     SelectedCustomer.Business != EditingBusiness ||
-                     SelectedCustomer.BusinessCode != EditingBusinessCode ||
-                     SelectedCustomer.ClientCode != EditingClientCode ||
-                     SelectedCustomer.NameEn != EditingNameEn ||
-                     SelectedCustomer.AddressEn != EditingAddressEn ||
-                     SelectedCustomer.BusinessEn != EditingBusinessEn)
-                   )
-                    return true;             
-            }               
-            return false;
+        {
+            if (this.HasErrors)
+                return false;
 
+            if (SelectedCustomer.TaxCode == EditingTaxCode &&
+                SelectedCustomer.Name == EditingName &&
+                SelectedCustomer.Address == EditingAddress &&
+                SelectedCustomer.Business == EditingBusiness &&
+                SelectedCustomer.BusinessCode == EditingBusinessCode &&
+                SelectedCustomer.ClientCode == EditingClientCode &&
+                SelectedCustomer.NameEn == EditingNameEn &&
+                SelectedCustomer.AddressEn == EditingAddressEn &&
+                SelectedCustomer.BusinessEn == EditingBusinessEn)
+
+                return false;
+
+            return true;
         }
 
         private void StartOver()

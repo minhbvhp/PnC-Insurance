@@ -10,8 +10,8 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition Height="100"/>
+            <RowDefinition Height="1.7*"/>
+            <RowDefinition Height="90"/>
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
@@ -275,8 +275,8 @@
             <materialDesign:PackIcon Kind="Add"/>
         </Button>
 
-        <materialDesign:Snackbar Grid.Row="2" 
+        <materialDesign:Snackbar Grid.Row="2" Margin="0 0 0 35"
                                  Background="Black" Foreground="White"
-                                 MessageQueue="{Binding ResultNotification}" VerticalAlignment="Top"/>
+                                 MessageQueue="{Binding ResultNotification}" VerticalAlignment="Bottom"/>
     </Grid>
 </UserControl>

@@ -58,7 +58,9 @@ namespace PnC_Insurance.ViewModel
 
         [ObservableProperty]
         [Required(ErrorMessage = "Chọn khách hàng")]
+        [NotifyDataErrorInfo]
         [NotifyCanExecuteChangedFor(nameof(FetchMatchLocationsCommand))]
+        [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
         private Customer? chosenCustomer;
 
         [RelayCommand(CanExecute = nameof(CanChooseCustomer))]
@@ -131,6 +133,8 @@ namespace PnC_Insurance.ViewModel
 
         [ObservableProperty]
         [Required(ErrorMessage = "Chọn Địa điểm")]
+        [NotifyDataErrorInfo]
+        [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
         private List<InsuredLocation>? listOfChosenLocation = new List<InsuredLocation>();
 
         [ObservableProperty]
@@ -155,6 +159,85 @@ namespace PnC_Insurance.ViewModel
                 return true;
 
             return false;
+
+        }
+        #endregion
+
+        #region Required Information
+
+        #region Class of Insurance
+        public List<ClassOfInsurance>? ListOfClassOfInsurances
+        {
+            get
+            {
+                using (var context = new InsuranceDbContext())
+                {
+                    var query = from classOfInsurance in context.ClassOfInsurances.AsNoTracking()
+                                select classOfInsurance;
+
+                    if (query.Any())
+                    {
+                        return query.ToList();
+                    }
+
+                    return new List<ClassOfInsurance>();
+                }
+            }
+        }
+
+        [ObservableProperty]
+        [Required(ErrorMessage = "Chọn nghiệp vụ")]
+        [NotifyDataErrorInfo]
+        [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
+        private ClassOfInsurance? newClassOfInsurance;
+        #endregion
+
+        #region Department
+        public List<Department>? ListOfDepartments
+        {
+            get
+            {
+                using (var context = new InsuranceDbContext())
+                {
+                    var query = from department in context.Departments.AsNoTracking()
+                                select department;
+
+                    if (query.Any())
+                    {
+                        return query.ToList();
+                    }
+
+                    return new List<Department>();
+                }
+            }
+        }
+
+        [ObservableProperty]
+        [Required(ErrorMessage = "Chọn Phòng khai thác")]
+        [NotifyDataErrorInfo]
+        [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
+        private Department? newDepartment;
+        #endregion
+
+        #endregion
+
+        #region Add New PropertyQuotation Command
+        [RelayCommand(CanExecute = nameof(CanAddNewPropertyQuotation))]
+        private async Task AddNewPropertyQuotationAsync()
+        {
+            ResultNotification = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
+            ResultNotification.Enqueue("Ok");
+        }
+
+        private bool CanAddNewPropertyQuotation()
+        {
+            if (this.HasErrors)
+                return false;
+
+            if (!ListOfChosenLocation.Any())
+                return false;
+
+            return true;
 
         }
         #endregion

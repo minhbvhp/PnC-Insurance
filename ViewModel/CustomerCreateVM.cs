@@ -78,7 +78,7 @@ namespace PnC_Insurance.ViewModel
                 Business = StringHelper.RemoveRedundantWhitespaces(NewBusiness),
                 BusinessCode = StringHelper.RemoveRedundantWhitespaces(NewBusinessCode),
                 ClientCode= StringHelper.RemoveRedundantWhitespaces(NewClientCode),
-                NameEn= StringHelper.RemoveRedundantWhitespaces(NewNameEn).ToUpper(),
+                NameEn= StringHelper.RemoveRedundantWhitespaces(NewNameEn),
                 AddressEn= StringHelper.RemoveRedundantWhitespaces(NewAddressEn),
                 BusinessEn= StringHelper.RemoveRedundantWhitespaces(NewBusinessEn),
             };
@@ -124,14 +124,10 @@ namespace PnC_Insurance.ViewModel
         
         private bool CanAddNewCustomer()
         {
-            if (!GetErrors(nameof(NewTaxCode)).Any() && 
-                !GetErrors(nameof(NewName)).Any() &&
-                !GetErrors(nameof(NewAddress)).Any() &&
-                !GetErrors(nameof(NewBusiness)).Any())
-                return true;
+            if (this.HasErrors)
+                return false;
 
-            return false;
-
+            return true;
         }
 
         private void StartOver()
