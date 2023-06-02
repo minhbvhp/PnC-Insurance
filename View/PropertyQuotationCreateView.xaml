@@ -235,7 +235,7 @@
 
             <StackPanel Grid.Column="1" HorizontalAlignment="Stretch" Margin="10 0 20 0">
                 <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                         Text="{Binding NewFnERate, UpdateSourceTrigger=PropertyChanged}" 
+                         Text="{Binding NewFnERate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                          materialDesign:ValidationAssist.Background="Transparent"
                          Margin="0 0 0 20"
                          materialDesign:HintAssist.Hint="Tỷ lệ phí CNBB"
@@ -243,7 +243,7 @@
                          materialDesign:TextFieldAssist.HasClearButton="True"/>
 
                 <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                         Text="{Binding NewArRate, UpdateSourceTrigger=PropertyChanged}" 
+                         Text="{Binding NewArRate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                          materialDesign:ValidationAssist.Background="Transparent"
                          Margin="0 0 0 20"
                          materialDesign:HintAssist.Hint="Tỷ lệ phí bổ sung"
@@ -251,7 +251,8 @@
                          materialDesign:TextFieldAssist.HasClearButton="True"/>
 
                 <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                         Text="{Binding NewFnEPremium, UpdateSourceTrigger=PropertyChanged}" 
+                         Text="{Binding NewFnEPremium, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
+                                Converter={StaticResource NumberFormatConverter}, ConverterParameter='N0', ConverterCulture='is-IS'}"
                          materialDesign:ValidationAssist.Background="Transparent"
                          Margin="0 0 0 20"
                          materialDesign:HintAssist.Hint="Phí thuần Cháy nổ"
@@ -259,7 +260,8 @@
                          materialDesign:TextFieldAssist.HasClearButton="True"/>
 
                 <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                         Text="{Binding NewArPremium, UpdateSourceTrigger=PropertyChanged}" 
+                         Text="{Binding NewArPremium, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
+                                Converter={StaticResource NumberFormatConverter},ConverterParameter='N0', ConverterCulture='is-IS'}"
                          materialDesign:ValidationAssist.Background="Transparent"
                          Margin="0 0 0 20"
                          materialDesign:HintAssist.Hint="Phí thuần bổ sung"
@@ -267,7 +269,8 @@
                          materialDesign:TextFieldAssist.HasClearButton="True"/>
 
                 <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                         Text="{Binding NewVAT, UpdateSourceTrigger=PropertyChanged}" 
+                         Text="{Binding NewVAT, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
+                                Converter={StaticResource NumberFormatConverter}, ConverterParameter='N0', ConverterCulture='is-IS'}"
                          materialDesign:ValidationAssist.Background="Transparent"
                          Margin="0 0 0 20"
                          materialDesign:HintAssist.Hint="Thuế VAT"
@@ -275,7 +278,8 @@
                          materialDesign:TextFieldAssist.HasClearButton="True"/>
 
                 <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                         Text="{Binding NewTotalDue, UpdateSourceTrigger=PropertyChanged}" 
+                         Text="{Binding NewTotalDue, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
+                                Converter={StaticResource NumberFormatConverter}, ConverterParameter='N0', ConverterCulture='is-IS'}"
                          materialDesign:ValidationAssist.Background="Transparent"
                          Margin="0 0 0 20"
                          materialDesign:HintAssist.Hint="Tổng phí"

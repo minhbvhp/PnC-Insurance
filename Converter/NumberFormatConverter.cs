@@ -4,10 +4,11 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 
 namespace PnC_Insurance.Converter
 {
-    public class NumberFormatConverter
+    public class NumberFormatConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter = null, CultureInfo culture = null)
         {

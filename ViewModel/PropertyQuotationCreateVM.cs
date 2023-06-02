@@ -242,6 +242,82 @@ namespace PnC_Insurance.ViewModel
 
         #endregion
 
+        #region Not Required Information
+        [ObservableProperty]
+        private string? newPolicyNo;
+
+        [ObservableProperty]
+        private DateTime? newIssueDate;
+
+        partial void OnNewIssueDateChanged(DateTime? value)
+        {
+            ValidateProperty(NewFromDate, nameof(NewFromDate));
+            ValidateProperty(NewToDate, nameof(NewToDate));
+            AddNewPropertyQuotationCommand.NotifyCanExecuteChanged();
+        }
+
+        [ObservableProperty]
+        [GreaterThan(nameof(NewIssueDate), "Hiệu lực đơn phải sau ngày cấp")]
+        [NotifyDataErrorInfo]
+        [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
+        private DateTime? newFromDate;
+
+        partial void OnNewFromDateChanged(DateTime? value)
+        {
+            ValidateProperty(NewIssueDate, nameof(NewIssueDate));
+            ValidateProperty(NewToDate, nameof(NewToDate));
+        }
+
+        [ObservableProperty]
+        [GreaterThan(nameof(NewFromDate), "'Đến ngày' phải sau 'Từ ngày'")]
+        [NotifyDataErrorInfo]
+        [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
+        private DateTime? newToDate;
+
+        partial void OnNewToDateChanged(DateTime? value)
+        {
+            ValidateProperty(NewIssueDate, nameof(NewIssueDate));
+            ValidateProperty(NewFromDate, nameof(NewFromDate));
+        }
+
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
+        [Range(0, byte.MaxValue, ErrorMessage = "Nhập số lớn hơn 0")]
+        private byte[]? newFnERate;
+
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
+        [Range(0, byte.MaxValue, ErrorMessage = "Nhập số lớn hơn 0")]
+        private byte[]? newArRate;
+
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
+        [Range(0, long.MaxValue, ErrorMessage = "Nhập số lớn hơn 0")]
+        private long? newFnEPremium;
+
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
+        [Range(0, long.MaxValue, ErrorMessage = "Nhập số lớn hơn 0")]
+        private long? newArPremium;
+
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
+        [Range(0, long.MaxValue, ErrorMessage = "Nhập số lớn hơn 0")]
+        private long? newVAT;
+
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
+        [Range(0, long.MaxValue, ErrorMessage = "Nhập số lớn hơn 0")]
+        private long? newTotalDue;
+
+        [ObservableProperty]        
+        private string? newFnEDeductible;
+
+        [ObservableProperty]
+        private string? newArDeductible;
+
+        #endregion
+
         #region Add New PropertyQuotation Command
         [RelayCommand(CanExecute = nameof(CanAddNewPropertyQuotation))]
         private async Task AddNewPropertyQuotationAsync()
