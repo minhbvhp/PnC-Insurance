@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MaterialDesignThemes.Wpf;
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using MinhHelper;
 using PnC_Insurance.Model;
@@ -9,9 +8,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
+using PnC_Insurance.CustomAttribute;
+using System.Collections.ObjectModel;
 
 namespace PnC_Insurance.ViewModel
 {
@@ -67,7 +66,8 @@ namespace PnC_Insurance.ViewModel
         private void ChooseCustomer()
         {
             ChosenCustomer = SelectedCustomer;
-            ListOfChosenLocation = new List<InsuredLocation>();
+            OnPropertyChanged(nameof(ListOfMatchLocations));
+            ListOfChosenLocation = new ObservableCollection<InsuredLocation>();
             IsChoosingCustomerDialogOpen = false;
         }
 
@@ -132,14 +132,14 @@ namespace PnC_Insurance.ViewModel
         }
 
         [ObservableProperty]
-        [Required(ErrorMessage = "Chọn Địa điểm")]
+        [MinimumElements(1, "Cần ít nhất 1 địa điểm được bảo hiểm")]
         [NotifyDataErrorInfo]
         [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
-        private List<InsuredLocation>? listOfChosenLocation = new List<InsuredLocation>();
+        private ObservableCollection<InsuredLocation>? listOfChosenLocation;
 
         [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(RemoveChosenLocationCommand))]
         private InsuredLocation? chosenLocation;
-
 
         [RelayCommand(CanExecute = nameof(CanChooseLocation))]
         private void ChooseLocation()
@@ -147,15 +147,36 @@ namespace PnC_Insurance.ViewModel
             if (SelectedLocation != null && !ListOfChosenLocation.Any(location => location.Id == SelectedLocation.Id))
             {
                 ListOfChosenLocation.Add(SelectedLocation);
-                OnPropertyChanged(nameof(ListOfChosenLocation));
+                ValidateProperty(ListOfChosenLocation, nameof(ListOfChosenLocation));
+                AddNewPropertyQuotationCommand.NotifyCanExecuteChanged();
             }
 
-            IsChoosingLocationDialogOpen = false;
+            IsChoosingLocationDialogOpen = false;            
         }
 
         private bool CanChooseLocation()
         {
             if (SelectedLocation != null)
+                return true;
+
+            return false;
+
+        }
+
+        [RelayCommand(CanExecute = nameof(CanRemoveChosenLocation))]
+        private void RemoveChosenLocation()
+        {
+            if (ChosenLocation != null)
+            {
+                ListOfChosenLocation.Remove(ChosenLocation);
+                ValidateProperty(ListOfChosenLocation, nameof(ListOfChosenLocation));
+                AddNewPropertyQuotationCommand.NotifyCanExecuteChanged();
+            }
+        }
+
+        private bool CanRemoveChosenLocation()
+        {
+            if (ChosenLocation != null)
                 return true;
 
             return false;
@@ -232,9 +253,6 @@ namespace PnC_Insurance.ViewModel
         private bool CanAddNewPropertyQuotation()
         {
             if (this.HasErrors)
-                return false;
-
-            if (!ListOfChosenLocation.Any())
                 return false;
 
             return true;
