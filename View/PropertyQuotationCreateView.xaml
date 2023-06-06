@@ -7,7 +7,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" Foreground="Teal" FontSize="14"
              xmlns:converter="clr-namespace:PnC_Insurance.Converter"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="800">
+             d:DesignHeight="800" d:DesignWidth="800">
     <UserControl.Resources>
         <converter:NumerRow x:Key="NumerRow"/>
     </UserControl.Resources>
@@ -235,20 +235,33 @@
 
             <StackPanel Grid.Column="1" HorizontalAlignment="Stretch" Margin="10 0 20 0">
                 <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                         Text="{Binding NewFnERate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                         Text="{Binding NewSumInsured, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
+                                Converter={StaticResource NumberFormatConverter},ConverterParameter='N0', ConverterCulture='is-IS'}"
+                         materialDesign:ValidationAssist.Background="Transparent"
+                         Margin="0 0 0 20"
+                         materialDesign:HintAssist.Hint="Số tiền bảo hiểm"
+                         materialDesign:TextFieldAssist.SuffixText = "VND "
+                         materialDesign:TextFieldAssist.HasClearButton="True"/>
+                
+                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                         Text="{Binding NewFnERate, Mode=TwoWay}"
                          materialDesign:ValidationAssist.Background="Transparent"
                          Margin="0 0 0 20"
                          materialDesign:HintAssist.Hint="Tỷ lệ phí CNBB"
                          materialDesign:TextFieldAssist.SuffixText = "% "
-                         materialDesign:TextFieldAssist.HasClearButton="True"/>
+                         materialDesign:TextFieldAssist.HasClearButton="True"
+                         PreviewTextInput="InputDecimalOnly"
+                         PreviewKeyDown="PreventSpaceKey"/>
 
                 <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                         Text="{Binding NewArRate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                         Text="{Binding NewArRate, Mode=TwoWay}"
                          materialDesign:ValidationAssist.Background="Transparent"
                          Margin="0 0 0 20"
                          materialDesign:HintAssist.Hint="Tỷ lệ phí bổ sung"
                          materialDesign:TextFieldAssist.SuffixText = "% "
-                         materialDesign:TextFieldAssist.HasClearButton="True"/>
+                         materialDesign:TextFieldAssist.HasClearButton="True"
+                         PreviewTextInput="InputDecimalOnly"
+                         PreviewKeyDown="PreventSpaceKey"/>
 
                 <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                          Text="{Binding NewFnEPremium, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
@@ -277,15 +290,6 @@
                          materialDesign:TextFieldAssist.SuffixText = "VND "
                          materialDesign:TextFieldAssist.HasClearButton="True"/>
 
-                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                         Text="{Binding NewTotalDue, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
-                                Converter={StaticResource NumberFormatConverter}, ConverterParameter='N0', ConverterCulture='is-IS'}"
-                         materialDesign:ValidationAssist.Background="Transparent"
-                         Margin="0 0 0 20"
-                         materialDesign:HintAssist.Hint="Tổng phí"
-                         materialDesign:TextFieldAssist.SuffixText = "VND "
-                         materialDesign:TextFieldAssist.HasClearButton="True"/>
-
             </StackPanel>
 
             <StackPanel Grid.Column="2" HorizontalAlignment="Stretch" Margin="10 0 20 0">
@@ -293,13 +297,33 @@
                          TextWrapping="Wrap" Margin="0 0 0 20"
                          materialDesign:HintAssist.Hint="Mức khấu trừ Cháy nổ"
                          materialDesign:HintAssist.Background="#CAD2C5"
-                         Text="{Binding NewFnEDeductible}"/>
+                         Text="{Binding NewFnEDeductible}"
+                         materialDesign:TextFieldAssist.HasClearButton="True"/>
 
                 <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                         TextWrapping="Wrap" 
+                         TextWrapping="Wrap" Margin="0 0 0 20"
                          materialDesign:HintAssist.Hint="Mức khấu trừ Bổ sung"
                          materialDesign:HintAssist.Background="#CAD2C5"
-                         Text="{Binding NewArDeductible}"/>
+                         Text="{Binding NewArDeductible}"
+                         materialDesign:TextFieldAssist.HasClearButton="True"/>
+
+                <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                         Text="{Binding NewTotalNetPremium, UpdateSourceTrigger=PropertyChanged, Mode=OneWay,
+                                Converter={StaticResource NumberFormatConverter}, ConverterParameter='N0', ConverterCulture='is-IS'}"
+                         materialDesign:HintAssist.Background="#CAD2C5"
+                         materialDesign:ValidationAssist.Background="Transparent"
+                         materialDesign:HintAssist.Hint="Tổng phí thuần"
+                         materialDesign:TextFieldAssist.SuffixText = "VND "
+                         IsReadOnly="True" Margin="0 0 0 20"/>
+
+                <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                         Text="{Binding NewTotalDue, UpdateSourceTrigger=PropertyChanged, Mode=OneWay,
+                                Converter={StaticResource NumberFormatConverter}, ConverterParameter='N0', ConverterCulture='is-IS'}"
+                         materialDesign:HintAssist.Background="#CAD2C5"
+                         materialDesign:ValidationAssist.Background="Transparent"
+                         materialDesign:HintAssist.Hint="Tổng phí (đã gồm VAT)"
+                         materialDesign:TextFieldAssist.SuffixText = "VND "
+                         IsReadOnly="True"/>
 
             </StackPanel>
         </Grid>

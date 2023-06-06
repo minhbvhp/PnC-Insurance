@@ -282,33 +282,76 @@ namespace PnC_Insurance.ViewModel
 
         [ObservableProperty]
         [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
-        [Range(0, byte.MaxValue, ErrorMessage = "Nhập số lớn hơn 0")]
-        private byte[]? newFnERate;
+        [Required(ErrorMessage = "Nhập Số tiền bảo hiểm")]
+        [Range(1, long.MaxValue, ErrorMessage = "Nhập số tiền lớn hơn 0")]
+        [NotifyDataErrorInfo]
+        private long? newSumInsured;
 
         [ObservableProperty]
         [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
-        [Range(0, byte.MaxValue, ErrorMessage = "Nhập số lớn hơn 0")]
-        private byte[]? newArRate;
+        [Range(0, 100, ErrorMessage = "Nhập tỉ lệ từ 0 - 100%")]
+        [Required(ErrorMessage = "Nhập tỉ lệ phí CNBB")]
+        [NotifyDataErrorInfo]
+        private decimal? newFnERate;
 
         [ObservableProperty]
         [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
-        [Range(0, long.MaxValue, ErrorMessage = "Nhập số lớn hơn 0")]
+        [Range(0, 100, ErrorMessage = "Nhập tỉ lệ từ 0 - 100%")]
+        [Required(ErrorMessage = "Nhập tỉ lệ phí bổ sung")]
+        [NotifyDataErrorInfo]
+        private decimal? newArRate;
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(NewTotalNetPremium))]
+        [NotifyPropertyChangedFor(nameof(NewTotalDue))]
+        [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
+        [Required(ErrorMessage = "Nhập phí CNBB")]
+        [Range(1, long.MaxValue, ErrorMessage = "Nhập số tiền lớn hơn 0")]
+        [NotifyDataErrorInfo]
         private long? newFnEPremium;
 
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(NewTotalNetPremium))]
+        [NotifyPropertyChangedFor(nameof(NewTotalDue))]
         [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
-        [Range(0, long.MaxValue, ErrorMessage = "Nhập số lớn hơn 0")]
+        [Required(ErrorMessage = "Nhập phí bổ sung")]
+        [Range(1, long.MaxValue, ErrorMessage = "Nhập số tiền lớn hơn 0")]
+        [NotifyDataErrorInfo]
         private long? newArPremium;
 
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(NewTotalDue))]
         [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
-        [Range(0, long.MaxValue, ErrorMessage = "Nhập số lớn hơn 0")]
+        [Required(ErrorMessage = "Nhập thuế VAT")]
+        [Range(1, long.MaxValue, ErrorMessage = "Nhập số tiền lớn hơn 0")]
+        [NotifyDataErrorInfo]
         private long? newVAT;
+        
+        public long NewTotalNetPremium
+        {
+            get
+            {
+                if (NewFnEPremium != null && NewArPremium != null)
+                {
+                    return (long)NewFnEPremium + (long)NewArPremium;
+                }
 
-        [ObservableProperty]
-        [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
-        [Range(0, long.MaxValue, ErrorMessage = "Nhập số lớn hơn 0")]
-        private long? newTotalDue;
+                return 0;
+            }
+        }
+
+        public long? NewTotalDue
+        {
+            get
+            {
+                if (NewTotalNetPremium != null && NewVAT != null)
+                {
+                    return (long)NewTotalNetPremium + (long)NewVAT;
+                }
+
+                return 0;
+            }
+        }
 
         [ObservableProperty]        
         private string? newFnEDeductible;
