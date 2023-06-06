@@ -75,6 +75,8 @@
             </Style>
 
             <converter:NumberFormatConverter x:Key="NumberFormatConverter"/>
+
+            <converter:DecimalFormatConverter x:Key="DecimalFormatConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

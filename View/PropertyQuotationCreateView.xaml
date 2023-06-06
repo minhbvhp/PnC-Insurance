@@ -244,7 +244,8 @@
                          materialDesign:TextFieldAssist.HasClearButton="True"/>
                 
                 <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                         Text="{Binding NewFnERate, Mode=TwoWay}"
+                         Text="{Binding NewFnERate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                                Converter={StaticResource DecimalFormatConverter}, ConverterParameter='N4'}"
                          materialDesign:ValidationAssist.Background="Transparent"
                          Margin="0 0 0 20"
                          materialDesign:HintAssist.Hint="Tỷ lệ phí CNBB"
@@ -254,7 +255,8 @@
                          PreviewKeyDown="PreventSpaceKey"/>
 
                 <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                         Text="{Binding NewArRate, Mode=TwoWay}"
+                         Text="{Binding NewArRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                                Converter={StaticResource DecimalFormatConverter}, ConverterParameter='N4'}"
                          materialDesign:ValidationAssist.Background="Transparent"
                          Margin="0 0 0 20"
                          materialDesign:HintAssist.Hint="Tỷ lệ phí bổ sung"

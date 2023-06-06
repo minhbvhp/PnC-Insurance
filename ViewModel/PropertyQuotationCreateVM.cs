@@ -289,15 +289,15 @@ namespace PnC_Insurance.ViewModel
 
         [ObservableProperty]
         [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
-        [Range(0, 100, ErrorMessage = "Nhập tỉ lệ từ 0 - 100%")]
         [Required(ErrorMessage = "Nhập tỉ lệ phí CNBB")]
+        [Range(typeof(decimal), "0", "100", ErrorMessage = "Nhập tỉ lệ từ 0 - 100%")]
         [NotifyDataErrorInfo]
         private decimal? newFnERate;
 
         [ObservableProperty]
         [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
-        [Range(0, 100, ErrorMessage = "Nhập tỉ lệ từ 0 - 100%")]
         [Required(ErrorMessage = "Nhập tỉ lệ phí bổ sung")]
+        [Range(typeof(decimal), "0", "100", ErrorMessage = "Nhập tỉ lệ từ 0 - 100%")]
         [NotifyDataErrorInfo]
         private decimal? newArRate;
 
@@ -381,6 +381,8 @@ namespace PnC_Insurance.ViewModel
 
         private void StartOver()
         {
+            NewFnERate = 0;
+            NewArRate = 0;
             ValidateAllProperties();
         }
 
