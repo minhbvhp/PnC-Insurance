@@ -281,49 +281,115 @@ namespace PnC_Insurance.ViewModel
         }
 
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(NewFnEPremium))]
+        [NotifyPropertyChangedFor(nameof(NewArPremium))]
         [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
         [Required(ErrorMessage = "Nhập Số tiền bảo hiểm")]
         [Range(1, long.MaxValue, ErrorMessage = "Nhập số tiền lớn hơn 0")]
         [NotifyDataErrorInfo]
         private long? newSumInsured;
 
+        partial void OnNewSumInsuredChanged(long? value)
+        {
+            if (value != null && NewFnERate != null && NewArRate != null)
+            {
+                NewFnEPremium = Convert.ToInt64(Math.Round((decimal)(value * NewFnERate / 100), MidpointRounding.AwayFromZero));
+                NewArPremium = Convert.ToInt64(Math.Round((decimal)(value * NewArRate / 100), MidpointRounding.AwayFromZero));
+            }
+            else
+            {
+                NewFnEPremium = 0;
+                NewArPremium = 0;
+            }
+        }
+
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(NewFnEPremium))]
         [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
         [Required(ErrorMessage = "Nhập tỉ lệ phí CNBB")]
         [Range(typeof(decimal), "0", "100", ErrorMessage = "Nhập tỉ lệ từ 0 - 100%")]
         [NotifyDataErrorInfo]
         private decimal? newFnERate;
 
+        partial void OnNewFnERateChanged(decimal? value)
+        {
+            if (value != null && NewSumInsured != null)
+            {
+                NewFnEPremium = Convert.ToInt64(Math.Round((decimal)(NewSumInsured * value / 100), MidpointRounding.AwayFromZero));                
+            }
+            else
+            {
+                NewFnEPremium = 0;
+            }
+        }
+
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(NewArPremium))]
         [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
         [Required(ErrorMessage = "Nhập tỉ lệ phí bổ sung")]
         [Range(typeof(decimal), "0", "100", ErrorMessage = "Nhập tỉ lệ từ 0 - 100%")]
         [NotifyDataErrorInfo]
         private decimal? newArRate;
 
+        partial void OnNewArRateChanged(decimal? value)
+        {
+            if (value != null && NewSumInsured != null)
+            {
+                NewArPremium = Convert.ToInt64(Math.Round((decimal)(NewSumInsured * value / 100), MidpointRounding.AwayFromZero));
+            }
+            else
+            {
+                NewArPremium = 0;
+            }
+        }
+
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(NewTotalNetPremium))]
         [NotifyPropertyChangedFor(nameof(NewTotalDue))]
         [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
         [Required(ErrorMessage = "Nhập phí CNBB")]
-        [Range(1, long.MaxValue, ErrorMessage = "Nhập số tiền lớn hơn 0")]
+        [Range(0, long.MaxValue, ErrorMessage = "Nhập số tiền từ 0 trở lên")]
         [NotifyDataErrorInfo]
         private long? newFnEPremium;
+
+        partial void OnNewFnEPremiumChanged(long? value)
+        {
+            if (value != null && NewArPremium != null)
+            {
+                NewVAT = Convert.ToInt64(Math.Round((decimal)((value + NewArPremium) / 10), MidpointRounding.AwayFromZero));
+            }
+            else
+            {
+                NewVAT = 0;
+            }
+        }
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(NewTotalNetPremium))]
         [NotifyPropertyChangedFor(nameof(NewTotalDue))]
         [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
         [Required(ErrorMessage = "Nhập phí bổ sung")]
-        [Range(1, long.MaxValue, ErrorMessage = "Nhập số tiền lớn hơn 0")]
+        [Range(0, long.MaxValue, ErrorMessage = "Nhập số tiền từ 0 trở lên")]
         [NotifyDataErrorInfo]
         private long? newArPremium;
+
+        partial void OnNewArPremiumChanged(long? value)
+        {
+            if (value != null && NewFnEPremium != null)
+            {
+                NewVAT = Convert.ToInt64(Math.Round((decimal)((value + NewFnEPremium) / 10), MidpointRounding.AwayFromZero));
+            }
+            else
+            {
+                NewVAT = 0;
+            }
+        }
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(NewTotalDue))]
         [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
         [Required(ErrorMessage = "Nhập thuế VAT")]
-        [Range(1, long.MaxValue, ErrorMessage = "Nhập số tiền lớn hơn 0")]
+        [Range(0, long.MaxValue, ErrorMessage = "Nhập số tiền từ 0 trở lên")]
         [NotifyDataErrorInfo]
         private long? newVAT;
         
@@ -381,8 +447,11 @@ namespace PnC_Insurance.ViewModel
 
         private void StartOver()
         {
+            NewSumInsured = 0;
             NewFnERate = 0;
             NewArRate = 0;
+            NewFnEPremium = 0;
+            NewArPremium = 0;
             ValidateAllProperties();
         }
 
