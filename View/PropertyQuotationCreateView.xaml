@@ -188,7 +188,7 @@
 
                 <materialDesign:DialogHost Grid.Column="2" IsOpen="{Binding IsChoosingPropertyItemsDialogOpen}">
                     <materialDesign:DialogHost.DialogContent>
-                        <StackPanel Margin="10 0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <StackPanel Margin="10 0" Width="250" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
                             <Button Style="{StaticResource MaterialDesignToolButton}"
                                         Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
@@ -196,10 +196,18 @@
                                 <materialDesign:PackIcon Kind="Close"/>
                             </Button>
 
+                            <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                      ItemsSource="{Binding ListOfPropertyItems, IsAsync=True}"
+                                      SelectedItem="{Binding SelectedPropertyItem, UpdateSourceTrigger=PropertyChanged}"
+                                      Margin="0 0 0 20"
+                                      materialDesign:ValidationAssist.Background="Transparent"
+                                      DisplayMemberPath="ItemName" IsEditable="False"
+                                      materialDesign:HintAssist.Hint="Tài sản được bảo hiểm"/>
+
                             <Button Style="{StaticResource MaterialDesignFlatDarkBgButton}"
                                     Background="#94AF9F" Width="80" Height="40" Margin="0 15"
-                                    Command="{Binding ChoosePropertyItemsCommand}"
-                                    Content="Chọn"/>
+                                    Command="{Binding ChoosePropertyItemCommand}"
+                                    Content="Thêm"/>
                         </StackPanel>
                     </materialDesign:DialogHost.DialogContent>
 
@@ -216,13 +224,13 @@
 
                             <Button Style="{StaticResource MaterialDesignToolForegroundButton}"
                                     Background="#94AF9F" HorizontalAlignment="Right"
-                                    Command="{Binding RemoveChosenPropertyItemsCommand}">
+                                    Command="{Binding RemoveChosenPropertyItemCommand}">
                                 <materialDesign:PackIcon Kind="RemoveCircle"/>
                             </Button>
                         </Grid>
 
                         <DataGrid x:Name="ListOfChosenPropertyItemsDataGrid" ItemsSource="{Binding ListOfChosenPropertyItems, IsAsync=True, UpdateSourceTrigger=PropertyChanged}"
-                                  SelectedItem="{Binding ChosenPropertyItems, UpdateSourceTrigger=PropertyChanged}"
+                                  SelectedItem="{Binding ChosenPropertyItem, UpdateSourceTrigger=PropertyChanged}"
                                   AutoGenerateColumns="False" SelectionMode="Single" FontSize="12"
                                   IsReadOnly="True" HeadersVisibility="All" Height="125" Padding="10 0"
                                   EnableRowVirtualization="False"
@@ -238,7 +246,7 @@
                                     </DataGridTextColumn.Binding>
                                 </DataGridTextColumn>
 
-                                <DataGridTextColumn Binding="{Binding Location}" Width="*" Header="Hạng mục"/>
+                                <DataGridTextColumn Binding="{Binding ItemName}" Width="*" Header="Hạng mục"/>
                             </DataGrid.Columns>
                         </DataGrid>
                     </StackPanel>

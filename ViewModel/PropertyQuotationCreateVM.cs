@@ -59,6 +59,7 @@ namespace PnC_Insurance.ViewModel
         [Required(ErrorMessage = "Chọn khách hàng")]
         [NotifyDataErrorInfo]
         [NotifyCanExecuteChangedFor(nameof(FetchMatchLocationsCommand))]
+        [NotifyCanExecuteChangedFor(nameof(FetchPropertyItemsCommand))]
         [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
         private Customer? chosenCustomer;
 
@@ -68,6 +69,7 @@ namespace PnC_Insurance.ViewModel
             ChosenCustomer = SelectedCustomer;
             OnPropertyChanged(nameof(ListOfMatchLocations));
             ListOfChosenLocation = new ObservableCollection<InsuredLocation>();
+            ListOfChosenPropertyItems = new ObservableCollection<PropertyItem>();
             IsChoosingCustomerDialogOpen = false;
         }
 
@@ -177,6 +179,106 @@ namespace PnC_Insurance.ViewModel
         private bool CanRemoveChosenLocation()
         {
             if (ChosenLocation != null)
+                return true;
+
+            return false;
+
+        }
+        #endregion
+
+        #region Property Items
+        [ObservableProperty]
+        private bool isChoosingPropertyItemsDialogOpen = false;
+
+        public List<PropertyItem>? ListOfPropertyItems
+        {
+            get
+            {
+                if (ChosenCustomer != null)
+                {
+                    using (var context = new InsuranceDbContext())
+                    {
+                        var query = from item in context.PropertyItems.AsNoTracking()
+                                    select item;
+
+                        if (query.Any())
+                        {
+                            return query.ToList();
+                        }
+
+                    }                    
+                }
+
+                return new List<PropertyItem>();                
+            }
+        }
+
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(ChoosePropertyItemCommand))]
+        private PropertyItem? selectedPropertyItem;
+
+        [RelayCommand(CanExecute = nameof(CanFetchPropertyItems))]
+        private void FetchPropertyItems()
+        {
+            IsChoosingPropertyItemsDialogOpen = true;
+            OnPropertyChanged(nameof(ListOfPropertyItems));
+        }
+
+        private bool CanFetchPropertyItems()
+        {
+            if (ChosenCustomer != null)
+                return true;
+
+            return false;
+
+        }
+
+        [ObservableProperty]
+        [MinimumElements(1, "Cần ít nhất 1 tài sản được bảo hiểm")]
+        [NotifyDataErrorInfo]
+        [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
+        private ObservableCollection<PropertyItem>? listOfChosenPropertyItems;
+
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(RemoveChosenPropertyItemCommand))]
+        private PropertyItem? chosenPropertyItem;
+
+        [RelayCommand(CanExecute = nameof(CanChoosePropertyItem))]
+        private void ChoosePropertyItem()
+        {
+            if (SelectedPropertyItem != null && !ListOfChosenPropertyItems.Any(item => item.Id == SelectedPropertyItem.Id))
+            {
+                ListOfChosenPropertyItems.Add(SelectedPropertyItem);
+                ValidateProperty(ListOfChosenPropertyItems, nameof(ListOfChosenPropertyItems));
+                AddNewPropertyQuotationCommand.NotifyCanExecuteChanged();
+            }
+
+            IsChoosingPropertyItemsDialogOpen = false;
+        }
+
+        private bool CanChoosePropertyItem()
+        {
+            if (SelectedPropertyItem != null)
+                return true;
+
+            return false;
+
+        }
+
+        [RelayCommand(CanExecute = nameof(CanRemoveChosenPropertyItem))]
+        private void RemoveChosenPropertyItem()
+        {
+            if (ChosenPropertyItem != null)
+            {
+                ListOfChosenPropertyItems.Remove(ChosenPropertyItem);
+                ValidateProperty(ListOfChosenPropertyItems, nameof(ListOfChosenPropertyItems));
+                AddNewPropertyQuotationCommand.NotifyCanExecuteChanged();
+            }
+        }
+
+        private bool CanRemoveChosenPropertyItem()
+        {
+            if (ChosenPropertyItem != null)
                 return true;
 
             return false;
@@ -393,7 +495,7 @@ namespace PnC_Insurance.ViewModel
         [NotifyDataErrorInfo]
         private long? newVAT;
         
-        public long NewTotalNetPremium
+        public long? NewTotalNetPremium
         {
             get
             {
