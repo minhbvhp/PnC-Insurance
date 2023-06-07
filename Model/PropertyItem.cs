@@ -7,13 +7,9 @@ public partial class PropertyItem
 {
     public long Id { get; set; }
 
-    public string PolicyId { get; set; } = null!;
-
     public string ItemName { get; set; } = null!;
-
-    public byte[] SumInsured { get; set; } = null!;
 
     public string? ItemNameEn { get; set; }
 
-    public long IsDeleted { get; set; }
+    public virtual ICollection<PropertyPoliciesPropertyItem> PropertyPoliciesPropertyItems { get; } = new List<PropertyPoliciesPropertyItem>();
 }

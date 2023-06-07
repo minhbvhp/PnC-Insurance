@@ -44,4 +44,6 @@ public partial class PropertyPolicy
     public long IsDeleted { get; set; }
 
     public virtual Customer Cusomer { get; set; } = null!;
+
+    public virtual ICollection<PropertyPoliciesPropertyItem> PropertyPoliciesPropertyItems { get; } = new List<PropertyPoliciesPropertyItem>();
 }

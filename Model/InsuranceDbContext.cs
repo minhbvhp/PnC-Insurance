@@ -37,6 +37,8 @@ public partial class InsuranceDbContext : DbContext
 
     public virtual DbSet<PropertyPoliciesInsuredLocation> PropertyPoliciesInsuredLocations { get; set; }
 
+    public virtual DbSet<PropertyPoliciesPropertyItem> PropertyPoliciesPropertyItems { get; set; }
+
     public virtual DbSet<PropertyPolicy> PropertyPolicies { get; set; }
 
     public virtual DbSet<Representative> Representatives { get; set; }
@@ -172,16 +174,10 @@ public partial class InsuranceDbContext : DbContext
         {
             entity.HasIndex(e => e.Id, "IX_PropertyItems_Id").IsUnique();
 
-            entity.HasIndex(e => new { e.PolicyId, e.ItemName }, "available_property_item_unique").IsUnique();
-
             entity.Property(e => e.ItemName).HasDefaultValueSql("'Chưa thiết lập'");
             entity.Property(e => e.ItemNameEn)
                 .HasDefaultValueSql("'Chưa thiết lập'")
                 .HasColumnName("ItemNameEN");
-            entity.Property(e => e.PolicyId).HasDefaultValueSql("'Chưa thiết lập'");
-            entity.Property(e => e.SumInsured)
-                .HasDefaultValueSql("0")
-                .HasColumnType("NUMERIC");
         });
 
         modelBuilder.Entity<PropertyPoliciesInsuredLocation>(entity =>
@@ -191,6 +187,23 @@ public partial class InsuranceDbContext : DbContext
             entity.HasIndex(e => e.Id, "IX_PropertyPolicies_InsuredLocations_Id").IsUnique();
 
             entity.HasIndex(e => new { e.PropertyPolicyId, e.InsuredLocationId }, "IX_PropertyPolicies_InsuredLocations_PropertyPolicyId_InsuredLocationId").IsUnique();
+        });
+
+        modelBuilder.Entity<PropertyPoliciesPropertyItem>(entity =>
+        {
+            entity.ToTable("PropertyPolicies_PropertyItems");
+
+            entity.HasIndex(e => e.Id, "IX_PropertyPolicies_PropertyItems_Id").IsUnique();
+
+            entity.HasIndex(e => new { e.PropertyPolicyId, e.PropertyItemId }, "IX_PropertyPolicies_PropertyItems_PropertyPolicyId_PropertyItemId").IsUnique();
+
+            entity.HasOne(d => d.PropertyItem).WithMany(p => p.PropertyPoliciesPropertyItems)
+                .HasForeignKey(d => d.PropertyItemId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+
+            entity.HasOne(d => d.PropertyPolicy).WithMany(p => p.PropertyPoliciesPropertyItems)
+                .HasForeignKey(d => d.PropertyPolicyId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<PropertyPolicy>(entity =>
