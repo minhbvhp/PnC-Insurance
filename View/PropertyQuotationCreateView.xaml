@@ -42,175 +42,177 @@
 
 
                 <Expander Grid.Row="0" Style="{StaticResource MaterialDesignExpander}" HorizontalAlignment="Stretch" Background="Transparent"
-                      BorderBrush="Teal" BorderThickness="0 0.5 0 0">
+                      BorderBrush="Teal" BorderThickness="0 2 0 0">
                     <Expander.Header>
-                        <TextBlock Foreground="#1A5F7A" Text="THÔNG TIN CƠ BẢN" Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
+                        <TextBlock Foreground="#1A5F7A" Text="THÔNG TIN CƠ BẢN" FontSize="18"
+                                   Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
                     </Expander.Header>
 
-                    <StackPanel Margin="0 5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <Border BorderBrush="White" BorderThickness="0 0.4 0 0" Margin="0 0 0 5"/>
+                    <AdornerDecorator>
+                        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <Border BorderBrush="DarkOrange" BorderThickness="0 1 0 0" Margin="0 0 0 5"/>
 
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="2*"/>
-                                <ColumnDefinition Width="1.5*"/>
-                                <ColumnDefinition Width="1.5*"/>
-                            </Grid.ColumnDefinitions>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="1.5*"/>
+                                    <ColumnDefinition Width="1.5*"/>
+                                </Grid.ColumnDefinitions>
 
-                            <materialDesign:DialogHost Grid.Column="0" IsOpen="{Binding IsChoosingCustomerDialogOpen}">
-                                <materialDesign:DialogHost.DialogContent>
-                                    <StackPanel Height="280" Width="420" Margin="10 0" 
+                                <materialDesign:DialogHost Grid.Column="0" IsOpen="{Binding IsChoosingCustomerDialogOpen}">
+                                    <materialDesign:DialogHost.DialogContent>
+                                        <StackPanel Height="280" Width="420" Margin="10 0" 
                                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
-                                        <Grid>
-                                            <TextBox Width="380" HorizontalAlignment="Left" Margin="0 0 0 15"
+                                            <Grid>
+                                                <TextBox Width="380" HorizontalAlignment="Left" Margin="0 0 0 15"
                                          Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                          Text="{Binding CustomerSearch, UpdateSourceTrigger=PropertyChanged}"
                                          materialDesign:TextFieldAssist.HasClearButton="True">
-                                                <materialDesign:HintAssist.Hint>
-                                                    <TextBlock>
+                                                    <materialDesign:HintAssist.Hint>
+                                                        <TextBlock>
                                             <materialDesign:PackIcon Kind="Search" VerticalAlignment="Bottom"/>
                                             <Run Text="Tìm kiếm khách hàng"/>
-                                                    </TextBlock>
-                                                </materialDesign:HintAssist.Hint>
-                                            </TextBox>
+                                                        </TextBlock>
+                                                    </materialDesign:HintAssist.Hint>
+                                                </TextBox>
+
+                                                <Button Style="{StaticResource MaterialDesignToolButton}"
+                                        Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                        IsCancel="True" HorizontalAlignment="Right" VerticalAlignment="Top">
+                                                    <materialDesign:PackIcon Kind="Close"/>
+                                                </Button>
+                                            </Grid>
+
+                                            <DataGrid ItemsSource="{Binding ListOfCustomers, IsAsync=True}"
+                                      SelectedItem="{Binding SelectedCustomer, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                      AutoGenerateColumns="False" SelectionMode="Single"
+                                      IsReadOnly="True" HeadersVisibility="All" Height="150"
+                                      materialDesign:DataGridAssist.CellPadding="5"
+                                      materialDesign:DataGridAssist.ColumnHeaderPadding="5">
+                                                <DataGrid.Columns>
+                                                    <DataGridTextColumn Binding="{Binding TaxCode}" Header="MST"/>
+
+                                                    <DataGridTextColumn Binding="{Binding Name}" Header="Tên Khách hàng"/>
+                                                </DataGrid.Columns>
+                                            </DataGrid>
+
+                                            <Button Style="{StaticResource MaterialDesignFlatDarkBgButton}"
+                                    Background="#94AF9F" Width="80" Height="40" Margin="0 15"
+                                    Command="{Binding ChooseCustomerCommand}"
+                                    Content="Chọn"/>
+                                        </StackPanel>
+                                    </materialDesign:DialogHost.DialogContent>
+
+                                    <StackPanel Margin="10" HorizontalAlignment="Stretch">
+                                        <StackPanel Orientation="Horizontal" Margin="0 0 0 20">
+                                            <TextBlock Text="Lựa chọn khách hàng:" Margin="0 0 30 0" VerticalAlignment="Center"/>
+
+                                            <Button Style="{StaticResource MaterialDesignFlatDarkButton}"
+                                    Background="#94AF9F" Width="50"
+                                    Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
+                                    Content="..." />
+                                        </StackPanel>
+
+                                        <ItemsControl ItemsSource="{Binding ChosenCustomer}" Padding="3">
+                                            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"                             
+                                 IsReadOnly="True" TextWrapping="Wrap" Margin="0 0 0 15"
+                                 materialDesign:HintAssist.Hint="Mã số thuế"
+                                 materialDesign:HintAssist.Background="#CAD2C5"
+                                 Text="{Binding ChosenCustomer.TaxCode, Mode=OneWay}"/>
+
+                                            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"                             
+                                 IsReadOnly="True" TextWrapping="Wrap" FontSize="13" MaxHeight="75"
+                                 materialDesign:HintAssist.Hint="Tên Khách hàng"
+                                 materialDesign:HintAssist.Background="#CAD2C5"
+                                 Text="{Binding ChosenCustomer.Name, Mode=OneWay}"/>
+                                        </ItemsControl>
+
+                                    </StackPanel>
+
+                                </materialDesign:DialogHost>
+
+                                <materialDesign:DialogHost Grid.Column="1" IsOpen="{Binding IsChoosingLocationDialogOpen}">
+                                    <materialDesign:DialogHost.DialogContent>
+                                        <StackPanel Height="250" Width="320" Margin="10 0" 
+                                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
                                             <Button Style="{StaticResource MaterialDesignToolButton}"
                                         Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
                                         IsCancel="True" HorizontalAlignment="Right" VerticalAlignment="Top">
                                                 <materialDesign:PackIcon Kind="Close"/>
                                             </Button>
-                                        </Grid>
 
-                                        <DataGrid ItemsSource="{Binding ListOfCustomers, IsAsync=True}"
-                                      SelectedItem="{Binding SelectedCustomer, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                      AutoGenerateColumns="False" SelectionMode="Single"
-                                      IsReadOnly="True" HeadersVisibility="All" Height="150"
-                                      materialDesign:DataGridAssist.CellPadding="5"
-                                      materialDesign:DataGridAssist.ColumnHeaderPadding="5">
-                                            <DataGrid.Columns>
-                                                <DataGridTextColumn Binding="{Binding TaxCode}" Header="MST"/>
-
-                                                <DataGridTextColumn Binding="{Binding Name}" Header="Tên Khách hàng"/>
-                                            </DataGrid.Columns>
-                                        </DataGrid>
-
-                                        <Button Style="{StaticResource MaterialDesignFlatDarkBgButton}"
-                                    Background="#94AF9F" Width="80" Height="40" Margin="0 15"
-                                    Command="{Binding ChooseCustomerCommand}"
-                                    Content="Chọn"/>
-                                    </StackPanel>
-                                </materialDesign:DialogHost.DialogContent>
-
-                                <StackPanel Margin="10" HorizontalAlignment="Stretch">
-                                    <StackPanel Orientation="Horizontal" Margin="0 0 0 20">
-                                        <TextBlock Text="Lựa chọn khách hàng:" Margin="0 0 30 0" VerticalAlignment="Center"/>
-
-                                        <Button Style="{StaticResource MaterialDesignFlatDarkButton}"
-                                    Background="#94AF9F" Width="50"
-                                    Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
-                                    Content="..." />
-                                    </StackPanel>
-
-                                    <ItemsControl ItemsSource="{Binding ChosenCustomer}" Padding="3">
-                                        <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"                             
-                                 IsReadOnly="True" TextWrapping="Wrap" Margin="0 0 0 15"
-                                 materialDesign:HintAssist.Hint="Mã số thuế"
-                                 materialDesign:HintAssist.Background="#CAD2C5"
-                                 Text="{Binding ChosenCustomer.TaxCode, Mode=OneWay}"/>
-
-                                        <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"                             
-                                 IsReadOnly="True" TextWrapping="Wrap" FontSize="13" MaxHeight="75"
-                                 materialDesign:HintAssist.Hint="Tên Khách hàng"
-                                 materialDesign:HintAssist.Background="#CAD2C5"
-                                 Text="{Binding ChosenCustomer.Name, Mode=OneWay}"/>
-                                    </ItemsControl>
-
-                                </StackPanel>
-
-                            </materialDesign:DialogHost>
-
-                            <materialDesign:DialogHost Grid.Column="1" IsOpen="{Binding IsChoosingLocationDialogOpen}">
-                                <materialDesign:DialogHost.DialogContent>
-                                    <StackPanel Height="250" Width="320" Margin="10 0" 
-                                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-
-                                        <Button Style="{StaticResource MaterialDesignToolButton}"
-                                        Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
-                                        IsCancel="True" HorizontalAlignment="Right" VerticalAlignment="Top">
-                                            <materialDesign:PackIcon Kind="Close"/>
-                                        </Button>
-
-                                        <DataGrid ItemsSource="{Binding ListOfMatchLocations, IsAsync=True}"
+                                            <DataGrid ItemsSource="{Binding ListOfMatchLocations, IsAsync=True}"
                                       SelectedItem="{Binding SelectedLocation, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                       AutoGenerateColumns="False" SelectionMode="Single" FontSize="12"
                                       IsReadOnly="True" HeadersVisibility="All" Height="150"
                                       materialDesign:DataGridAssist.CellPadding="5"
                                       materialDesign:DataGridAssist.ColumnHeaderPadding="5">
-                                            <DataGrid.Columns>
-                                                <DataGridTextColumn Binding="{Binding Location}" Width="*" Header="Địa điểm"/>
-                                            </DataGrid.Columns>
-                                        </DataGrid>
+                                                <DataGrid.Columns>
+                                                    <DataGridTextColumn Binding="{Binding Location}" Width="*" Header="Địa điểm"/>
+                                                </DataGrid.Columns>
+                                            </DataGrid>
 
-                                        <Button Style="{StaticResource MaterialDesignFlatDarkBgButton}"
+                                            <Button Style="{StaticResource MaterialDesignFlatDarkBgButton}"
                                     Background="#94AF9F" Width="80" Height="40" Margin="0 15"
                                     Command="{Binding ChooseLocationCommand}"
                                     Content="Chọn"/>
-                                    </StackPanel>
-                                </materialDesign:DialogHost.DialogContent>
+                                        </StackPanel>
+                                    </materialDesign:DialogHost.DialogContent>
 
-                                <StackPanel Margin="10" HorizontalAlignment="Stretch">
-                                    <Grid Margin="0 0 0 20">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="Lựa chọn địa điểm:" Margin="0 0 30 0" VerticalAlignment="Center"/>
+                                    <StackPanel Margin="10" HorizontalAlignment="Stretch">
+                                        <Grid Margin="0 0 0 20">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="Lựa chọn địa điểm:" Margin="0 0 30 0" VerticalAlignment="Center"/>
 
-                                            <Button Style="{StaticResource MaterialDesignFlatDarkButton}"
+                                                <Button Style="{StaticResource MaterialDesignFlatDarkButton}"
                                         Background="#94AF9F" Width="50"
                                         Command="{Binding FetchMatchLocationsCommand}"
                                         Content="..." />
-                                        </StackPanel>
+                                            </StackPanel>
 
-                                        <Button Style="{StaticResource MaterialDesignToolForegroundButton}"
+                                            <Button Style="{StaticResource MaterialDesignToolForegroundButton}"
                                     Background="#94AF9F" HorizontalAlignment="Right"
                                     Command="{Binding RemoveChosenLocationCommand}">
-                                            <materialDesign:PackIcon Kind="RemoveCircle"/>
-                                        </Button>
-                                    </Grid>
+                                                <materialDesign:PackIcon Kind="RemoveCircle"/>
+                                            </Button>
+                                        </Grid>
 
-                                    <DataGrid x:Name="ListOfChosenLocationDataGrid" ItemsSource="{Binding ListOfChosenLocation, IsAsync=True, UpdateSourceTrigger=PropertyChanged}"
+                                        <DataGrid x:Name="ListOfChosenLocationDataGrid" ItemsSource="{Binding ListOfChosenLocation, IsAsync=True, UpdateSourceTrigger=PropertyChanged}"
                                   SelectedItem="{Binding ChosenLocation, UpdateSourceTrigger=PropertyChanged}"
                                   AutoGenerateColumns="False" SelectionMode="Single" FontSize="12"
                                   IsReadOnly="True" HeadersVisibility="All" Height="125"
                                   EnableRowVirtualization="False"  Padding="10 0"
                                   materialDesign:DataGridAssist.CellPadding="5"
                                   materialDesign:DataGridAssist.ColumnHeaderPadding="5">
-                                        <DataGrid.Columns>
-                                            <DataGridTextColumn Header="STT">
-                                                <DataGridTextColumn.Binding>
-                                                    <MultiBinding Converter="{StaticResource NumerRow}" UpdateSourceTrigger="PropertyChanged">
-                                                        <Binding Mode="OneWay" RelativeSource="{RelativeSource AncestorType={x:Type DataGridRow}}"/>
-                                                        <Binding Mode="OneWay" RelativeSource="{RelativeSource AncestorType={x:Type DataGrid}}" Path="Items.Count"/>
-                                                    </MultiBinding>
-                                                </DataGridTextColumn.Binding>
-                                            </DataGridTextColumn>
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn Header="STT">
+                                                    <DataGridTextColumn.Binding>
+                                                        <MultiBinding Converter="{StaticResource NumerRow}" UpdateSourceTrigger="PropertyChanged">
+                                                            <Binding Mode="OneWay" RelativeSource="{RelativeSource AncestorType={x:Type DataGridRow}}"/>
+                                                            <Binding Mode="OneWay" RelativeSource="{RelativeSource AncestorType={x:Type DataGrid}}" Path="Items.Count"/>
+                                                        </MultiBinding>
+                                                    </DataGridTextColumn.Binding>
+                                                </DataGridTextColumn>
 
-                                            <DataGridTextColumn Binding="{Binding Location}" Width="*" Header="Địa điểm trên bản chào"/>
-                                        </DataGrid.Columns>
-                                    </DataGrid>
-                                </StackPanel>
-                            </materialDesign:DialogHost>
+                                                <DataGridTextColumn Binding="{Binding Location}" Width="*" Header="Địa điểm trên bản chào"/>
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                    </StackPanel>
+                                </materialDesign:DialogHost>
 
-                            <materialDesign:DialogHost Grid.Column="2" IsOpen="{Binding IsChoosingPropertyItemsDialogOpen}">
-                                <materialDesign:DialogHost.DialogContent>
-                                    <StackPanel Margin="10 0" Width="250" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <materialDesign:DialogHost Grid.Column="2" IsOpen="{Binding IsChoosingPropertyItemsDialogOpen}">
+                                    <materialDesign:DialogHost.DialogContent>
+                                        <StackPanel Margin="10 0" Width="250" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
-                                        <Button Style="{StaticResource MaterialDesignToolButton}"
+                                            <Button Style="{StaticResource MaterialDesignToolButton}"
                                         Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
                                         IsCancel="True" HorizontalAlignment="Right" VerticalAlignment="Top">
-                                            <materialDesign:PackIcon Kind="Close"/>
-                                        </Button>
+                                                <materialDesign:PackIcon Kind="Close"/>
+                                            </Button>
 
-                                        <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                            <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                                       ItemsSource="{Binding ListOfPropertyItems, IsAsync=True}"
                                       SelectedItem="{Binding SelectedPropertyItem, UpdateSourceTrigger=PropertyChanged}"
                                       Margin="0 0 0 20"
@@ -218,100 +220,104 @@
                                       DisplayMemberPath="ItemName" IsEditable="False"
                                       materialDesign:HintAssist.Hint="Tài sản được bảo hiểm"/>
 
-                                        <Button Style="{StaticResource MaterialDesignFlatDarkBgButton}"
+                                            <Button Style="{StaticResource MaterialDesignFlatDarkBgButton}"
                                     Background="#94AF9F" Width="80" Height="40" Margin="0 15"
                                     Command="{Binding ChoosePropertyItemCommand}"
                                     Content="Thêm"/>
-                                    </StackPanel>
-                                </materialDesign:DialogHost.DialogContent>
+                                        </StackPanel>
+                                    </materialDesign:DialogHost.DialogContent>
 
-                                <StackPanel Margin="10" HorizontalAlignment="Stretch">
-                                    <Grid Margin="0 0 0 20">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="Danh mục tài sản:" Margin="0 0 30 0" VerticalAlignment="Center"/>
+                                    <StackPanel Margin="10" HorizontalAlignment="Stretch">
+                                        <Grid Margin="0 0 0 20">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="Danh mục tài sản:" Margin="0 0 30 0" VerticalAlignment="Center"/>
 
-                                            <Button Style="{StaticResource MaterialDesignFlatDarkButton}"
+                                                <Button Style="{StaticResource MaterialDesignFlatDarkButton}"
                                         Background="#94AF9F" Width="50"
                                         Command="{Binding FetchPropertyItemsCommand}"
                                         Content="..." />
-                                        </StackPanel>
+                                            </StackPanel>
 
-                                        <Button Style="{StaticResource MaterialDesignToolForegroundButton}"
+                                            <Button Style="{StaticResource MaterialDesignToolForegroundButton}"
                                     Background="#94AF9F" HorizontalAlignment="Right"
                                     Command="{Binding RemoveChosenPropertyItemCommand}">
-                                            <materialDesign:PackIcon Kind="RemoveCircle"/>
-                                        </Button>
-                                    </Grid>
+                                                <materialDesign:PackIcon Kind="RemoveCircle"/>
+                                            </Button>
+                                        </Grid>
 
-                                    <DataGrid x:Name="ListOfChosenPropertyItemsDataGrid" ItemsSource="{Binding ListOfChosenPropertyItems, IsAsync=True, UpdateSourceTrigger=PropertyChanged}"
+                                        <DataGrid x:Name="ListOfChosenPropertyItemsDataGrid" ItemsSource="{Binding ListOfChosenPropertyItems, IsAsync=True, UpdateSourceTrigger=PropertyChanged}"
                                   SelectedItem="{Binding ChosenPropertyItem, UpdateSourceTrigger=PropertyChanged}"
                                   AutoGenerateColumns="False" SelectionMode="Single" FontSize="12"
                                   IsReadOnly="True" HeadersVisibility="All" Height="125" Padding="10 0"
                                   EnableRowVirtualization="False"
                                   materialDesign:DataGridAssist.CellPadding="5"
                                   materialDesign:DataGridAssist.ColumnHeaderPadding="5">
-                                        <DataGrid.Columns>
-                                            <DataGridTextColumn Header="STT">
-                                                <DataGridTextColumn.Binding>
-                                                    <MultiBinding Converter="{StaticResource NumerRow}" UpdateSourceTrigger="PropertyChanged">
-                                                        <Binding Mode="OneWay" RelativeSource="{RelativeSource AncestorType={x:Type DataGridRow}}"/>
-                                                        <Binding Mode="OneWay" RelativeSource="{RelativeSource AncestorType={x:Type DataGrid}}" Path="Items.Count"/>
-                                                    </MultiBinding>
-                                                </DataGridTextColumn.Binding>
-                                            </DataGridTextColumn>
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn Header="STT">
+                                                    <DataGridTextColumn.Binding>
+                                                        <MultiBinding Converter="{StaticResource NumerRow}" UpdateSourceTrigger="PropertyChanged">
+                                                            <Binding Mode="OneWay" RelativeSource="{RelativeSource AncestorType={x:Type DataGridRow}}"/>
+                                                            <Binding Mode="OneWay" RelativeSource="{RelativeSource AncestorType={x:Type DataGrid}}" Path="Items.Count"/>
+                                                        </MultiBinding>
+                                                    </DataGridTextColumn.Binding>
+                                                </DataGridTextColumn>
 
-                                            <DataGridTextColumn Binding="{Binding ItemName}" Width="*" Header="Hạng mục"/>
-                                        </DataGrid.Columns>
-                                    </DataGrid>
-                                </StackPanel>
-                            </materialDesign:DialogHost>
-                        </Grid>
-                    </StackPanel>
+                                                <DataGridTextColumn Binding="{Binding ItemName}" Width="*" Header="Hạng mục"/>
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                    </StackPanel>
+                                </materialDesign:DialogHost>
+                            </Grid>
+                        </StackPanel>
+                    </AdornerDecorator>
+
                 </Expander>
 
                 <Expander Grid.Row="1" Style="{StaticResource MaterialDesignExpander}" HorizontalAlignment="Stretch" Background="Transparent"
-                      BorderBrush="Teal" BorderThickness="0 0.5 0 0">
+                      BorderBrush="Teal" BorderThickness="0 2 0 0">
                     <Expander.Header>
-                        <TextBlock Foreground="#1A5F7A" Text="HIỆU LỰC VÀ PHÍ" Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
+                        <TextBlock Foreground="#1A5F7A" Text="HIỆU LỰC VÀ PHÍ" FontSize="18"
+                                   Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
                     </Expander.Header>
 
-                    <StackPanel Margin="0 5">
-                        <Border BorderBrush="White" BorderThickness="0 0.4 0 0" Margin="0 0 0 5"/>
+                    <AdornerDecorator>
+                        <StackPanel>
+                            <Border BorderBrush="DarkOrange" BorderThickness="0 1 0 0" Margin="0 0 0 5"/>
 
-                        <Grid Grid.Row="1" Margin="0 10">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Row="1" Margin="0 10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
 
-                            <StackPanel Grid.Column="0" HorizontalAlignment="Stretch" Margin="10 0 20 0">
-                                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                <StackPanel Grid.Column="0" HorizontalAlignment="Stretch" Margin="10 0 20 0">
+                                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              Text="{Binding NewPolicyNo, UpdateSourceTrigger=PropertyChanged}" 
                              materialDesign:ValidationAssist.Background="Transparent"
                              Margin="0 0 0 20"
                              materialDesign:HintAssist.Hint="Số đơn/Số bản chào"
                              materialDesign:TextFieldAssist.HasClearButton="True"/>
 
-                                <DatePicker Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
+                                    <DatePicker Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
                             SelectedDate="{Binding NewIssueDate, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
                             materialDesign:ValidationAssist.Background="Transparent"
                             Margin="0 0 0 20"
                             materialDesign:HintAssist.Hint="Ngày cấp"/>
 
-                                <DatePicker Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
+                                    <DatePicker Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
                             SelectedDate="{Binding NewFromDate, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
                             materialDesign:ValidationAssist.Background="Transparent"
                             Margin="0 0 0 20"
                             materialDesign:HintAssist.Hint="Từ ngày"/>
 
-                                <DatePicker Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
+                                    <DatePicker Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
                             SelectedDate="{Binding NewToDate, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
                             materialDesign:ValidationAssist.Background="Transparent"
                             Margin="0 0 0 20"
                             materialDesign:HintAssist.Hint="Đến ngày"/>
 
-                                <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                    <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                           ItemsSource="{Binding ListOfClassOfInsurances, IsAsync=True}"
                           SelectedItem="{Binding NewClassOfInsurance, UpdateSourceTrigger=PropertyChanged}"
                           Margin="0 0 0 20"
@@ -319,17 +325,17 @@
                           DisplayMemberPath="Name" IsEditable="False"
                           materialDesign:HintAssist.Hint="Nghiệp vụ bảo hiểm"/>
 
-                                <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                    <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                           ItemsSource="{Binding ListOfDepartments, IsAsync=True}"
                           SelectedItem="{Binding NewDepartment, UpdateSourceTrigger=PropertyChanged}"
                           Margin="0 0 0 20"
                           materialDesign:ValidationAssist.Background="Transparent"
                           DisplayMemberPath="Name" IsEditable="False"
                           materialDesign:HintAssist.Hint="Phòng"/>
-                            </StackPanel>
+                                </StackPanel>
 
-                            <StackPanel Grid.Column="1" HorizontalAlignment="Stretch" Margin="10 0 20 0">
-                                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                <StackPanel Grid.Column="1" HorizontalAlignment="Stretch" Margin="10 0 20 0">
+                                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                          Text="{Binding NewSumInsured, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
                                 Converter={StaticResource NumberFormatConverter},ConverterParameter='N0', ConverterCulture='is-IS'}"
                          materialDesign:ValidationAssist.Background="Transparent"
@@ -338,7 +344,7 @@
                          materialDesign:TextFieldAssist.SuffixText = "VND "
                          materialDesign:TextFieldAssist.HasClearButton="True"/>
 
-                                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                          Text="{Binding NewFnERate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
                                 Converter={StaticResource DecimalFormatConverter}, ConverterParameter='N4'}"
                          materialDesign:ValidationAssist.Background="Transparent"
@@ -349,7 +355,7 @@
                          PreviewTextInput="InputDecimalOnly"
                          PreviewKeyDown="PreventSpaceKey"/>
 
-                                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                          Text="{Binding NewArRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
                                 Converter={StaticResource DecimalFormatConverter}, ConverterParameter='N4'}"
                          materialDesign:ValidationAssist.Background="Transparent"
@@ -360,7 +366,7 @@
                          PreviewTextInput="InputDecimalOnly"
                          PreviewKeyDown="PreventSpaceKey"/>
 
-                                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                          Text="{Binding NewFnEPremium, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
                                 Converter={StaticResource NumberFormatConverter}, ConverterParameter='N0', ConverterCulture='is-IS'}"
                          materialDesign:ValidationAssist.Background="Transparent"
@@ -369,7 +375,7 @@
                          materialDesign:TextFieldAssist.SuffixText = "VND "
                          materialDesign:TextFieldAssist.HasClearButton="True"/>
 
-                                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                          Text="{Binding NewArPremium, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
                                 Converter={StaticResource NumberFormatConverter},ConverterParameter='N0', ConverterCulture='is-IS'}"
                          materialDesign:ValidationAssist.Background="Transparent"
@@ -378,7 +384,7 @@
                          materialDesign:TextFieldAssist.SuffixText = "VND "
                          materialDesign:TextFieldAssist.HasClearButton="True"/>
 
-                                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                          Text="{Binding NewVAT, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
                                 Converter={StaticResource NumberFormatConverter}, ConverterParameter='N0', ConverterCulture='is-IS'}"
                          materialDesign:ValidationAssist.Background="Transparent"
@@ -387,24 +393,24 @@
                          materialDesign:TextFieldAssist.SuffixText = "VND "
                          materialDesign:TextFieldAssist.HasClearButton="True"/>
 
-                            </StackPanel>
+                                </StackPanel>
 
-                            <StackPanel Grid.Column="2" HorizontalAlignment="Stretch" Margin="10 0 20 0">
-                                <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                <StackPanel Grid.Column="2" HorizontalAlignment="Stretch" Margin="10 0 20 0">
+                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
                          TextWrapping="Wrap" Margin="0 0 0 20"
                          materialDesign:HintAssist.Hint="Mức khấu trừ Cháy nổ"
                          materialDesign:HintAssist.Background="#CAD2C5"
                          Text="{Binding NewFnEDeductible}"
                          materialDesign:TextFieldAssist.HasClearButton="True"/>
 
-                                <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
                          TextWrapping="Wrap" Margin="0 0 0 20"
                          materialDesign:HintAssist.Hint="Mức khấu trừ Bổ sung"
                          materialDesign:HintAssist.Background="#CAD2C5"
                          Text="{Binding NewArDeductible}"
                          materialDesign:TextFieldAssist.HasClearButton="True"/>
 
-                                <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
                          Text="{Binding NewTotalNetPremium, UpdateSourceTrigger=PropertyChanged, Mode=OneWay,
                                 Converter={StaticResource NumberFormatConverter}, ConverterParameter='N0', ConverterCulture='is-IS'}"
                          materialDesign:HintAssist.Background="#CAD2C5"
@@ -413,7 +419,7 @@
                          materialDesign:TextFieldAssist.SuffixText = "VND "
                          IsReadOnly="True" Margin="0 0 0 20"/>
 
-                                <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
                          Text="{Binding NewTotalDue, UpdateSourceTrigger=PropertyChanged, Mode=OneWay,
                                 Converter={StaticResource NumberFormatConverter}, ConverterParameter='N0', ConverterCulture='is-IS'}"
                          materialDesign:HintAssist.Background="#CAD2C5"
@@ -422,19 +428,22 @@
                          materialDesign:TextFieldAssist.SuffixText = "VND "
                          IsReadOnly="True"/>
 
-                            </StackPanel>
-                        </Grid>
-                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </AdornerDecorator>
+
                 </Expander>
 
                 <Expander Grid.Row="2" Style="{StaticResource MaterialDesignExpander}" HorizontalAlignment="Stretch" Background="Transparent"
-                      BorderBrush="Teal" BorderThickness="0 0.5 0 0.5">
+                      BorderBrush="Teal" BorderThickness="0 2">
                     <Expander.Header>
-                        <TextBlock Foreground="#1A5F7A" Text="ĐIỀU KHOẢN BỔ SUNG" Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
+                        <TextBlock Foreground="#1A5F7A" Text="ĐIỀU KHOẢN BỔ SUNG" FontSize="18"
+                                   Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
                     </Expander.Header>
 
-                    <StackPanel Margin="0 5">
-                        <Border BorderBrush="White" BorderThickness="0 0.4 0 0" Margin="0 0 0 5"/>
+                    <StackPanel>
+                        <Border BorderBrush="DarkOrange" BorderThickness="0 1 0 0" Margin="0 0 0 5"/>
 
                         <TextBlock Text="Hllo"/>
                     </StackPanel>
