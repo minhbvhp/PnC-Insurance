@@ -16,7 +16,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition/>
-            <RowDefinition Height="90"/>
+            <RowDefinition Height="100"/>
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
@@ -41,11 +41,35 @@
                 </Grid.RowDefinitions>
 
 
-                <Expander Grid.Row="0" Style="{StaticResource MaterialDesignExpander}" HorizontalAlignment="Stretch" Background="Transparent"
+                <Expander Grid.Row="0" HorizontalAlignment="Stretch" Background="Transparent"
                       BorderBrush="Teal" BorderThickness="0 2 0 0">
                     <Expander.Header>
-                        <TextBlock Foreground="#1A5F7A" Text="THÔNG TIN CƠ BẢN" FontSize="18"
-                                   Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Foreground="#1A5F7A" Text="THÔNG TIN CƠ BẢN" 
+                                       FontSize="18" FontWeight="DemiBold"/>
+
+                            <materialDesign:PackIcon x:Name="BasicInformationError" Kind="AlertCircleOutline" Margin="20 0" VerticalAlignment="Center" Foreground="Red" 
+                                                     Visibility="{Binding IsBasicInformationHasError, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                            <StackPanel VerticalAlignment="Center">
+                                <StackPanel.Style>
+                                    <Style TargetType="StackPanel">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=BasicInformationError, Path=Visibility}" Value="Visible">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+
+                                            <DataTrigger Binding="{Binding ElementName=BasicInformationError, Path=Visibility}" Value="Collapsed">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </StackPanel.Style>
+                                
+                                <materialDesign:PackIcon Kind="CheckCircleOutline" Margin="20 0" VerticalAlignment="Center" Foreground="Green"/>
+                            </StackPanel>
+
+                        </StackPanel>
                     </Expander.Header>
 
                     <AdornerDecorator>
@@ -114,19 +138,21 @@
                                     Content="..." />
                                         </StackPanel>
 
-                                        <ItemsControl ItemsSource="{Binding ChosenCustomer}" Padding="3">
-                                            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"                             
-                                 IsReadOnly="True" TextWrapping="Wrap" Margin="0 0 0 15"
-                                 materialDesign:HintAssist.Hint="Mã số thuế"
-                                 materialDesign:HintAssist.Background="#CAD2C5"
-                                 Text="{Binding ChosenCustomer.TaxCode, Mode=OneWay}"/>
+                                        <AdornerDecorator>
+                                            <ItemsControl ItemsSource="{Binding ChosenCustomer}" Padding="3">
+                                                <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                         IsReadOnly="True" TextWrapping="Wrap" Margin="0 0 0 15"
+                                                         materialDesign:HintAssist.Hint="Mã số thuế"
+                                                         materialDesign:HintAssist.Background="#CAD2C5"
+                                                         Text="{Binding ChosenCustomer.TaxCode, Mode=OneWay}"/>
 
-                                            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"                             
-                                 IsReadOnly="True" TextWrapping="Wrap" FontSize="13" MaxHeight="75"
-                                 materialDesign:HintAssist.Hint="Tên Khách hàng"
-                                 materialDesign:HintAssist.Background="#CAD2C5"
-                                 Text="{Binding ChosenCustomer.Name, Mode=OneWay}"/>
-                                        </ItemsControl>
+                                                <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                         IsReadOnly="True" TextWrapping="Wrap" FontSize="13" MaxHeight="75"
+                                                         materialDesign:HintAssist.Hint="Tên Khách hàng"
+                                                         materialDesign:HintAssist.Background="#CAD2C5"
+                                                         Text="{Binding ChosenCustomer.Name, Mode=OneWay}"/>
+                                            </ItemsControl>
+                                        </AdornerDecorator>
 
                                     </StackPanel>
 
@@ -179,26 +205,29 @@
                                             </Button>
                                         </Grid>
 
-                                        <DataGrid x:Name="ListOfChosenLocationDataGrid" ItemsSource="{Binding ListOfChosenLocation, IsAsync=True, UpdateSourceTrigger=PropertyChanged}"
-                                  SelectedItem="{Binding ChosenLocation, UpdateSourceTrigger=PropertyChanged}"
-                                  AutoGenerateColumns="False" SelectionMode="Single" FontSize="12"
-                                  IsReadOnly="True" HeadersVisibility="All" Height="125"
-                                  EnableRowVirtualization="False"  Padding="10 0"
-                                  materialDesign:DataGridAssist.CellPadding="5"
-                                  materialDesign:DataGridAssist.ColumnHeaderPadding="5">
-                                            <DataGrid.Columns>
-                                                <DataGridTextColumn Header="STT">
-                                                    <DataGridTextColumn.Binding>
-                                                        <MultiBinding Converter="{StaticResource NumerRow}" UpdateSourceTrigger="PropertyChanged">
-                                                            <Binding Mode="OneWay" RelativeSource="{RelativeSource AncestorType={x:Type DataGridRow}}"/>
-                                                            <Binding Mode="OneWay" RelativeSource="{RelativeSource AncestorType={x:Type DataGrid}}" Path="Items.Count"/>
-                                                        </MultiBinding>
-                                                    </DataGridTextColumn.Binding>
-                                                </DataGridTextColumn>
+                                        <AdornerDecorator>
+                                            <DataGrid x:Name="ListOfChosenLocationDataGrid" ItemsSource="{Binding ListOfChosenLocation, IsAsync=True, UpdateSourceTrigger=PropertyChanged}"
+                                                      SelectedItem="{Binding ChosenLocation, UpdateSourceTrigger=PropertyChanged}"
+                                                      AutoGenerateColumns="False" SelectionMode="Single" FontSize="12"
+                                                      IsReadOnly="True" HeadersVisibility="All" Height="125"
+                                                      EnableRowVirtualization="False"  Padding="10 0"
+                                                      materialDesign:DataGridAssist.CellPadding="5"
+                                                      materialDesign:DataGridAssist.ColumnHeaderPadding="5">
+                                                <DataGrid.Columns>
+                                                    <DataGridTextColumn Header="STT">
+                                                        <DataGridTextColumn.Binding>
+                                                            <MultiBinding Converter="{StaticResource NumerRow}" UpdateSourceTrigger="PropertyChanged">
+                                                                <Binding Mode="OneWay" RelativeSource="{RelativeSource AncestorType={x:Type DataGridRow}}"/>
+                                                                <Binding Mode="OneWay" RelativeSource="{RelativeSource AncestorType={x:Type DataGrid}}" Path="Items.Count"/>
+                                                            </MultiBinding>
+                                                        </DataGridTextColumn.Binding>
+                                                    </DataGridTextColumn>
 
-                                                <DataGridTextColumn Binding="{Binding Location}" Width="*" Header="Địa điểm trên bản chào"/>
-                                            </DataGrid.Columns>
-                                        </DataGrid>
+                                                    <DataGridTextColumn Binding="{Binding Location}" Width="*" Header="Địa điểm trên bản chào"/>
+                                                </DataGrid.Columns>
+                                            </DataGrid>
+                                        </AdornerDecorator>
+
                                     </StackPanel>
                                 </materialDesign:DialogHost>
 
@@ -245,39 +274,40 @@
                                             </Button>
                                         </Grid>
 
-                                        <DataGrid x:Name="ListOfChosenPropertyItemsDataGrid" ItemsSource="{Binding ListOfChosenPropertyItems, IsAsync=True, UpdateSourceTrigger=PropertyChanged}"
-                                  SelectedItem="{Binding ChosenPropertyItem, UpdateSourceTrigger=PropertyChanged}"
-                                  AutoGenerateColumns="False" SelectionMode="Single" FontSize="12"
-                                  IsReadOnly="True" HeadersVisibility="All" Height="125" Padding="10 0"
-                                  EnableRowVirtualization="False"
-                                  materialDesign:DataGridAssist.CellPadding="5"
-                                  materialDesign:DataGridAssist.ColumnHeaderPadding="5">
-                                            <DataGrid.Columns>
-                                                <DataGridTextColumn Header="STT">
-                                                    <DataGridTextColumn.Binding>
-                                                        <MultiBinding Converter="{StaticResource NumerRow}" UpdateSourceTrigger="PropertyChanged">
-                                                            <Binding Mode="OneWay" RelativeSource="{RelativeSource AncestorType={x:Type DataGridRow}}"/>
-                                                            <Binding Mode="OneWay" RelativeSource="{RelativeSource AncestorType={x:Type DataGrid}}" Path="Items.Count"/>
-                                                        </MultiBinding>
-                                                    </DataGridTextColumn.Binding>
-                                                </DataGridTextColumn>
+                                        <AdornerDecorator>
+                                            <DataGrid x:Name="ListOfChosenPropertyItemsDataGrid" ItemsSource="{Binding ListOfChosenPropertyItems, IsAsync=True, UpdateSourceTrigger=PropertyChanged}"
+                                                      SelectedItem="{Binding ChosenPropertyItem, UpdateSourceTrigger=PropertyChanged}"
+                                                      AutoGenerateColumns="False" SelectionMode="Single" FontSize="12"
+                                                      IsReadOnly="True" HeadersVisibility="All" Height="125" Padding="10 0"
+                                                      EnableRowVirtualization="False"
+                                                      materialDesign:DataGridAssist.CellPadding="5"
+                                                      materialDesign:DataGridAssist.ColumnHeaderPadding="5">
+                                                <DataGrid.Columns>
+                                                    <DataGridTextColumn Header="STT">
+                                                        <DataGridTextColumn.Binding>
+                                                            <MultiBinding Converter="{StaticResource NumerRow}" UpdateSourceTrigger="PropertyChanged">
+                                                                <Binding Mode="OneWay" RelativeSource="{RelativeSource AncestorType={x:Type DataGridRow}}"/>
+                                                                <Binding Mode="OneWay" RelativeSource="{RelativeSource AncestorType={x:Type DataGrid}}" Path="Items.Count"/>
+                                                            </MultiBinding>
+                                                        </DataGridTextColumn.Binding>
+                                                    </DataGridTextColumn>
 
-                                                <DataGridTextColumn Binding="{Binding ItemName}" Width="*" Header="Hạng mục"/>
-                                            </DataGrid.Columns>
-                                        </DataGrid>
+                                                    <DataGridTextColumn Binding="{Binding ItemName}" Width="*" Header="Hạng mục"/>
+                                                </DataGrid.Columns>
+                                            </DataGrid>
+                                        </AdornerDecorator>
                                     </StackPanel>
                                 </materialDesign:DialogHost>
                             </Grid>
                         </StackPanel>
                     </AdornerDecorator>
-
                 </Expander>
 
                 <Expander Grid.Row="1" Style="{StaticResource MaterialDesignExpander}" HorizontalAlignment="Stretch" Background="Transparent"
                       BorderBrush="Teal" BorderThickness="0 2 0 0">
                     <Expander.Header>
-                        <TextBlock Foreground="#1A5F7A" Text="HIỆU LỰC VÀ PHÍ" FontSize="18"
-                                   Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
+                        <TextBlock Foreground="#1A5F7A" Text="HIỆU LỰC VÀ PHÍ"
+                                   FontSize="18" FontWeight="DemiBold"/>
                     </Expander.Header>
 
                     <AdornerDecorator>
@@ -438,8 +468,8 @@
                 <Expander Grid.Row="2" Style="{StaticResource MaterialDesignExpander}" HorizontalAlignment="Stretch" Background="Transparent"
                       BorderBrush="Teal" BorderThickness="0 2">
                     <Expander.Header>
-                        <TextBlock Foreground="#1A5F7A" Text="ĐIỀU KHOẢN BỔ SUNG" FontSize="18"
-                                   Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
+                        <TextBlock Foreground="#1A5F7A" Text="ĐIỀU KHOẢN BỔ SUNG" 
+                                   FontSize="18" FontWeight="DemiBold"/>
                     </Expander.Header>
 
                     <StackPanel>
@@ -452,7 +482,7 @@
         </ScrollViewer>
 
         <Grid Grid.Row="2">
-            <Button HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10"
+            <Button HorizontalAlignment="Right" VerticalAlignment="Top" Margin="20"
                 Style="{StaticResource MaterialDesignFloatingActionDarkButton}" 
                 Command="{Binding AddNewPropertyQuotationCommand}"
                 materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"

@@ -16,6 +16,23 @@ namespace PnC_Insurance.ViewModel
 {
     public partial class PropertyQuotationCreateVM : BaseVM
     {
+        #region Basic Information
+
+        public bool IsBasicInformationHasError
+        {
+            get
+            {
+                if (GetErrors(nameof(ChosenCustomer)).Any() ||
+                    GetErrors(nameof(ListOfChosenLocation)).Any() ||
+                    GetErrors(nameof(ListOfChosenPropertyItems)).Any()
+                    )
+
+                    return true;
+
+                return false;
+            }
+        }
+
         #region Customer
         [NotifyPropertyChangedFor(nameof(ListOfCustomers))]
         [ObservableProperty]
@@ -58,6 +75,7 @@ namespace PnC_Insurance.ViewModel
         [ObservableProperty]
         [Required(ErrorMessage = "Chọn khách hàng")]
         [NotifyDataErrorInfo]
+        [NotifyPropertyChangedFor(nameof(IsBasicInformationHasError))]
         [NotifyCanExecuteChangedFor(nameof(FetchMatchLocationsCommand))]
         [NotifyCanExecuteChangedFor(nameof(FetchPropertyItemsCommand))]
         [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
@@ -150,6 +168,7 @@ namespace PnC_Insurance.ViewModel
             {
                 ListOfChosenLocation.Add(SelectedLocation);
                 ValidateProperty(ListOfChosenLocation, nameof(ListOfChosenLocation));
+                OnPropertyChanged(nameof(IsBasicInformationHasError));
                 AddNewPropertyQuotationCommand.NotifyCanExecuteChanged();
             }
 
@@ -172,6 +191,7 @@ namespace PnC_Insurance.ViewModel
             {
                 ListOfChosenLocation.Remove(ChosenLocation);
                 ValidateProperty(ListOfChosenLocation, nameof(ListOfChosenLocation));
+                OnPropertyChanged(nameof(IsBasicInformationHasError));
                 AddNewPropertyQuotationCommand.NotifyCanExecuteChanged();
             }
         }
@@ -236,6 +256,7 @@ namespace PnC_Insurance.ViewModel
         [ObservableProperty]
         [MinimumElements(1, "Cần ít nhất 1 tài sản được bảo hiểm")]
         [NotifyDataErrorInfo]
+        [NotifyPropertyChangedFor(nameof(IsBasicInformationHasError))]
         [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
         private ObservableCollection<PropertyItem>? listOfChosenPropertyItems;
 
@@ -250,6 +271,7 @@ namespace PnC_Insurance.ViewModel
             {
                 ListOfChosenPropertyItems.Add(SelectedPropertyItem);
                 ValidateProperty(ListOfChosenPropertyItems, nameof(ListOfChosenPropertyItems));
+                OnPropertyChanged(nameof(IsBasicInformationHasError));
                 AddNewPropertyQuotationCommand.NotifyCanExecuteChanged();
             }
 
@@ -272,6 +294,7 @@ namespace PnC_Insurance.ViewModel
             {
                 ListOfChosenPropertyItems.Remove(ChosenPropertyItem);
                 ValidateProperty(ListOfChosenPropertyItems, nameof(ListOfChosenPropertyItems));
+                OnPropertyChanged(nameof(IsBasicInformationHasError));
                 AddNewPropertyQuotationCommand.NotifyCanExecuteChanged();
             }
         }
@@ -285,6 +308,11 @@ namespace PnC_Insurance.ViewModel
 
         }
         #endregion
+
+        #endregion
+        
+
+
 
         #region Required Information
 
