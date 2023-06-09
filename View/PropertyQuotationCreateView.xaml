@@ -18,7 +18,7 @@
             <RowDefinition/>
             <RowDefinition Height="100"/>
         </Grid.RowDefinitions>
-
+        
         <Grid Grid.Row="0">
             <TextBlock Text="TẠO BẢN CHÀO PHÍ" FontSize="20" Foreground="#1A5F7A" HorizontalAlignment="Center"
                        FontWeight="Bold" FontFamily="{StaticResource MaterialDesignFont}">
@@ -38,15 +38,25 @@
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
                 </Grid.RowDefinitions>
-
 
                 <Expander Grid.Row="0" HorizontalAlignment="Stretch" Background="Transparent"
                       BorderBrush="Teal" BorderThickness="0 2 0 0">
                     <Expander.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Foreground="#1A5F7A" Text="THÔNG TIN CƠ BẢN" 
-                                       FontSize="18" FontWeight="DemiBold"/>
+                        <StackPanel Orientation="Horizontal" Margin="-20 0">
+                            <TextBlock Foreground="#482121" Text="PHÒNG VÀ NGHIỆP VỤ" 
+                                       FontSize="18" FontWeight="DemiBold">
+                                <TextBlock.Effect>
+                                    <DropShadowEffect ShadowDepth="3"
+                                          Direction="330"
+                                          Color="Black"
+                                          Opacity="0.3"
+                                          BlurRadius="5"/>
+                                </TextBlock.Effect>
+                            </TextBlock>
 
                             <materialDesign:PackIcon x:Name="BasicInformationError" Kind="AlertCircleOutline" Margin="20 0" VerticalAlignment="Center" Foreground="Red" 
                                                      Visibility="{Binding IsBasicInformationHasError, Converter={StaticResource BooleanToVisibilityConverter}}"/>
@@ -68,6 +78,73 @@
                                 
                                 <materialDesign:PackIcon Kind="CheckCircleOutline" Margin="20 0" VerticalAlignment="Center" Foreground="Green"/>
                             </StackPanel>
+                        </StackPanel>
+                    </Expander.Header>
+
+                    <AdornerDecorator>
+                        <StackPanel>
+                            <Border BorderBrush="DarkOrange" BorderThickness="0 1 0 0" Margin="0 0 0 5"/>
+
+                            <Grid Margin="10 0 0 30">
+                                <StackPanel Margin="10 0" Orientation="Horizontal" HorizontalAlignment="Stretch">
+                                    <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                              ItemsSource="{Binding ListOfDepartments, IsAsync=True}"
+                                              SelectedItem="{Binding NewDepartment, UpdateSourceTrigger=PropertyChanged}"
+                                              Width="200" Margin="0 0 80 0"
+                                              materialDesign:ValidationAssist.Background="Transparent"
+                                              DisplayMemberPath="Name" IsEditable="False"
+
+                                              materialDesign:HintAssist.Hint="Phòng"/>
+                                    <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                              ItemsSource="{Binding ListOfClassOfInsurances, IsAsync=True}"
+                                              SelectedItem="{Binding NewClassOfInsurance, UpdateSourceTrigger=PropertyChanged}"
+                                              Width="400"
+                                              materialDesign:ValidationAssist.Background="Transparent"
+                                              DisplayMemberPath="Name" IsEditable="False"
+                                              materialDesign:HintAssist.Hint="Nghiệp vụ bảo hiểm"/>
+
+                                    
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </AdornerDecorator>
+                </Expander>
+
+                <Expander Grid.Row="1" HorizontalAlignment="Stretch" Background="Transparent"
+                      BorderBrush="Teal" BorderThickness="0 2 0 0">
+                    <Expander.Header>
+                        <StackPanel Orientation="Horizontal" Margin="-20 0">
+                            <TextBlock Foreground="#482121" Text="NGƯỜI ĐƯỢC BẢO HIỂM" 
+                                       FontSize="18" FontWeight="DemiBold">
+                                <TextBlock.Effect>
+                                    <DropShadowEffect ShadowDepth="3"
+                                          Direction="330"
+                                          Color="Black"
+                                          Opacity="0.3"
+                                          BlurRadius="5"/>
+                                </TextBlock.Effect>
+                            </TextBlock>
+
+                            <materialDesign:PackIcon x:Name="CustomerInformationError" Kind="AlertCircleOutline" Margin="20 0" VerticalAlignment="Center" Foreground="Red" 
+                                                     Visibility="{Binding IsCustomerInformationHasError, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                            <StackPanel VerticalAlignment="Center">
+                                <StackPanel.Style>
+                                    <Style TargetType="StackPanel">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=CustomerInformationError, Path=Visibility}" Value="Visible">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+
+                                            <DataTrigger Binding="{Binding ElementName=CustomerInformationError, Path=Visibility}" Value="Collapsed">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </StackPanel.Style>
+                                
+                                <materialDesign:PackIcon Kind="CheckCircleOutline" Margin="20 0" VerticalAlignment="Center" Foreground="Green"/>
+                            </StackPanel>
 
                         </StackPanel>
                     </Expander.Header>
@@ -76,7 +153,7 @@
                         <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <Border BorderBrush="DarkOrange" BorderThickness="0 1 0 0" Margin="0 0 0 5"/>
 
-                            <Grid>
+                            <Grid Margin="10 0 0 30">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="2*"/>
                                     <ColumnDefinition Width="1.5*"/>
@@ -85,35 +162,35 @@
 
                                 <materialDesign:DialogHost Grid.Column="0" IsOpen="{Binding IsChoosingCustomerDialogOpen}">
                                     <materialDesign:DialogHost.DialogContent>
-                                        <StackPanel Height="280" Width="420" Margin="10 0" 
-                                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                        <StackPanel Height="280" Width="420" Margin="10 0"
+                                                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
                                             <Grid>
                                                 <TextBox Width="380" HorizontalAlignment="Left" Margin="0 0 0 15"
-                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                         Text="{Binding CustomerSearch, UpdateSourceTrigger=PropertyChanged}"
-                                         materialDesign:TextFieldAssist.HasClearButton="True">
+                                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                                         Text="{Binding CustomerSearch, UpdateSourceTrigger=PropertyChanged}"
+                                                         materialDesign:TextFieldAssist.HasClearButton="True">
                                                     <materialDesign:HintAssist.Hint>
                                                         <TextBlock>
-                                            <materialDesign:PackIcon Kind="Search" VerticalAlignment="Bottom"/>
-                                            <Run Text="Tìm kiếm khách hàng"/>
+                                                            <materialDesign:PackIcon Kind="Search" VerticalAlignment="Bottom"/>
+                                                            <Run Text="Tìm kiếm khách hàng"/>
                                                         </TextBlock>
                                                     </materialDesign:HintAssist.Hint>
                                                 </TextBox>
 
                                                 <Button Style="{StaticResource MaterialDesignToolButton}"
-                                        Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
-                                        IsCancel="True" HorizontalAlignment="Right" VerticalAlignment="Top">
+                                                        Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                                        IsCancel="True" HorizontalAlignment="Right" VerticalAlignment="Top">
                                                     <materialDesign:PackIcon Kind="Close"/>
                                                 </Button>
                                             </Grid>
 
                                             <DataGrid ItemsSource="{Binding ListOfCustomers, IsAsync=True}"
-                                      SelectedItem="{Binding SelectedCustomer, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                      AutoGenerateColumns="False" SelectionMode="Single"
-                                      IsReadOnly="True" HeadersVisibility="All" Height="150"
-                                      materialDesign:DataGridAssist.CellPadding="5"
-                                      materialDesign:DataGridAssist.ColumnHeaderPadding="5">
+                                                      SelectedItem="{Binding SelectedCustomer, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                      AutoGenerateColumns="False" SelectionMode="Single"
+                                                      IsReadOnly="True" HeadersVisibility="All" Height="150"
+                                                      materialDesign:DataGridAssist.CellPadding="5"
+                                                      materialDesign:DataGridAssist.ColumnHeaderPadding="5">
                                                 <DataGrid.Columns>
                                                     <DataGridTextColumn Binding="{Binding TaxCode}" Header="MST"/>
 
@@ -122,9 +199,9 @@
                                             </DataGrid>
 
                                             <Button Style="{StaticResource MaterialDesignFlatDarkBgButton}"
-                                    Background="#94AF9F" Width="80" Height="40" Margin="0 15"
-                                    Command="{Binding ChooseCustomerCommand}"
-                                    Content="Chọn"/>
+                                                    Background="#94AF9F" Width="80" Height="40" Margin="0 15"
+                                                    Command="{Binding ChooseCustomerCommand}"
+                                                    Content="Chọn"/>
                                         </StackPanel>
                                     </materialDesign:DialogHost.DialogContent>
 
@@ -133,9 +210,9 @@
                                             <TextBlock Text="Lựa chọn khách hàng:" Margin="0 0 30 0" VerticalAlignment="Center"/>
 
                                             <Button Style="{StaticResource MaterialDesignFlatDarkButton}"
-                                    Background="#94AF9F" Width="50"
-                                    Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
-                                    Content="..." />
+                                                    Background="#94AF9F" Width="50"
+                                                    Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
+                                                    Content="..." />
                                         </StackPanel>
 
                                         <AdornerDecorator>
@@ -153,9 +230,7 @@
                                                          Text="{Binding ChosenCustomer.Name, Mode=OneWay}"/>
                                             </ItemsControl>
                                         </AdornerDecorator>
-
                                     </StackPanel>
-
                                 </materialDesign:DialogHost>
 
                                 <materialDesign:DialogHost Grid.Column="1" IsOpen="{Binding IsChoosingLocationDialogOpen}">
@@ -303,11 +378,85 @@
                     </AdornerDecorator>
                 </Expander>
 
-                <Expander Grid.Row="1" Style="{StaticResource MaterialDesignExpander}" HorizontalAlignment="Stretch" Background="Transparent"
+                <Expander Grid.Row="2" Style="{StaticResource MaterialDesignExpander}" HorizontalAlignment="Stretch" Background="Transparent"
                       BorderBrush="Teal" BorderThickness="0 2 0 0">
                     <Expander.Header>
-                        <TextBlock Foreground="#1A5F7A" Text="HIỆU LỰC VÀ PHÍ"
-                                   FontSize="18" FontWeight="DemiBold"/>
+                        <StackPanel Margin="-20 0">
+                            <TextBlock Foreground="#482121" Text="THÔNG TIN BẢN CHÀO"
+                                       FontSize="18" FontWeight="DemiBold">
+                                <TextBlock.Effect>
+                                    <DropShadowEffect ShadowDepth="3"
+                                              Direction="330"
+                                              Color="Black"
+                                              Opacity="0.3"
+                                              BlurRadius="5"/>
+                                </TextBlock.Effect>
+                            </TextBlock>
+                        </StackPanel>
+                    </Expander.Header>
+
+                    <AdornerDecorator>
+                        <StackPanel>
+                            <Border BorderBrush="DarkOrange" BorderThickness="0 1 0 0" Margin="0 0 0 5"/>
+
+                            <Grid Grid.Row="1" Margin="10 0 0 30">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0" HorizontalAlignment="Stretch" Margin="10 0 20 0">
+                                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                             Text="{Binding NewPolicyNo, UpdateSourceTrigger=PropertyChanged}" 
+                                             materialDesign:ValidationAssist.Background="Transparent"
+                                             Margin="0 0 0 20"
+                                             materialDesign:HintAssist.Hint="Số bản chào"
+                                             materialDesign:TextFieldAssist.HasClearButton="True"/>
+
+                                    <DatePicker Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
+                                                SelectedDate="{Binding NewIssueDate, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
+                                                materialDesign:ValidationAssist.Background="Transparent"
+                                                Margin="0 0 0 20"
+                                                materialDesign:HintAssist.Hint="Ngày cấp"/>
+
+                                    
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1" HorizontalAlignment="Stretch" Margin="10 0 20 0">
+                                    <DatePicker Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
+                                                SelectedDate="{Binding NewFromDate, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
+                                                materialDesign:ValidationAssist.Background="Transparent"
+                                                Margin="0 0 0 20"
+                                                materialDesign:HintAssist.Hint="Từ ngày"/>
+
+                                    <DatePicker Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
+                                                SelectedDate="{Binding NewToDate, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
+                                                materialDesign:ValidationAssist.Background="Transparent"
+                                                Margin="0 0 0 20"
+                                                materialDesign:HintAssist.Hint="Đến ngày"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </AdornerDecorator>
+
+                </Expander>
+
+                <Expander Grid.Row="3" Style="{StaticResource MaterialDesignExpander}" HorizontalAlignment="Stretch" Background="Transparent"
+                      BorderBrush="Teal" BorderThickness="0 2 0 0">
+                    <Expander.Header>
+                        <StackPanel Margin="-20 0">
+                            <TextBlock Foreground="#482121" Text="HIỆU LỰC VÀ PHÍ"
+                                       FontSize="18" FontWeight="DemiBold">
+                                <TextBlock.Effect>
+                                    <DropShadowEffect ShadowDepth="3"
+                                              Direction="330"
+                                              Color="Black"
+                                              Opacity="0.3"
+                                              BlurRadius="5"/>
+                                </TextBlock.Effect>
+                            </TextBlock>
+                        </StackPanel>
                     </Expander.Header>
 
                     <AdornerDecorator>
@@ -465,11 +614,21 @@
 
                 </Expander>
 
-                <Expander Grid.Row="2" Style="{StaticResource MaterialDesignExpander}" HorizontalAlignment="Stretch" Background="Transparent"
+                <Expander Grid.Row="4" Style="{StaticResource MaterialDesignExpander}" HorizontalAlignment="Stretch" Background="Transparent"
                       BorderBrush="Teal" BorderThickness="0 2">
                     <Expander.Header>
-                        <TextBlock Foreground="#1A5F7A" Text="ĐIỀU KHOẢN BỔ SUNG" 
-                                   FontSize="18" FontWeight="DemiBold"/>
+                        <StackPanel Margin="-20 0">
+                            <TextBlock Foreground="#482121" Text="ĐIỀU KHOẢN BỔ SUNG" 
+                                       FontSize="18" FontWeight="DemiBold">
+                                <TextBlock.Effect>
+                                    <DropShadowEffect ShadowDepth="3"
+                                              Direction="330"
+                                              Color="Black"
+                                              Opacity="0.3"
+                                              BlurRadius="5"/>
+                                </TextBlock.Effect>
+                            </TextBlock>
+                        </StackPanel>
                     </Expander.Header>
 
                     <StackPanel>
