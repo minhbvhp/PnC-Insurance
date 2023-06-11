@@ -380,9 +380,20 @@ namespace PnC_Insurance.ViewModel
         }
         #endregion
 
-        #endregion               
+        #endregion
 
-        #region Not Required Information
+        #region Quotation Information
+        public bool IsQuotationInformationHasError
+        {
+            get
+            {
+                if (GetErrors(nameof(NewFromDate)).Any() || GetErrors(nameof(NewToDate)).Any())
+                    return true;
+
+                return false;
+            }
+        }
+
         [ObservableProperty]
         private string? newPolicyNo;
 
@@ -399,6 +410,7 @@ namespace PnC_Insurance.ViewModel
         [ObservableProperty]
         [GreaterThan(nameof(NewIssueDate), "Hiệu lực đơn phải sau ngày cấp")]
         [NotifyDataErrorInfo]
+        [NotifyPropertyChangedFor(nameof(IsQuotationInformationHasError))]
         [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
         private DateTime? newFromDate;
 
@@ -411,6 +423,7 @@ namespace PnC_Insurance.ViewModel
         [ObservableProperty]
         [GreaterThan(nameof(NewFromDate), "'Đến ngày' phải sau 'Từ ngày'")]
         [NotifyDataErrorInfo]
+        [NotifyPropertyChangedFor(nameof(IsQuotationInformationHasError))]
         [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
         private DateTime? newToDate;
 
@@ -420,6 +433,9 @@ namespace PnC_Insurance.ViewModel
             ValidateProperty(NewFromDate, nameof(NewFromDate));
         }
 
+        #endregion
+
+        #region Not Required Information
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(NewFnEPremium))]
         [NotifyPropertyChangedFor(nameof(NewArPremium))]

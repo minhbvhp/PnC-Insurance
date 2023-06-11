@@ -381,7 +381,7 @@
                 <Expander Grid.Row="2" Style="{StaticResource MaterialDesignExpander}" HorizontalAlignment="Stretch" Background="Transparent"
                       BorderBrush="Teal" BorderThickness="0 2 0 0">
                     <Expander.Header>
-                        <StackPanel Margin="-20 0">
+                        <StackPanel Orientation="Horizontal" Margin="-20 0">
                             <TextBlock Foreground="#482121" Text="THÔNG TIN BẢN CHÀO"
                                        FontSize="18" FontWeight="DemiBold">
                                 <TextBlock.Effect>
@@ -392,6 +392,27 @@
                                               BlurRadius="5"/>
                                 </TextBlock.Effect>
                             </TextBlock>
+
+                            <materialDesign:PackIcon x:Name="QuotationInformationError" Kind="AlertCircleOutline" Margin="20 0" VerticalAlignment="Center" Foreground="Red" 
+                                                     Visibility="{Binding IsQuotationInformationHasError, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                            <StackPanel VerticalAlignment="Center">
+                                <StackPanel.Style>
+                                    <Style TargetType="StackPanel">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=QuotationInformationError, Path=Visibility}" Value="Visible">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+
+                                            <DataTrigger Binding="{Binding ElementName=QuotationInformationError, Path=Visibility}" Value="Collapsed">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </StackPanel.Style>
+
+                                <materialDesign:PackIcon Kind="CheckCircleOutline" Margin="20 0" VerticalAlignment="Center" Foreground="Green"/>
+                            </StackPanel>
                         </StackPanel>
                     </Expander.Header>
 
