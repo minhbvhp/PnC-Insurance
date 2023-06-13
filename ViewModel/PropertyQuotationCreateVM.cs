@@ -158,7 +158,7 @@ namespace PnC_Insurance.ViewModel
             ChosenCustomer = SelectedCustomer;
             OnPropertyChanged(nameof(ListOfMatchLocations));
             ListOfChosenLocation = new ObservableCollection<InsuredLocation>();
-            ListOfChosenPropertyItems = new ObservableCollection<PropertyItem>();
+            ListOfChosenPropertyItems = new ObservableCollection<PropertyPoliciesPropertyItem>();
             IsChoosingCustomerDialogOpen = false;
         }
 
@@ -308,6 +308,13 @@ namespace PnC_Insurance.ViewModel
         [NotifyCanExecuteChangedFor(nameof(ChoosePropertyItemCommand))]
         private PropertyItem? selectedPropertyItem;
 
+        [ObservableProperty]        
+        [NotifyCanExecuteChangedFor(nameof(ChoosePropertyItemCommand))]
+        [Required(ErrorMessage = "Nhập Số tiền bảo hiểm")]
+        [Range(1, long.MaxValue, ErrorMessage = "Nhập số tiền lớn hơn 0")]
+        [NotifyDataErrorInfo]
+        private long? itemSumInsured;
+
         [RelayCommand(CanExecute = nameof(CanFetchPropertyItems))]
         private void FetchPropertyItems()
         {
@@ -329,21 +336,46 @@ namespace PnC_Insurance.ViewModel
         [NotifyDataErrorInfo]
         [NotifyPropertyChangedFor(nameof(IsCustomerInformationHasError))]
         [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
-        private ObservableCollection<PropertyItem>? listOfChosenPropertyItems;
+        private ObservableCollection<PropertyPoliciesPropertyItem>? listOfChosenPropertyItems;
 
         [ObservableProperty]
         [NotifyCanExecuteChangedFor(nameof(RemoveChosenPropertyItemCommand))]
-        private PropertyItem? chosenPropertyItem;
+        private PropertyPoliciesPropertyItem? chosenPropertyItem;
+
+        private void OnPropertyItemAddedOrRemoved()
+        {
+            if (ListOfChosenPropertyItems != null && ListOfChosenPropertyItems.Any() &&
+                NewFnERate != null && NewArRate != null)
+            {
+                NewFnEPremium = Convert.ToInt64(Math.Round((decimal)(NewSumInsured * NewFnERate / 100), MidpointRounding.AwayFromZero));
+                NewArPremium = Convert.ToInt64(Math.Round((decimal)(NewSumInsured * NewArRate / 100), MidpointRounding.AwayFromZero));
+            }
+            else
+            {             
+                NewFnEPremium = 0;
+                NewArPremium = 0;
+            }
+
+            OnPropertyChanged(nameof(NewSumInsured));
+        }
 
         [RelayCommand(CanExecute = nameof(CanChoosePropertyItem))]
         private void ChoosePropertyItem()
         {
             if (SelectedPropertyItem != null && !ListOfChosenPropertyItems.Any(item => item.Id == SelectedPropertyItem.Id))
             {
-                ListOfChosenPropertyItems.Add(SelectedPropertyItem);
+                var newItem = new PropertyPoliciesPropertyItem()
+                {
+                    PropertyItem = SelectedPropertyItem,
+                    SumInsured = (long)ItemSumInsured,
+                };
+                
+                ListOfChosenPropertyItems.Add(newItem);
                 ValidateProperty(ListOfChosenPropertyItems, nameof(ListOfChosenPropertyItems));
                 OnPropertyChanged(nameof(IsCustomerInformationHasError));
+                OnPropertyItemAddedOrRemoved();
                 AddNewPropertyQuotationCommand.NotifyCanExecuteChanged();
+                ItemSumInsured = 0;
             }
 
             IsChoosingPropertyItemsDialogOpen = false;
@@ -351,7 +383,7 @@ namespace PnC_Insurance.ViewModel
 
         private bool CanChoosePropertyItem()
         {
-            if (SelectedPropertyItem != null)
+            if (SelectedPropertyItem != null && !GetErrors(nameof(ItemSumInsured)).Any())
                 return true;
 
             return false;
@@ -366,6 +398,7 @@ namespace PnC_Insurance.ViewModel
                 ListOfChosenPropertyItems.Remove(ChosenPropertyItem);
                 ValidateProperty(ListOfChosenPropertyItems, nameof(ListOfChosenPropertyItems));
                 OnPropertyChanged(nameof(IsCustomerInformationHasError));
+                OnPropertyItemAddedOrRemoved();
                 AddNewPropertyQuotationCommand.NotifyCanExecuteChanged();
             }
         }
@@ -436,26 +469,19 @@ namespace PnC_Insurance.ViewModel
         #endregion
 
         #region Not Required Information
-        [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(NewFnEPremium))]
-        [NotifyPropertyChangedFor(nameof(NewArPremium))]
-        [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
-        [Required(ErrorMessage = "Nhập Số tiền bảo hiểm")]
-        [Range(1, long.MaxValue, ErrorMessage = "Nhập số tiền lớn hơn 0")]
-        [NotifyDataErrorInfo]
-        private long? newSumInsured;
-
-        partial void OnNewSumInsuredChanged(long? value)
+        //[Required(ErrorMessage = "Thêm hạng mục tài sản được bảo hiểm")]
+        //[Range(1, long.MaxValue, ErrorMessage = "Thêm hạng mục tài sản được bảo hiểm")]
+        public long NewSumInsured
         {
-            if (value != null && NewFnERate != null && NewArRate != null)
+            get
             {
-                NewFnEPremium = Convert.ToInt64(Math.Round((decimal)(value * NewFnERate / 100), MidpointRounding.AwayFromZero));
-                NewArPremium = Convert.ToInt64(Math.Round((decimal)(value * NewArRate / 100), MidpointRounding.AwayFromZero));
-            }
-            else
-            {
-                NewFnEPremium = 0;
-                NewArPremium = 0;
+                if (ListOfChosenPropertyItems != null && ListOfChosenPropertyItems.Any())
+                {
+                    var result = ListOfChosenPropertyItems.Sum(item => item.SumInsured);
+                    return result;
+                }
+
+                return 0;
             }
         }
 
@@ -469,7 +495,7 @@ namespace PnC_Insurance.ViewModel
 
         partial void OnNewFnERateChanged(decimal? value)
         {
-            if (value != null && NewSumInsured != null)
+            if (value != null)
             {
                 NewFnEPremium = Convert.ToInt64(Math.Round((decimal)(NewSumInsured * value / 100), MidpointRounding.AwayFromZero));                
             }
@@ -489,7 +515,7 @@ namespace PnC_Insurance.ViewModel
 
         partial void OnNewArRateChanged(decimal? value)
         {
-            if (value != null && NewSumInsured != null)
+            if (value != null)
             {
                 NewArPremium = Convert.ToInt64(Math.Round((decimal)(NewSumInsured * value / 100), MidpointRounding.AwayFromZero));
             }
@@ -603,7 +629,6 @@ namespace PnC_Insurance.ViewModel
 
         private void StartOver()
         {
-            NewSumInsured = 0;
             NewFnERate = 0;
             NewArRate = 0;
             NewFnEPremium = 0;

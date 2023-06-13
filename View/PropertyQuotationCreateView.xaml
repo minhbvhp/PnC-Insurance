@@ -308,27 +308,38 @@
 
                                 <materialDesign:DialogHost Grid.Column="2" IsOpen="{Binding IsChoosingPropertyItemsDialogOpen}">
                                     <materialDesign:DialogHost.DialogContent>
-                                        <StackPanel Margin="10 0" Width="250" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                        <AdornerDecorator>
+                                            <StackPanel Margin="10 0" Width="250" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
-                                            <Button Style="{StaticResource MaterialDesignToolButton}"
-                                        Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
-                                        IsCancel="True" HorizontalAlignment="Right" VerticalAlignment="Top">
-                                                <materialDesign:PackIcon Kind="Close"/>
-                                            </Button>
+                                                <Button Style="{StaticResource MaterialDesignToolButton}"
+                                                        Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                                        IsCancel="True" HorizontalAlignment="Right" VerticalAlignment="Top">
+                                                    <materialDesign:PackIcon Kind="Close"/>
+                                                </Button>
 
-                                            <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
-                                      ItemsSource="{Binding ListOfPropertyItems, IsAsync=True}"
-                                      SelectedItem="{Binding SelectedPropertyItem, UpdateSourceTrigger=PropertyChanged}"
-                                      Margin="0 0 0 20"
-                                      materialDesign:ValidationAssist.Background="Transparent"
-                                      DisplayMemberPath="ItemName" IsEditable="False"
-                                      materialDesign:HintAssist.Hint="Tài sản được bảo hiểm"/>
+                                                <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                                          ItemsSource="{Binding ListOfPropertyItems, IsAsync=True}"
+                                                          SelectedItem="{Binding SelectedPropertyItem, UpdateSourceTrigger=PropertyChanged}"
+                                                          Margin="0 0 0 20"
+                                                          materialDesign:ValidationAssist.Background="Transparent"
+                                                          DisplayMemberPath="ItemName" IsEditable="False"
+                                                          materialDesign:HintAssist.Hint="Tài sản được bảo hiểm"/>
 
-                                            <Button Style="{StaticResource MaterialDesignFlatDarkBgButton}"
-                                    Background="#94AF9F" Width="80" Height="40" Margin="0 15"
-                                    Command="{Binding ChoosePropertyItemCommand}"
-                                    Content="Thêm"/>
-                                        </StackPanel>
+                                                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                                         Text="{Binding ItemSumInsured, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
+                                                    Converter={StaticResource NumberFormatConverter},ConverterParameter='N0', ConverterCulture='is-IS'}"
+                                                         materialDesign:ValidationAssist.Background="Transparent"
+                                                         Margin="0 0 0 20"
+                                                         materialDesign:HintAssist.Hint="Số tiền bảo hiểm"
+                                                         materialDesign:TextFieldAssist.SuffixText = "VND "
+                                                         materialDesign:TextFieldAssist.HasClearButton="True"/>
+
+                                                <Button Style="{StaticResource MaterialDesignFlatDarkBgButton}"
+                                                        Background="#94AF9F" Width="80" Height="40" Margin="0 15"
+                                                        Command="{Binding ChoosePropertyItemCommand}"
+                                                        Content="Thêm"/>
+                                            </StackPanel>
+                                        </AdornerDecorator>
                                     </materialDesign:DialogHost.DialogContent>
 
                                     <StackPanel Margin="10" HorizontalAlignment="Stretch">
@@ -367,7 +378,10 @@
                                                         </DataGridTextColumn.Binding>
                                                     </DataGridTextColumn>
 
-                                                    <DataGridTextColumn Binding="{Binding ItemName}" Width="*" Header="Hạng mục"/>
+                                                    <DataGridTextColumn Binding="{Binding PropertyItem.ItemName}" Width="*" Header="Hạng mục"/>
+
+                                                    <DataGridTextColumn Binding="{Binding SumInsured, Converter={StaticResource NumberFormatConverter},ConverterParameter='N0', ConverterCulture='is-IS'}"
+                                                                        Width="*" Header="Hạng mục"/>
                                                 </DataGrid.Columns>
                                             </DataGrid>
                                         </AdornerDecorator>
@@ -536,13 +550,12 @@
 
                                 <StackPanel Grid.Column="1" HorizontalAlignment="Stretch" Margin="10 0 20 0">
                                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                         Text="{Binding NewSumInsured, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
-                                Converter={StaticResource NumberFormatConverter},ConverterParameter='N0', ConverterCulture='is-IS'}"
-                         materialDesign:ValidationAssist.Background="Transparent"
-                         Margin="0 0 0 20"
-                         materialDesign:HintAssist.Hint="Số tiền bảo hiểm"
-                         materialDesign:TextFieldAssist.SuffixText = "VND "
-                         materialDesign:TextFieldAssist.HasClearButton="True"/>
+                                             Text="{Binding NewSumInsured, Mode=OneWay, Converter={StaticResource NumberFormatConverter},ConverterParameter='N0', ConverterCulture='is-IS'}"
+                                             materialDesign:ValidationAssist.Background="Transparent"
+                                             Margin="0 0 0 20"
+                                             materialDesign:HintAssist.Hint="Số tiền bảo hiểm"
+                                             materialDesign:TextFieldAssist.SuffixText = "VND "
+                                             IsReadOnly="True"/>
 
                                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                          Text="{Binding NewFnERate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
