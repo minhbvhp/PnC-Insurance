@@ -396,7 +396,7 @@
                       BorderBrush="Teal" BorderThickness="0 2 0 0">
                     <Expander.Header>
                         <StackPanel Orientation="Horizontal" Margin="-20 0">
-                            <TextBlock Foreground="#482121" Text="THÔNG TIN BẢN CHÀO"
+                            <TextBlock Foreground="#482121" Text="NGÀY CẤP VÀ HIỆU LỰC"
                                        FontSize="18" FontWeight="DemiBold">
                                 <TextBlock.Effect>
                                     <DropShadowEffect ShadowDepth="3"
@@ -480,8 +480,163 @@
                 <Expander Grid.Row="3" Style="{StaticResource MaterialDesignExpander}" HorizontalAlignment="Stretch" Background="Transparent"
                       BorderBrush="Teal" BorderThickness="0 2 0 0">
                     <Expander.Header>
+                        <StackPanel Margin="-20 0" Orientation="Horizontal">
+                            <TextBlock Foreground="#482121" Text="PHÍ BẢO HIỂM"
+                                       FontSize="18" FontWeight="DemiBold">
+                                <TextBlock.Effect>
+                                    <DropShadowEffect ShadowDepth="3"
+                                              Direction="330"
+                                              Color="Black"
+                                              Opacity="0.3"
+                                              BlurRadius="5"/>
+                                </TextBlock.Effect>
+                            </TextBlock>
+
+                            <materialDesign:PackIcon x:Name="PremiumInformationError" Kind="AlertCircleOutline" Margin="20 0" VerticalAlignment="Center" Foreground="Red" 
+                                                     Visibility="{Binding IsPremiumInformationHasError, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                            <StackPanel VerticalAlignment="Center">
+                                <StackPanel.Style>
+                                    <Style TargetType="StackPanel">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=PremiumInformationError, Path=Visibility}" Value="Visible">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+
+                                            <DataTrigger Binding="{Binding ElementName=PremiumInformationError, Path=Visibility}" Value="Collapsed">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </StackPanel.Style>
+
+                                <materialDesign:PackIcon Kind="CheckCircleOutline" Margin="20 0" VerticalAlignment="Center" Foreground="Green"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Expander.Header>
+
+                    <AdornerDecorator>
+                        <StackPanel>
+                            <Border BorderBrush="DarkOrange" BorderThickness="0 1 0 0" Margin="0 0 0 5"/>
+
+                            <Grid Grid.Row="1" Margin="0 10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0" HorizontalAlignment="Stretch" Margin="10 0 50 0">
+                                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                             Text="{Binding NewSumInsured, Mode=OneWay, Converter={StaticResource NumberFormatConverter},ConverterParameter='N0', ConverterCulture='is-IS'}"
+                                             materialDesign:ValidationAssist.Background="Transparent"
+                                             Margin="0 0 0 20"
+                                             materialDesign:HintAssist.Hint="Số tiền bảo hiểm"
+                                             materialDesign:TextFieldAssist.SuffixText = "VND "
+                                             IsReadOnly="True"/>
+
+                                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                             Text="{Binding NewFnERate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                                        Converter={StaticResource DecimalFormatConverter}, ConverterParameter='N4'}"
+                                             materialDesign:ValidationAssist.Background="Transparent"
+                                             Margin="0 0 0 20"
+                                             materialDesign:HintAssist.Hint="Tỷ lệ phí CNBB"
+                                             materialDesign:TextFieldAssist.SuffixText = "% "
+                                             materialDesign:TextFieldAssist.HasClearButton="True"
+                                             PreviewTextInput="InputDecimalOnly"
+                                             PreviewKeyDown="PreventSpaceKey"/>
+
+                                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                             Text="{Binding NewArRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                                        Converter={StaticResource DecimalFormatConverter}, ConverterParameter='N4'}"
+                                             materialDesign:ValidationAssist.Background="Transparent"
+                                             Margin="0 0 0 20"
+                                             materialDesign:HintAssist.Hint="Tỷ lệ phí bổ sung"
+                                             materialDesign:TextFieldAssist.SuffixText = "% "
+                                             materialDesign:TextFieldAssist.HasClearButton="True"
+                                             PreviewTextInput="InputDecimalOnly"
+                                             PreviewKeyDown="PreventSpaceKey"/>
+
+                                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                             Text="{Binding NewFnEPremium, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
+                                        Converter={StaticResource NumberFormatConverter}, ConverterParameter='N0', ConverterCulture='is-IS'}"
+                                             materialDesign:ValidationAssist.Background="Transparent"
+                                             Margin="0 0 0 20"
+                                             materialDesign:HintAssist.Hint="Phí thuần Cháy nổ"
+                                             materialDesign:TextFieldAssist.SuffixText = "VND "
+                                             materialDesign:TextFieldAssist.HasClearButton="True"/>
+
+                                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                             Text="{Binding NewArPremium, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
+                                        Converter={StaticResource NumberFormatConverter},ConverterParameter='N0', ConverterCulture='is-IS'}"
+                                             materialDesign:ValidationAssist.Background="Transparent"
+                                             Margin="0 0 0 20"
+                                             materialDesign:HintAssist.Hint="Phí thuần bổ sung"
+                                             materialDesign:TextFieldAssist.SuffixText = "VND "
+                                             materialDesign:TextFieldAssist.HasClearButton="True"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1" HorizontalAlignment="Stretch" Margin="10 0 50 0">
+                                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                             Text="{Binding NewFnEPremium, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
+                                        Converter={StaticResource NumberFormatConverter}, ConverterParameter='N0', ConverterCulture='is-IS'}"
+                                             materialDesign:ValidationAssist.Background="Transparent"
+                                             Margin="0 0 0 20"
+                                             materialDesign:HintAssist.Hint="Phí thuần Cháy nổ"
+                                             materialDesign:TextFieldAssist.SuffixText = "VND "
+                                             materialDesign:TextFieldAssist.HasClearButton="True"/>
+
+                                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                             Text="{Binding NewArPremium, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
+                                        Converter={StaticResource NumberFormatConverter},ConverterParameter='N0', ConverterCulture='is-IS'}"
+                                             materialDesign:ValidationAssist.Background="Transparent"
+                                             Margin="0 0 0 20"
+                                             materialDesign:HintAssist.Hint="Phí thuần bổ sung"
+                                             materialDesign:TextFieldAssist.SuffixText = "VND "
+                                             materialDesign:TextFieldAssist.HasClearButton="True"/>
+
+                                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                             Text="{Binding NewVAT, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
+                                        Converter={StaticResource NumberFormatConverter}, ConverterParameter='N0', ConverterCulture='is-IS'}"
+                                             materialDesign:ValidationAssist.Background="Transparent"
+                                             Margin="0 0 0 20"
+                                             materialDesign:HintAssist.Hint="Thuế VAT"
+                                             materialDesign:TextFieldAssist.SuffixText = "VND "
+                                             materialDesign:TextFieldAssist.HasClearButton="True"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="2" HorizontalAlignment="Stretch" Margin="10 0 50 0">
+                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                             Text="{Binding NewTotalNetPremium, UpdateSourceTrigger=PropertyChanged, Mode=OneWay,
+                                        Converter={StaticResource NumberFormatConverter}, ConverterParameter='N0', ConverterCulture='is-IS'}"
+                                             materialDesign:HintAssist.Background="#CAD2C5"
+                                             materialDesign:ValidationAssist.Background="Transparent"
+                                             materialDesign:HintAssist.Hint="Tổng phí thuần"
+                                             materialDesign:TextFieldAssist.SuffixText = "VND "
+                                             BorderBrush="Teal"
+                                             IsReadOnly="True" Margin="0 0 0 20"/>
+                                    
+                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                             Text="{Binding NewTotalDue, UpdateSourceTrigger=PropertyChanged, Mode=OneWay,
+                                        Converter={StaticResource NumberFormatConverter}, ConverterParameter='N0', ConverterCulture='is-IS'}"
+                                             materialDesign:HintAssist.Background="#CAD2C5"
+                                             materialDesign:ValidationAssist.Background="Transparent"
+                                             materialDesign:HintAssist.Hint="Tổng phí (Đã gồm VAT)"
+                                             materialDesign:TextFieldAssist.SuffixText = "VND "
+                                             BorderBrush="Teal"
+                                             IsReadOnly="True"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </AdornerDecorator>
+
+                </Expander>
+
+                <Expander Grid.Row="4" Style="{StaticResource MaterialDesignExpander}" HorizontalAlignment="Stretch" Background="Transparent"
+                      BorderBrush="Teal" BorderThickness="0 2 0 0">
+                    <Expander.Header>
                         <StackPanel Margin="-20 0">
-                            <TextBlock Foreground="#482121" Text="HIỆU LỰC VÀ PHÍ"
+                            <TextBlock Foreground="#482121" Text="MỨC KHẤU TRỪ"
                                        FontSize="18" FontWeight="DemiBold">
                                 <TextBlock.Effect>
                                     <DropShadowEffect ShadowDepth="3"
@@ -502,145 +657,24 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
-                                    <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
 
-                                <StackPanel Grid.Column="0" HorizontalAlignment="Stretch" Margin="10 0 20 0">
-                                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                             Text="{Binding NewPolicyNo, UpdateSourceTrigger=PropertyChanged}" 
-                             materialDesign:ValidationAssist.Background="Transparent"
-                             Margin="0 0 0 20"
-                             materialDesign:HintAssist.Hint="Số đơn/Số bản chào"
-                             materialDesign:TextFieldAssist.HasClearButton="True"/>
-
-                                    <DatePicker Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
-                            SelectedDate="{Binding NewIssueDate, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
-                            materialDesign:ValidationAssist.Background="Transparent"
-                            Margin="0 0 0 20"
-                            materialDesign:HintAssist.Hint="Ngày cấp"/>
-
-                                    <DatePicker Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
-                            SelectedDate="{Binding NewFromDate, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
-                            materialDesign:ValidationAssist.Background="Transparent"
-                            Margin="0 0 0 20"
-                            materialDesign:HintAssist.Hint="Từ ngày"/>
-
-                                    <DatePicker Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
-                            SelectedDate="{Binding NewToDate, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
-                            materialDesign:ValidationAssist.Background="Transparent"
-                            Margin="0 0 0 20"
-                            materialDesign:HintAssist.Hint="Đến ngày"/>
-
-                                    <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
-                          ItemsSource="{Binding ListOfClassOfInsurances, IsAsync=True}"
-                          SelectedItem="{Binding NewClassOfInsurance, UpdateSourceTrigger=PropertyChanged}"
-                          Margin="0 0 0 20"
-                          materialDesign:ValidationAssist.Background="Transparent"
-                          DisplayMemberPath="Name" IsEditable="False"
-                          materialDesign:HintAssist.Hint="Nghiệp vụ bảo hiểm"/>
-
-                                    <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
-                          ItemsSource="{Binding ListOfDepartments, IsAsync=True}"
-                          SelectedItem="{Binding NewDepartment, UpdateSourceTrigger=PropertyChanged}"
-                          Margin="0 0 0 20"
-                          materialDesign:ValidationAssist.Background="Transparent"
-                          DisplayMemberPath="Name" IsEditable="False"
-                          materialDesign:HintAssist.Hint="Phòng"/>
+                                <StackPanel Grid.Column="0" HorizontalAlignment="Stretch" Margin="10 0 30 0">
+                                    <TextBox  Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                             TextWrapping="Wrap" Margin="0 0 50 20"
+                                             materialDesign:HintAssist.Hint="Mức khấu trừ Cháy nổ"
+                                             materialDesign:HintAssist.Background="#CAD2C5"
+                                             Text="{Binding NewFnEDeductible}"
+                                             materialDesign:TextFieldAssist.HasClearButton="True"/>
                                 </StackPanel>
 
-                                <StackPanel Grid.Column="1" HorizontalAlignment="Stretch" Margin="10 0 20 0">
-                                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                             Text="{Binding NewSumInsured, Mode=OneWay, Converter={StaticResource NumberFormatConverter},ConverterParameter='N0', ConverterCulture='is-IS'}"
-                                             materialDesign:ValidationAssist.Background="Transparent"
-                                             Margin="0 0 0 20"
-                                             materialDesign:HintAssist.Hint="Số tiền bảo hiểm"
-                                             materialDesign:TextFieldAssist.SuffixText = "VND "
-                                             IsReadOnly="True"/>
-
-                                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                         Text="{Binding NewFnERate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
-                                Converter={StaticResource DecimalFormatConverter}, ConverterParameter='N4'}"
-                         materialDesign:ValidationAssist.Background="Transparent"
-                         Margin="0 0 0 20"
-                         materialDesign:HintAssist.Hint="Tỷ lệ phí CNBB"
-                         materialDesign:TextFieldAssist.SuffixText = "% "
-                         materialDesign:TextFieldAssist.HasClearButton="True"
-                         PreviewTextInput="InputDecimalOnly"
-                         PreviewKeyDown="PreventSpaceKey"/>
-
-                                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                         Text="{Binding NewArRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
-                                Converter={StaticResource DecimalFormatConverter}, ConverterParameter='N4'}"
-                         materialDesign:ValidationAssist.Background="Transparent"
-                         Margin="0 0 0 20"
-                         materialDesign:HintAssist.Hint="Tỷ lệ phí bổ sung"
-                         materialDesign:TextFieldAssist.SuffixText = "% "
-                         materialDesign:TextFieldAssist.HasClearButton="True"
-                         PreviewTextInput="InputDecimalOnly"
-                         PreviewKeyDown="PreventSpaceKey"/>
-
-                                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                         Text="{Binding NewFnEPremium, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
-                                Converter={StaticResource NumberFormatConverter}, ConverterParameter='N0', ConverterCulture='is-IS'}"
-                         materialDesign:ValidationAssist.Background="Transparent"
-                         Margin="0 0 0 20"
-                         materialDesign:HintAssist.Hint="Phí thuần Cháy nổ"
-                         materialDesign:TextFieldAssist.SuffixText = "VND "
-                         materialDesign:TextFieldAssist.HasClearButton="True"/>
-
-                                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                         Text="{Binding NewArPremium, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
-                                Converter={StaticResource NumberFormatConverter},ConverterParameter='N0', ConverterCulture='is-IS'}"
-                         materialDesign:ValidationAssist.Background="Transparent"
-                         Margin="0 0 0 20"
-                         materialDesign:HintAssist.Hint="Phí thuần bổ sung"
-                         materialDesign:TextFieldAssist.SuffixText = "VND "
-                         materialDesign:TextFieldAssist.HasClearButton="True"/>
-
-                                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                         Text="{Binding NewVAT, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
-                                Converter={StaticResource NumberFormatConverter}, ConverterParameter='N0', ConverterCulture='is-IS'}"
-                         materialDesign:ValidationAssist.Background="Transparent"
-                         Margin="0 0 0 20"
-                         materialDesign:HintAssist.Hint="Thuế VAT"
-                         materialDesign:TextFieldAssist.SuffixText = "VND "
-                         materialDesign:TextFieldAssist.HasClearButton="True"/>
-
-                                </StackPanel>
-
-                                <StackPanel Grid.Column="2" HorizontalAlignment="Stretch" Margin="10 0 20 0">
+                                <StackPanel Grid.Column="1" HorizontalAlignment="Stretch" Margin="10 0 30 0">
                                     <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                         TextWrapping="Wrap" Margin="0 0 0 20"
-                         materialDesign:HintAssist.Hint="Mức khấu trừ Cháy nổ"
-                         materialDesign:HintAssist.Background="#CAD2C5"
-                         Text="{Binding NewFnEDeductible}"
-                         materialDesign:TextFieldAssist.HasClearButton="True"/>
-
-                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                         TextWrapping="Wrap" Margin="0 0 0 20"
-                         materialDesign:HintAssist.Hint="Mức khấu trừ Bổ sung"
-                         materialDesign:HintAssist.Background="#CAD2C5"
-                         Text="{Binding NewArDeductible}"
-                         materialDesign:TextFieldAssist.HasClearButton="True"/>
-
-                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                         Text="{Binding NewTotalNetPremium, UpdateSourceTrigger=PropertyChanged, Mode=OneWay,
-                                Converter={StaticResource NumberFormatConverter}, ConverterParameter='N0', ConverterCulture='is-IS'}"
-                         materialDesign:HintAssist.Background="#CAD2C5"
-                         materialDesign:ValidationAssist.Background="Transparent"
-                         materialDesign:HintAssist.Hint="Tổng phí thuần"
-                         materialDesign:TextFieldAssist.SuffixText = "VND "
-                         IsReadOnly="True" Margin="0 0 0 20"/>
-
-                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                         Text="{Binding NewTotalDue, UpdateSourceTrigger=PropertyChanged, Mode=OneWay,
-                                Converter={StaticResource NumberFormatConverter}, ConverterParameter='N0', ConverterCulture='is-IS'}"
-                         materialDesign:HintAssist.Background="#CAD2C5"
-                         materialDesign:ValidationAssist.Background="Transparent"
-                         materialDesign:HintAssist.Hint="Tổng phí (đã gồm VAT)"
-                         materialDesign:TextFieldAssist.SuffixText = "VND "
-                         IsReadOnly="True"/>
-
+                                         TextWrapping="Wrap" Margin="0 0 50 20"
+                                         materialDesign:HintAssist.Hint="Mức khấu trừ Bổ sung"
+                                         materialDesign:HintAssist.Background="#CAD2C5"
+                                         Text="{Binding NewArDeductible}"
+                                         materialDesign:TextFieldAssist.HasClearButton="True"/>
                                 </StackPanel>
                             </Grid>
                         </StackPanel>
@@ -648,7 +682,7 @@
 
                 </Expander>
 
-                <Expander Grid.Row="4" Style="{StaticResource MaterialDesignExpander}" HorizontalAlignment="Stretch" Background="Transparent"
+                <Expander Grid.Row="5" Style="{StaticResource MaterialDesignExpander}" HorizontalAlignment="Stretch" Background="Transparent"
                       BorderBrush="Teal" BorderThickness="0 2">
                     <Expander.Header>
                         <StackPanel Margin="-20 0">

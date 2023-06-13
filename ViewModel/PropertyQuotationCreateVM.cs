@@ -357,6 +357,8 @@ namespace PnC_Insurance.ViewModel
             }
 
             OnPropertyChanged(nameof(NewSumInsured));
+            ValidateProperty(NewSumInsured, nameof(NewSumInsured));
+            OnPropertyChanged(nameof(IsPremiumInformationHasError));
         }
 
         [RelayCommand(CanExecute = nameof(CanChoosePropertyItem))]
@@ -415,7 +417,7 @@ namespace PnC_Insurance.ViewModel
 
         #endregion
 
-        #region Quotation Information
+        #region Quotation Period Information
         public bool IsQuotationInformationHasError
         {
             get
@@ -468,9 +470,26 @@ namespace PnC_Insurance.ViewModel
 
         #endregion
 
-        #region Not Required Information
-        //[Required(ErrorMessage = "Thêm hạng mục tài sản được bảo hiểm")]
-        //[Range(1, long.MaxValue, ErrorMessage = "Thêm hạng mục tài sản được bảo hiểm")]
+        #region Premium Information
+        public bool IsPremiumInformationHasError
+        {
+            get
+            {
+                if (GetErrors(nameof(NewSumInsured)).Any() || 
+                    GetErrors(nameof(NewFnERate)).Any() ||
+                    GetErrors(nameof(NewArRate)).Any() ||
+                    GetErrors(nameof(NewFnEPremium)).Any() ||
+                    GetErrors(nameof(NewArPremium)).Any() ||
+                    GetErrors(nameof(NewVAT)).Any()
+                    )
+                    return true;
+
+                return false;
+            }
+        }
+
+        [Required(ErrorMessage = "Thêm hạng mục tài sản được bảo hiểm")]
+        [Range(1, long.MaxValue, ErrorMessage = "Thêm hạng mục tài sản được bảo hiểm")]
         public long NewSumInsured
         {
             get
@@ -487,8 +506,8 @@ namespace PnC_Insurance.ViewModel
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(NewFnEPremium))]
+        [NotifyPropertyChangedFor(nameof(IsPremiumInformationHasError))]
         [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
-        [Required(ErrorMessage = "Nhập tỉ lệ phí CNBB")]
         [Range(typeof(decimal), "0", "100", ErrorMessage = "Nhập tỉ lệ từ 0 - 100%")]
         [NotifyDataErrorInfo]
         private decimal? newFnERate;
@@ -507,8 +526,8 @@ namespace PnC_Insurance.ViewModel
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(NewArPremium))]
+        [NotifyPropertyChangedFor(nameof(IsPremiumInformationHasError))]
         [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
-        [Required(ErrorMessage = "Nhập tỉ lệ phí bổ sung")]
         [Range(typeof(decimal), "0", "100", ErrorMessage = "Nhập tỉ lệ từ 0 - 100%")]
         [NotifyDataErrorInfo]
         private decimal? newArRate;
@@ -528,8 +547,8 @@ namespace PnC_Insurance.ViewModel
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(NewTotalNetPremium))]
         [NotifyPropertyChangedFor(nameof(NewTotalDue))]
+        [NotifyPropertyChangedFor(nameof(IsPremiumInformationHasError))]
         [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
-        [Required(ErrorMessage = "Nhập phí CNBB")]
         [Range(0, long.MaxValue, ErrorMessage = "Nhập số tiền từ 0 trở lên")]
         [NotifyDataErrorInfo]
         private long? newFnEPremium;
@@ -549,8 +568,8 @@ namespace PnC_Insurance.ViewModel
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(NewTotalNetPremium))]
         [NotifyPropertyChangedFor(nameof(NewTotalDue))]
+        [NotifyPropertyChangedFor(nameof(IsPremiumInformationHasError))]
         [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
-        [Required(ErrorMessage = "Nhập phí bổ sung")]
         [Range(0, long.MaxValue, ErrorMessage = "Nhập số tiền từ 0 trở lên")]
         [NotifyDataErrorInfo]
         private long? newArPremium;
@@ -569,8 +588,8 @@ namespace PnC_Insurance.ViewModel
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(NewTotalDue))]
+        [NotifyPropertyChangedFor(nameof(IsPremiumInformationHasError))]
         [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
-        [Required(ErrorMessage = "Nhập thuế VAT")]
         [Range(0, long.MaxValue, ErrorMessage = "Nhập số tiền từ 0 trở lên")]
         [NotifyDataErrorInfo]
         private long? newVAT;
