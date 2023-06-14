@@ -359,6 +359,7 @@ namespace PnC_Insurance.ViewModel
             OnPropertyChanged(nameof(NewSumInsured));
             ValidateProperty(NewSumInsured, nameof(NewSumInsured));
             OnPropertyChanged(nameof(IsPremiumInformationHasError));
+            AddNewPropertyQuotationCommand.NotifyCanExecuteChanged();
         }
 
         [RelayCommand(CanExecute = nameof(CanChoosePropertyItem))]
@@ -371,12 +372,11 @@ namespace PnC_Insurance.ViewModel
                     PropertyItem = SelectedPropertyItem,
                     SumInsured = (long)ItemSumInsured,
                 };
-                
+
                 ListOfChosenPropertyItems.Add(newItem);
                 ValidateProperty(ListOfChosenPropertyItems, nameof(ListOfChosenPropertyItems));
                 OnPropertyChanged(nameof(IsCustomerInformationHasError));
-                OnPropertyItemAddedOrRemoved();
-                AddNewPropertyQuotationCommand.NotifyCanExecuteChanged();
+                OnPropertyItemAddedOrRemoved();                
                 ItemSumInsured = 0;
             }
 
@@ -385,7 +385,9 @@ namespace PnC_Insurance.ViewModel
 
         private bool CanChoosePropertyItem()
         {
-            if (SelectedPropertyItem != null && !GetErrors(nameof(ItemSumInsured)).Any())
+            if (SelectedPropertyItem != null && !GetErrors(nameof(ItemSumInsured)).Any() &&
+                !ListOfChosenPropertyItems.Any(item => item.PropertyItem.Id == SelectedPropertyItem.Id)
+                )
                 return true;
 
             return false;
@@ -401,7 +403,6 @@ namespace PnC_Insurance.ViewModel
                 ValidateProperty(ListOfChosenPropertyItems, nameof(ListOfChosenPropertyItems));
                 OnPropertyChanged(nameof(IsCustomerInformationHasError));
                 OnPropertyItemAddedOrRemoved();
-                AddNewPropertyQuotationCommand.NotifyCanExecuteChanged();
             }
         }
 
@@ -638,7 +639,11 @@ namespace PnC_Insurance.ViewModel
 
         private bool CanAddNewPropertyQuotation()
         {
-            if (this.HasErrors)
+            if (IsBasicInformationHasError ||
+                IsCustomerInformationHasError ||
+                IsPremiumInformationHasError ||
+                IsQuotationInformationHasError)
+
                 return false;
 
             return true;
