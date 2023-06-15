@@ -732,6 +732,14 @@
                                         <DataGridTextColumn Binding="{Binding Extension.Name}" Width="*" Header="Tên điều khoản"/>
                                     </DataGrid.Columns>
                                 </DataGrid>
+
+                                <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                         TextWrapping="Wrap" Margin="0 15 0 0" MaxHeight="120"
+                                         materialDesign:HintAssist.Hint="Điều khoản chung khác"
+                                         materialDesign:HintAssist.Background="#CAD2C5"
+                                         Text="{Binding NewMiscExtensions}"
+                                         materialDesign:TextFieldAssist.HasClearButton="True"/>
+                                
                             </StackPanel>
 
                             <materialDesign:DialogHost Grid.Column="1" Margin="0 0 20 0" IsOpen="{Binding IsChoosingExtensionsDialogOpen}">
@@ -749,7 +757,7 @@
                                                           SelectedItem="{Binding SelectedExtension, UpdateSourceTrigger=PropertyChanged}"
                                                           Margin="0 0 0 20"
                                                           materialDesign:ValidationAssist.Background="Transparent"
-                                                          DisplayMemberPath="ItemName" IsEditable="False"
+                                                          DisplayMemberPath="Code" IsEditable="True"
                                                           materialDesign:HintAssist.Hint="Điều khoản bổ sung"/>
 
                                         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
@@ -772,9 +780,9 @@
                                             <TextBlock Text="Điều khoản bổ sung:" Margin="0 10" VerticalAlignment="Center"/>
 
                                             <Button Style="{StaticResource MaterialDesignFlatDarkButton}"
-                                        Background="#94AF9F" Width="50"
-                                        Command="{Binding FetchExtensionsCommand}"
-                                        Content="..." />
+                                                    Background="#94AF9F" Width="50" Margin="10 0"
+                                                    Command="{Binding FetchExtensionsCommand}"
+                                                    Content="..." />
                                         </StackPanel>
 
                                         <Button Style="{StaticResource MaterialDesignToolForegroundButton}"
@@ -801,7 +809,7 @@
                                                 </DataGridTextColumn.Binding>
                                             </DataGridTextColumn>
 
-                                            <DataGridTextColumn Binding="{Binding Extension.Code}" Width="*" Header="Kí hiệu"/>
+                                            <DataGridTextColumn Binding="{Binding Extension.Code}" Header="Kí hiệu"/>
 
                                             <DataGridTextColumn Binding="{Binding Extension.Name}" Width="*" Header="Tên điều khoản"/>
 

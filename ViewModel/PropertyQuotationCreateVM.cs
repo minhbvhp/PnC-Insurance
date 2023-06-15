@@ -235,7 +235,7 @@ namespace PnC_Insurance.ViewModel
         [RelayCommand(CanExecute = nameof(CanChooseLocation))]
         private void ChooseLocation()
         {        
-            if (SelectedLocation != null && !ListOfChosenLocation.Any(location => location.Id == SelectedLocation.Id))
+            if (SelectedLocation != null)
             {
                 ListOfChosenLocation.Add(SelectedLocation);
                 ValidateProperty(ListOfChosenLocation, nameof(ListOfChosenLocation));
@@ -248,7 +248,9 @@ namespace PnC_Insurance.ViewModel
 
         private bool CanChooseLocation()
         {
-            if (SelectedLocation != null)
+            if (SelectedLocation != null &&
+                !ListOfChosenLocation.Any(location => location.Id == SelectedLocation.Id))
+
                 return true;
 
             return false;
@@ -365,7 +367,7 @@ namespace PnC_Insurance.ViewModel
         [RelayCommand(CanExecute = nameof(CanChoosePropertyItem))]
         private void ChoosePropertyItem()
         {
-            if (SelectedPropertyItem != null && !ListOfChosenPropertyItems.Any(item => item.Id == SelectedPropertyItem.Id))
+            if (SelectedPropertyItem != null)
             {
                 var newItem = new PropertyPoliciesPropertyItem()
                 {
@@ -652,6 +654,104 @@ namespace PnC_Insurance.ViewModel
                     return new List<PropertyGeneralExtension>();
                 }
             }
+        }
+
+        [ObservableProperty]
+        private string? newMiscExtensions;
+        #endregion
+
+        #region Additional Extensions
+
+        [ObservableProperty]
+        private bool isChoosingExtensionsDialogOpen = false;
+
+        public List<Extension>? ListOfExtensions
+        {
+            get
+            {
+                using (var context = new InsuranceDbContext())
+                {
+                    var query = from extension in context.Extensions.AsNoTracking()
+                                select extension;
+
+                    if (query.Any())
+                    {
+                        return query.ToList();
+                    }
+
+                }
+
+                return new List<Extension>();
+            }
+        }
+
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(ChooseExtensionCommand))]
+        private Extension? selectedExtension;
+
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(ChooseExtensionCommand))]
+        private string? extensionSublimit;
+
+        [RelayCommand]
+        private void FetchExtensions()
+        {
+            IsChoosingExtensionsDialogOpen = true;
+            OnPropertyChanged(nameof(ListOfExtensions));
+        }
+
+        [ObservableProperty]
+        private ObservableCollection<PropertyPoliciesExtension>? listOfChosenExtensions = new ObservableCollection<PropertyPoliciesExtension>();
+
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(RemoveChosenExtensionCommand))]
+        private PropertyPoliciesExtension? chosenExtension;
+
+        [RelayCommand(CanExecute = nameof(CanChooseExtension))]
+        private void ChooseExtension()
+        {
+            if (SelectedExtension != null)
+            {
+                var newItem = new PropertyPoliciesExtension()
+                {
+                    Extension = SelectedExtension,
+                    Sublimit = ExtensionSublimit,
+                };
+
+                ListOfChosenExtensions.Add(newItem);
+                ExtensionSublimit = "";
+            }
+
+            IsChoosingExtensionsDialogOpen = false;
+        }
+
+        private bool CanChooseExtension()
+        {
+            if (SelectedExtension != null &&
+                !ListOfChosenExtensions.Any(item => item.Extension.Id == SelectedExtension.Id)
+                )
+                return true;
+
+            return false;
+
+        }
+
+        [RelayCommand(CanExecute = nameof(CanRemoveChosenExtension))]
+        private void RemoveChosenExtension()
+        {
+            if (ChosenExtension != null)
+            {
+                ListOfChosenExtensions.Remove(ChosenExtension);
+            }
+        }
+
+        private bool CanRemoveChosenExtension()
+        {
+            if (ChosenExtension != null)
+                return true;
+
+            return false;
+
         }
         #endregion
 
