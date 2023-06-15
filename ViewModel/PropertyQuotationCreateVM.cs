@@ -621,11 +621,39 @@ namespace PnC_Insurance.ViewModel
             }
         }
 
-        [ObservableProperty]        
+        #endregion
+
+        #region Deductible Information
+        [ObservableProperty]
         private string? newFnEDeductible;
 
         [ObservableProperty]
         private string? newArDeductible;
+        #endregion
+
+        #region Extensions Information
+
+        #region General Extensions
+        public List<PropertyGeneralExtension> ListOfGeneralExtension 
+        {
+            get
+            {
+                using (var context = new InsuranceDbContext())
+                {
+                    var query = from generalExtension in context.PropertyGeneralExtensions.Include(nameof(Extension)).AsNoTracking()
+                                where generalExtension.IsDeleted == 0
+                                select generalExtension;
+
+                    if (query.Any())
+                    {
+                        return query.ToList();
+                    }
+
+                    return new List<PropertyGeneralExtension>();
+                }
+            }
+        }
+        #endregion
 
         #endregion
 

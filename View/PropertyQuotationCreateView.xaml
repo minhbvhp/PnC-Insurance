@@ -381,7 +381,7 @@
                                                     <DataGridTextColumn Binding="{Binding PropertyItem.ItemName}" Width="*" Header="Hạng mục"/>
 
                                                     <DataGridTextColumn Binding="{Binding SumInsured, Converter={StaticResource NumberFormatConverter},ConverterParameter='N0', ConverterCulture='is-IS'}"
-                                                                        Width="*" Header="Hạng mục"/>
+                                                                        Width="*" Header="Số tiền bảo hiểm"/>
                                                 </DataGrid.Columns>
                                             </DataGrid>
                                         </AdornerDecorator>
@@ -699,10 +699,118 @@
                         </StackPanel>
                     </Expander.Header>
 
-                    <StackPanel>
+                    <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <Border BorderBrush="DarkOrange" BorderThickness="0 1 0 0" Margin="0 0 0 5"/>
 
-                        <TextBlock Text="Hllo"/>
+                        <Grid Margin="10 10 0 30">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" Margin="0 0 20 0" HorizontalAlignment="Stretch">
+                                <TextBlock Text="Điều khoản chung:" Margin="0 10"/>
+
+                                <DataGrid ItemsSource="{Binding ListOfGeneralExtension, IsAsync=True}"
+                                          AutoGenerateColumns="False" SelectionMode="Single" FontSize="12"
+                                          IsReadOnly="True" HeadersVisibility="All" Height="140"
+                                          EnableRowVirtualization="False" Padding="10 0"
+                                          materialDesign:DataGridAssist.CellPadding="5"
+                                          materialDesign:DataGridAssist.ColumnHeaderPadding="5">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="STT">
+                                            <DataGridTextColumn.Binding>
+                                                <MultiBinding Converter="{StaticResource NumerRow}" UpdateSourceTrigger="PropertyChanged">
+                                                    <Binding Mode="OneWay" RelativeSource="{RelativeSource AncestorType={x:Type DataGridRow}}"/>
+                                                    <Binding Mode="OneWay" RelativeSource="{RelativeSource AncestorType={x:Type DataGrid}}" Path="Items.Count"/>
+                                                </MultiBinding>
+                                            </DataGridTextColumn.Binding>
+                                        </DataGridTextColumn>
+
+                                        <DataGridTextColumn Binding="{Binding Extension.Code}" Header="Kí hiệu"/>
+
+                                        <DataGridTextColumn Binding="{Binding Extension.Name}" Width="*" Header="Tên điều khoản"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </StackPanel>
+
+                            <materialDesign:DialogHost Grid.Column="1" Margin="0 0 20 0" IsOpen="{Binding IsChoosingExtensionsDialogOpen}">
+                                <materialDesign:DialogHost.DialogContent>
+                                    <StackPanel Margin="10 0" Width="250" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+                                        <Button Style="{StaticResource MaterialDesignToolButton}"
+                                                        Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                                        IsCancel="True" HorizontalAlignment="Right" VerticalAlignment="Top">
+                                            <materialDesign:PackIcon Kind="Close"/>
+                                        </Button>
+
+                                        <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                                          ItemsSource="{Binding ListOfExtensions, IsAsync=True}"
+                                                          SelectedItem="{Binding SelectedExtension, UpdateSourceTrigger=PropertyChanged}"
+                                                          Margin="0 0 0 20"
+                                                          materialDesign:ValidationAssist.Background="Transparent"
+                                                          DisplayMemberPath="ItemName" IsEditable="False"
+                                                          materialDesign:HintAssist.Hint="Điều khoản bổ sung"/>
+
+                                        <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                                         Text="{Binding ExtensionSublimit, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                         materialDesign:ValidationAssist.Background="Transparent"
+                                                         Margin="0 0 0 20"
+                                                         materialDesign:HintAssist.Hint="Giới hạn phụ"
+                                                         materialDesign:TextFieldAssist.HasClearButton="True"/>
+
+                                        <Button Style="{StaticResource MaterialDesignFlatDarkBgButton}"
+                                                        Background="#94AF9F" Width="80" Height="40" Margin="0 15"
+                                                        Command="{Binding ChooseExtensionCommand}"
+                                                        Content="Thêm"/>
+                                    </StackPanel>
+                                </materialDesign:DialogHost.DialogContent>
+
+                                <StackPanel HorizontalAlignment="Stretch">
+                                    <Grid>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Điều khoản bổ sung:" Margin="0 10" VerticalAlignment="Center"/>
+
+                                            <Button Style="{StaticResource MaterialDesignFlatDarkButton}"
+                                        Background="#94AF9F" Width="50"
+                                        Command="{Binding FetchExtensionsCommand}"
+                                        Content="..." />
+                                        </StackPanel>
+
+                                        <Button Style="{StaticResource MaterialDesignToolForegroundButton}"
+                                    Background="#94AF9F" HorizontalAlignment="Right"
+                                    Command="{Binding RemoveChosenExtensionCommand}">
+                                            <materialDesign:PackIcon Kind="RemoveCircle"/>
+                                        </Button>
+                                    </Grid>
+
+                                    <DataGrid ItemsSource="{Binding ListOfChosenExtensions, IsAsync=True, UpdateSourceTrigger=PropertyChanged}"
+                                                  SelectedItem="{Binding ChosenExtension, UpdateSourceTrigger=PropertyChanged}"
+                                                  AutoGenerateColumns="False" SelectionMode="Single" FontSize="12"
+                                                  IsReadOnly="True" HeadersVisibility="All" Height="140" Padding="10 0"
+                                                  EnableRowVirtualization="False"
+                                                  materialDesign:DataGridAssist.CellPadding="5"
+                                                  materialDesign:DataGridAssist.ColumnHeaderPadding="5">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="STT">
+                                                <DataGridTextColumn.Binding>
+                                                    <MultiBinding Converter="{StaticResource NumerRow}" UpdateSourceTrigger="PropertyChanged">
+                                                        <Binding Mode="OneWay" RelativeSource="{RelativeSource AncestorType={x:Type DataGridRow}}"/>
+                                                        <Binding Mode="OneWay" RelativeSource="{RelativeSource AncestorType={x:Type DataGrid}}" Path="Items.Count"/>
+                                                    </MultiBinding>
+                                                </DataGridTextColumn.Binding>
+                                            </DataGridTextColumn>
+
+                                            <DataGridTextColumn Binding="{Binding Extension.Code}" Width="*" Header="Kí hiệu"/>
+
+                                            <DataGridTextColumn Binding="{Binding Extension.Name}" Width="*" Header="Tên điều khoản"/>
+
+                                            <DataGridTextColumn Binding="{Binding Sublimit}" Width="*" Header="Giới hạn phụ"/>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </StackPanel>
+                            </materialDesign:DialogHost>
+                        </Grid>
                     </StackPanel>
                 </Expander>
             </Grid>
