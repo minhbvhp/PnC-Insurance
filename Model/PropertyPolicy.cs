@@ -41,9 +41,13 @@ public partial class PropertyPolicy
 
     public long DepartmentId { get; set; }
 
+    public string? MiscExtensions { get; set; }
+
     public long IsDeleted { get; set; }
 
     public virtual Customer Cusomer { get; set; } = null!;
+
+    public virtual ICollection<PropertyPoliciesExtension> PropertyPoliciesExtensions { get; } = new List<PropertyPoliciesExtension>();
 
     public virtual ICollection<PropertyPoliciesPropertyItem> PropertyPoliciesPropertyItems { get; } = new List<PropertyPoliciesPropertyItem>();
 }

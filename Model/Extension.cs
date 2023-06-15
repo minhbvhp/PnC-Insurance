@@ -18,4 +18,8 @@ public partial class Extension
     public string DescriptionEn { get; set; } = null!;
 
     public long IsDeleted { get; set; }
+
+    public virtual PropertyGeneralExtension? PropertyGeneralExtension { get; set; }
+
+    public virtual ICollection<PropertyPoliciesExtension> PropertyPoliciesExtensions { get; } = new List<PropertyPoliciesExtension>();
 }

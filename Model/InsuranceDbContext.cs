@@ -33,7 +33,11 @@ public partial class InsuranceDbContext : DbContext
 
     public virtual DbSet<InsuredLocation> InsuredLocations { get; set; }
 
+    public virtual DbSet<PropertyGeneralExtension> PropertyGeneralExtensions { get; set; }
+
     public virtual DbSet<PropertyItem> PropertyItems { get; set; }
+
+    public virtual DbSet<PropertyPoliciesExtension> PropertyPoliciesExtensions { get; set; }
 
     public virtual DbSet<PropertyPoliciesInsuredLocation> PropertyPoliciesInsuredLocations { get; set; }
 
@@ -170,6 +174,19 @@ public partial class InsuranceDbContext : DbContext
                 .HasColumnName("LocationEN");
         });
 
+        modelBuilder.Entity<PropertyGeneralExtension>(entity =>
+        {
+            entity.HasIndex(e => e.ExtensionId, "IX_PropertyGeneralExtensions_ExtensionId").IsUnique();
+
+            entity.HasIndex(e => e.Id, "IX_PropertyGeneralExtensions_Id").IsUnique();
+
+            entity.HasIndex(e => e.ExtensionId, "available_general_extensions_unique").IsUnique();
+
+            entity.HasOne(d => d.Extension).WithOne(p => p.PropertyGeneralExtension)
+                .HasForeignKey<PropertyGeneralExtension>(d => d.ExtensionId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+        });
+
         modelBuilder.Entity<PropertyItem>(entity =>
         {
             entity.HasIndex(e => e.Id, "IX_PropertyItems_Id").IsUnique();
@@ -178,6 +195,23 @@ public partial class InsuranceDbContext : DbContext
             entity.Property(e => e.ItemNameEn)
                 .HasDefaultValueSql("'Chưa thiết lập'")
                 .HasColumnName("ItemNameEN");
+        });
+
+        modelBuilder.Entity<PropertyPoliciesExtension>(entity =>
+        {
+            entity.ToTable("PropertyPolicies_Extensions");
+
+            entity.HasIndex(e => e.Id, "IX_PropertyPolicies_Extensions_Id").IsUnique();
+
+            entity.Property(e => e.SublimitEn).HasColumnName("SublimitEN");
+
+            entity.HasOne(d => d.Extension).WithMany(p => p.PropertyPoliciesExtensions)
+                .HasForeignKey(d => d.ExtensionId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+
+            entity.HasOne(d => d.PropertyPolicy).WithMany(p => p.PropertyPoliciesExtensions)
+                .HasForeignKey(d => d.PropertyPolicyId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<PropertyPoliciesInsuredLocation>(entity =>
