@@ -727,8 +727,6 @@
                                             </DataGridTextColumn.Binding>
                                         </DataGridTextColumn>
 
-                                        <DataGridTextColumn Binding="{Binding Extension.Code}" Header="Kí hiệu"/>
-
                                         <DataGridTextColumn Binding="{Binding Extension.Name}" Width="*" Header="Tên điều khoản"/>
                                     </DataGrid.Columns>
                                 </DataGrid>
@@ -809,9 +807,7 @@
                                                 </DataGridTextColumn.Binding>
                                             </DataGridTextColumn>
 
-                                            <DataGridTextColumn Binding="{Binding Extension.Code}" Header="Kí hiệu"/>
-
-                                            <DataGridTextColumn Binding="{Binding Extension.Name}" Width="*" Header="Tên điều khoản"/>
+                                            <DataGridTextColumn Binding="{Binding Extension.Name}" Width="200" Header="Tên điều khoản"/>
 
                                             <DataGridTextColumn Binding="{Binding Sublimit}" Width="*" Header="Giới hạn phụ"/>
                                         </DataGrid.Columns>
