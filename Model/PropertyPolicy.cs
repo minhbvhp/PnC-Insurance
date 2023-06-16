@@ -21,9 +21,9 @@ public partial class PropertyPolicy
 
     public long SumInsured { get; set; }
 
-    public byte[] FnEpremiumRate { get; set; } = null!;
+    public string FnEpremiumRate { get; set; } = null!;
 
-    public byte[] ArpremiumRate { get; set; } = null!;
+    public string ArpremiumRate { get; set; } = null!;
 
     public long FnEpremium { get; set; }
 

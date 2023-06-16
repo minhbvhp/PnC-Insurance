@@ -11,6 +11,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using PnC_Insurance.CustomAttribute;
 using System.Collections.ObjectModel;
+using Microsoft.Data.Sqlite;
+using System.Windows;
 
 namespace PnC_Insurance.ViewModel
 {
@@ -733,7 +735,6 @@ namespace PnC_Insurance.ViewModel
                 return true;
 
             return false;
-
         }
 
         [RelayCommand(CanExecute = nameof(CanRemoveChosenExtension))]
@@ -762,7 +763,57 @@ namespace PnC_Insurance.ViewModel
         private async Task AddNewPropertyQuotationAsync()
         {
             ResultNotification = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
-            ResultNotification.Enqueue("Ok");
+
+            var addingPropertyQuotation = new PropertyPolicy()
+            {
+                PolicyNo = NewPolicyNo,
+                CusomerId = ChosenCustomer.Id,
+                DateIssue = NewIssueDate.ToString(),
+                FromDate = NewFromDate.ToString(),
+                ToDate = NewToDate.ToString(),
+                ClassOfInsuranceId = NewClassOfInsurance.Id,
+                SumInsured = NewSumInsured,
+                FnEpremiumRate = NewFnERate.ToString(),
+                ArpremiumRate = NewArRate.ToString(),
+            };
+
+            string notificationString = "";
+
+            try
+            {
+                notificationString = await Task.Run(async () =>
+                {
+                    using (var context = new InsuranceDbContext())
+                    {
+                        //await context.Customers.AddAsync(addingPropertyQuotation);
+                        //await context.SaveChangesAsync();
+                    }
+
+                    return "Đã tạo bản chào mới";
+                });
+
+                StartOver();
+            }
+            catch (DbUpdateException ex)
+            {
+                var sqlException = ex.InnerException as SqliteException;
+
+                if (sqlException.SqliteErrorCode == 19)
+                {
+                    notificationString = "Bản chào này đã có rồi";
+                }
+                else
+                {
+                    notificationString = "Lỗi CSDL: " + sqlException.SqliteErrorCode;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString());
+                notificationString = "Lỗi: " + ex.HResult.ToString();
+            }
+
+            ResultNotification.Enqueue(notificationString);
         }
 
         private bool CanAddNewPropertyQuotation()
