@@ -54,6 +54,8 @@
                     <RowDefinition Height="100"/>
                     <RowDefinition Height="100"/>
                     <RowDefinition/>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition/>
                 </Grid.RowDefinitions>
 
                 <GroupBox materialDesign:ColorZoneAssist.Mode="PrimaryDark" FontSize="14" Margin="0 5"
@@ -76,7 +78,7 @@
 
                 <GroupBox Grid.Row="2" materialDesign:ColorZoneAssist.Mode="PrimaryDark" 
                           FontSize="14" Margin="0 5"
-                      Style="{StaticResource MaterialDesignGroupBox}" Height="350">
+                      Style="{StaticResource MaterialDesignGroupBox}" Height="180">
                     <GroupBox.Header>
                         <TextBlock Text="Nội dung" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource txtColor}"/>
                     </GroupBox.Header>
@@ -85,6 +87,28 @@
                              BorderThickness="0" TextWrapping="Wrap" ScrollViewer.VerticalScrollBarVisibility="Auto"
                              Text="{Binding SelectedExtension.Description, Mode=OneWay}"/>
                     
+                </GroupBox>
+
+                <GroupBox Grid.Row="3" materialDesign:ColorZoneAssist.Mode="PrimaryDark" FontSize="14" Margin="0 5"
+                      Style="{StaticResource MaterialDesignGroupBox}">
+                    <GroupBox.Header>
+                        <TextBlock Text="Tên Điều khoản bổ sung (tiếng Anh)" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource txtColor}"/>
+                    </GroupBox.Header>
+                    <TextBox Background="Transparent" IsReadOnly="True" BorderThickness="0" TextWrapping="Wrap"
+                         Text="{Binding SelectedExtension.NameEn, Mode=OneWay}"/>
+                </GroupBox>
+
+                <GroupBox Grid.Row="4" materialDesign:ColorZoneAssist.Mode="PrimaryDark" 
+                          FontSize="14" Margin="0 5"
+                      Style="{StaticResource MaterialDesignGroupBox}" Height="180">
+                    <GroupBox.Header>
+                        <TextBlock Text="Nội dung (tiếng Anh)" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource txtColor}"/>
+                    </GroupBox.Header>
+
+                    <TextBox VerticalAlignment="Top" Background="Transparent" IsReadOnly="True" 
+                             BorderThickness="0" TextWrapping="Wrap" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                             Text="{Binding SelectedExtension.DescriptionEn, Mode=OneWay}"/>
+
                 </GroupBox>
             </Grid>
         </StackPanel>
