@@ -34,6 +34,10 @@
                 <view:ExtensionsInfoView/>
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type viewmodel:CoInsurerInfoVM}">
+                <view:CoInsurerInfoView/>
+            </DataTemplate>
+
             <DataTemplate DataType="{x:Type viewmodel:UrnCreateVM}">
                 <view:UrnCreateView/>
             </DataTemplate>
