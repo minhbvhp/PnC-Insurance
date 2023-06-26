@@ -635,7 +635,7 @@
                 <Expander Grid.Row="4" Style="{StaticResource MaterialDesignExpander}" HorizontalAlignment="Stretch" Background="Transparent"
                       BorderBrush="Teal" BorderThickness="0 2 0 0">
                     <Expander.Header>
-                        <StackPanel Margin="-20 0">
+                        <StackPanel Orientation="Horizontal" Margin="-20 0">
                             <TextBlock Foreground="#482121" Text="MỨC KHẤU TRỪ"
                                        FontSize="18" FontWeight="DemiBold">
                                 <TextBlock.Effect>
@@ -646,6 +646,27 @@
                                               BlurRadius="5"/>
                                 </TextBlock.Effect>
                             </TextBlock>
+
+                            <materialDesign:PackIcon x:Name="DeductibleInformationError" Kind="AlertCircleOutline" Margin="20 0" VerticalAlignment="Center" Foreground="Red" 
+                                                     Visibility="{Binding IsDeductibleInformationHasError, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                            <StackPanel VerticalAlignment="Center">
+                                <StackPanel.Style>
+                                    <Style TargetType="StackPanel">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=DeductibleInformationError, Path=Visibility}" Value="Visible">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+
+                                            <DataTrigger Binding="{Binding ElementName=DeductibleInformationError, Path=Visibility}" Value="Collapsed">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </StackPanel.Style>
+
+                                <materialDesign:PackIcon Kind="CheckCircleOutline" Margin="20 0" VerticalAlignment="Center" Foreground="Green"/>
+                            </StackPanel>
                         </StackPanel>
                     </Expander.Header>
 
@@ -660,21 +681,51 @@
                                 </Grid.ColumnDefinitions>
 
                                 <StackPanel Grid.Column="0" HorizontalAlignment="Stretch" Margin="10 0 30 0">
-                                    <TextBox  Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                             TextWrapping="Wrap" Margin="0 0 50 20"
-                                             materialDesign:HintAssist.Hint="Mức khấu trừ Cháy nổ"
-                                             materialDesign:HintAssist.Background="#CAD2C5"
-                                             Text="{Binding NewFnEDeductible}"
+                                    <TextBlock Text="Mức khấu trừ CNBB:" FontSize="10"/>
+
+                                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                             Text="{Binding NewFnEDeductibleRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                                        Converter={StaticResource DecimalFormatConverter}, ConverterParameter='N4'}"
+                                             materialDesign:ValidationAssist.Background="Transparent"
+                                             Margin="0 0 0 20"
+                                             materialDesign:HintAssist.Hint="Tỷ lệ"
+                                             materialDesign:TextFieldAssist.SuffixText = "% số tiền bồi thường "
+                                             materialDesign:TextFieldAssist.HasClearButton="True"
+                                             PreviewTextInput="InputDecimalOnly"
+                                             PreviewKeyDown="PreventSpaceKey"/>
+
+                                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                             Text="{Binding NewFnEDeductibleAmount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
+                                        Converter={StaticResource NumberFormatConverter},ConverterParameter='N0', ConverterCulture='is-IS'}"
+                                             materialDesign:ValidationAssist.Background="Transparent"
+                                             Margin="0 0 0 20"
+                                             materialDesign:HintAssist.Hint="Số tuyệt đối"
+                                             materialDesign:TextFieldAssist.SuffixText = "VND/vụ tổn thất "
                                              materialDesign:TextFieldAssist.HasClearButton="True"/>
                                 </StackPanel>
 
                                 <StackPanel Grid.Column="1" HorizontalAlignment="Stretch" Margin="10 0 30 0">
-                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                         TextWrapping="Wrap" Margin="0 0 50 20"
-                                         materialDesign:HintAssist.Hint="Mức khấu trừ Bổ sung"
-                                         materialDesign:HintAssist.Background="#CAD2C5"
-                                         Text="{Binding NewArDeductible}"
-                                         materialDesign:TextFieldAssist.HasClearButton="True"/>
+                                    <TextBlock Text="Mức khấu trừ bổ sung:" FontSize="10"/>
+
+                                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                             Text="{Binding NewArDeductibleRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                                        Converter={StaticResource DecimalFormatConverter}, ConverterParameter='N4'}"
+                                             materialDesign:ValidationAssist.Background="Transparent"
+                                             Margin="0 0 0 20"
+                                             materialDesign:HintAssist.Hint="Tỷ lệ"
+                                             materialDesign:TextFieldAssist.SuffixText = "% số tiền bồi thường "
+                                             materialDesign:TextFieldAssist.HasClearButton="True"
+                                             PreviewTextInput="InputDecimalOnly"
+                                             PreviewKeyDown="PreventSpaceKey"/>
+
+                                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                             Text="{Binding NewArDeductibleAmount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
+                                        Converter={StaticResource NumberFormatConverter},ConverterParameter='N0', ConverterCulture='is-IS'}"
+                                             materialDesign:ValidationAssist.Background="Transparent"
+                                             Margin="0 0 0 20"
+                                             materialDesign:HintAssist.Hint="Số tuyệt đối"
+                                             materialDesign:TextFieldAssist.SuffixText = "VND/vụ tổn thất "
+                                             materialDesign:TextFieldAssist.HasClearButton="True"/>
                                 </StackPanel>
                             </Grid>
                         </StackPanel>
@@ -737,7 +788,14 @@
                                          materialDesign:HintAssist.Background="#CAD2C5"
                                          Text="{Binding NewMiscExtensions}"
                                          materialDesign:TextFieldAssist.HasClearButton="True"/>
-                                
+
+                                <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                         TextWrapping="Wrap" Margin="0 15 0 0" MaxHeight="120"
+                                         materialDesign:HintAssist.Hint="Điều khoản chung khác (tiếng Anh)"
+                                         materialDesign:HintAssist.Background="#CAD2C5"
+                                         Text="{Binding NewMiscExtensionsEN}"
+                                         materialDesign:TextFieldAssist.HasClearButton="True"/>
+
                             </StackPanel>
 
                             <materialDesign:DialogHost Grid.Column="1" Margin="0 0 20 0" IsOpen="{Binding IsChoosingExtensionsDialogOpen}">

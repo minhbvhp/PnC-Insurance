@@ -19,6 +19,10 @@ public partial class InsuranceDbContext : DbContext
 
     public virtual DbSet<ClassOfInsurance> ClassOfInsurances { get; set; }
 
+    public virtual DbSet<CoInsurer> CoInsurers { get; set; }
+
+    public virtual DbSet<CoInsurerRepresentative> CoInsurerRepresentatives { get; set; }
+
     public virtual DbSet<Customer> Customers { get; set; }
 
     public virtual DbSet<CustomersInsuredLocation> CustomersInsuredLocations { get; set; }
@@ -77,6 +81,39 @@ public partial class InsuranceDbContext : DbContext
             entity.HasOne(d => d.Decree).WithMany(p => p.ClassOfInsurances).HasForeignKey(d => d.DecreeId);
 
             entity.HasOne(d => d.Term).WithMany(p => p.ClassOfInsurances).HasForeignKey(d => d.TermId);
+        });
+
+        modelBuilder.Entity<CoInsurer>(entity =>
+        {
+            entity.ToTable("CoInsurer");
+
+            entity.HasIndex(e => e.Id, "IX_CoInsurer_Id").IsUnique();
+
+            entity.Property(e => e.AddressEn)
+                .HasDefaultValueSql("'Chưa thiết lập'")
+                .HasColumnName("AddressEN");
+            entity.Property(e => e.NameEn)
+                .HasDefaultValueSql("'Chưa thiết lập'")
+                .HasColumnName("NameEN");
+        });
+
+        modelBuilder.Entity<CoInsurerRepresentative>(entity =>
+        {
+            entity.ToTable("CoInsurer_Representatives");
+
+            entity.HasIndex(e => e.Id, "IX_CoInsurer_Representatives_Id").IsUnique();
+
+            entity.Property(e => e.DecisionNo).HasDefaultValueSql("'Chưa thiết lập'");
+            entity.Property(e => e.DecisionNoEn)
+                .HasDefaultValueSql("'Chưa thiết lập'")
+                .HasColumnName("DecisionNoEN");
+            entity.Property(e => e.PositionEn)
+                .HasDefaultValueSql("'Chưa thiết lập'")
+                .HasColumnName("PositionEN");
+
+            entity.HasOne(d => d.CoInsurer).WithMany(p => p.CoInsurerRepresentatives)
+                .HasForeignKey(d => d.CoInsurerId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<Customer>(entity =>
@@ -244,22 +281,22 @@ public partial class InsuranceDbContext : DbContext
         {
             entity.HasIndex(e => e.Id, "IX_PropertyPolicies_Id").IsUnique();
 
-            entity.Property(e => e.Ardeductible)
+            entity.Property(e => e.ArdeductibleAmount).HasColumnName("ARDeductibleAmount");
+            entity.Property(e => e.ArdeductibleRate)
                 .HasDefaultValueSql("'Chưa thiết lập'")
-                .HasColumnName("ARDeductible");
+                .HasColumnName("ARDeductibleRate");
             entity.Property(e => e.Arpremium).HasColumnName("ARPremium");
             entity.Property(e => e.ArpremiumRate)
                 .HasDefaultValueSql("0")
-                .HasColumnType("NUMERIC")
                 .HasColumnName("ARPremiumRate");
             entity.Property(e => e.DateIssue).HasDefaultValueSql("'Chưa thiết lập'");
             entity.Property(e => e.FnEpremium).HasColumnName("FnEPremium");
             entity.Property(e => e.FnEpremiumRate)
                 .HasDefaultValueSql("0")
-                .HasColumnType("NUMERIC")
                 .HasColumnName("FnEPremiumRate");
-            entity.Property(e => e.FneDeductible).HasDefaultValueSql("'Chưa thiết lập'");
+            entity.Property(e => e.FneDeductibleRate).HasDefaultValueSql("'Chưa thiết lập'");
             entity.Property(e => e.FromDate).HasDefaultValueSql("'Chưa thiết lập'");
+            entity.Property(e => e.MiscExtensionsEn).HasColumnName("MiscExtensionsEN");
             entity.Property(e => e.PolicyNo).HasDefaultValueSql("'Chưa thiết lập'");
             entity.Property(e => e.ToDate).HasDefaultValueSql("'Chưa thiết lập'");
             entity.Property(e => e.Vat).HasColumnName("VAT");

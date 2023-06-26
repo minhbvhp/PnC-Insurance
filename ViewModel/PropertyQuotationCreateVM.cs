@@ -628,11 +628,48 @@ namespace PnC_Insurance.ViewModel
         #endregion
 
         #region Deductible Information
-        [ObservableProperty]
-        private string? newFnEDeductible;
+        public bool IsDeductibleInformationHasError
+        {
+            get
+            {
+                if (GetErrors(nameof(NewFnEDeductibleRate)).Any() ||
+                    GetErrors(nameof(NewFnEDeductibleAmount)).Any() ||
+                    GetErrors(nameof(NewArDeductibleRate)).Any() ||
+                    GetErrors(nameof(NewArDeductibleAmount)).Any()
+                    )
+                    return true;
+
+                return false;
+            }
+        }
 
         [ObservableProperty]
-        private string? newArDeductible;
+        [NotifyPropertyChangedFor(nameof(IsDeductibleInformationHasError))]
+        [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
+        [Range(typeof(decimal), "0", "100", ErrorMessage = "Nhập tỉ lệ từ 0 - 100%")]
+        [NotifyDataErrorInfo]
+        private decimal? newFnEDeductibleRate;
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(IsDeductibleInformationHasError))]
+        [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
+        [Range(0, long.MaxValue, ErrorMessage = "Nhập số tiền từ 0 trở lên")]
+        [NotifyDataErrorInfo]
+        private long? newFnEDeductibleAmount;
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(IsDeductibleInformationHasError))]
+        [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
+        [Range(typeof(decimal), "0", "100", ErrorMessage = "Nhập tỉ lệ từ 0 - 100%")]
+        [NotifyDataErrorInfo]
+        private decimal? newArDeductibleRate;
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(IsDeductibleInformationHasError))]
+        [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
+        [Range(0, long.MaxValue, ErrorMessage = "Nhập số tiền từ 0 trở lên")]
+        [NotifyDataErrorInfo]
+        private long? newArDeductibleAmount;
         #endregion
 
         #region Extensions Information
@@ -660,6 +697,9 @@ namespace PnC_Insurance.ViewModel
 
         [ObservableProperty]
         private string? newMiscExtensions;
+
+        [ObservableProperty]
+        private string? newMiscExtensionsEN;
         #endregion
 
         #region Additional Extensions
@@ -821,7 +861,8 @@ namespace PnC_Insurance.ViewModel
             if (IsBasicInformationHasError ||
                 IsCustomerInformationHasError ||
                 IsPremiumInformationHasError ||
-                IsQuotationInformationHasError)
+                IsQuotationInformationHasError ||
+                IsDeductibleInformationHasError)
 
                 return false;
 
