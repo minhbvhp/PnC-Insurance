@@ -51,6 +51,10 @@ public partial class PropertyPolicy
 
     public long? CoInsurerId { get; set; }
 
+    public string? CoInsuranceRate { get; set; }
+
+    public string? CoInsuranceFee { get; set; }
+
     public long IsDeleted { get; set; }
 
     public virtual Customer Cusomer { get; set; } = null!;
