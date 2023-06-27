@@ -41,6 +41,7 @@
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
+                    <RowDefinition/>
                 </Grid.RowDefinitions>
 
                 <Expander Grid.Row="0" HorizontalAlignment="Stretch" Background="Transparent"
@@ -734,7 +735,7 @@
                 </Expander>
 
                 <Expander Grid.Row="5" Style="{StaticResource MaterialDesignExpander}" HorizontalAlignment="Stretch" Background="Transparent"
-                      BorderBrush="Teal" BorderThickness="0 2">
+                      BorderBrush="Teal" BorderThickness="0 2 0 0">
                     <Expander.Header>
                         <StackPanel Margin="-20 0">
                             <TextBlock Foreground="#482121" Text="ĐIỀU KHOẢN BỔ SUNG" 
@@ -874,6 +875,128 @@
                             </materialDesign:DialogHost>
                         </Grid>
                     </StackPanel>
+                </Expander>
+
+                <Expander Grid.Row="6" HorizontalAlignment="Stretch" Background="Transparent"
+                      BorderBrush="Teal" BorderThickness="0 2">
+                    <Expander.Header>
+                        <StackPanel Orientation="Horizontal" Margin="-20 0">
+                            <TextBlock Foreground="#482121" Text="ĐỒNG BẢO HIỂM" 
+                                       FontSize="18" FontWeight="DemiBold">
+                                <TextBlock.Effect>
+                                    <DropShadowEffect ShadowDepth="3"
+                                          Direction="330"
+                                          Color="Black"
+                                          Opacity="0.3"
+                                          BlurRadius="5"/>
+                                </TextBlock.Effect>
+                            </TextBlock>
+                        </StackPanel>
+                    </Expander.Header>
+
+                    <AdornerDecorator>
+                        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <Border BorderBrush="DarkOrange" BorderThickness="0 1 0 0" Margin="0 0 0 5"/>
+
+                            <Grid Margin="10 0 0 30">
+                                <materialDesign:DialogHost IsOpen="{Binding IsChoosingCoInsurersDialogOpen}">
+                                    <materialDesign:DialogHost.DialogContent>
+                                        <StackPanel Height="290" Width="320" Margin="10 0" 
+                                                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+                                            <Button Style="{StaticResource MaterialDesignToolButton}"
+                                                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                                    IsCancel="True" HorizontalAlignment="Right" VerticalAlignment="Top">
+                                                <materialDesign:PackIcon Kind="Close"/>
+                                            </Button>
+
+                                            <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                                          ItemsSource="{Binding ListOfCoInsurers, IsAsync=True}"
+                                                          SelectedItem="{Binding SelectedCoInsurer, UpdateSourceTrigger=PropertyChanged}"
+                                                          Margin="0 0 0 20"
+                                                          materialDesign:ValidationAssist.Background="Transparent"
+                                                          DisplayMemberPath="Name" IsEditable="False"
+                                                          materialDesign:HintAssist.Hint="Công ty Đồng bảo hiểm"/>
+
+                                            <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                                     Text="{Binding CoInsurerRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                                                Converter={StaticResource DecimalFormatConverter}, ConverterParameter='N2'}"
+                                                     materialDesign:ValidationAssist.Background="Transparent"
+                                                     Margin="0 0 0 20"
+                                                     materialDesign:HintAssist.Hint="Tỷ lệ Đồng"
+                                                     materialDesign:TextFieldAssist.SuffixText = "% "
+                                                     materialDesign:TextFieldAssist.HasClearButton="True"
+                                                     PreviewTextInput="InputDecimalOnly"
+                                                     PreviewKeyDown="PreventSpaceKey"/>
+
+                                            <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                                     Text="{Binding CoInsurerFee, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                                                Converter={StaticResource DecimalFormatConverter}, ConverterParameter='N2'}"
+                                                     materialDesign:ValidationAssist.Background="Transparent"
+                                                     Margin="0 0 0 20"
+                                                     materialDesign:HintAssist.Hint="Phí quản lý"
+                                                     materialDesign:TextFieldAssist.SuffixText = "% "
+                                                     materialDesign:TextFieldAssist.HasClearButton="True"
+                                                     PreviewTextInput="InputDecimalOnly"
+                                                     PreviewKeyDown="PreventSpaceKey"/>
+
+                                            <Button Style="{StaticResource MaterialDesignFlatDarkBgButton}"
+                                                    Background="#94AF9F" Width="80" Height="40" Margin="0 15"
+                                                    Command="{Binding ChooseCoInsurerCommand}"
+                                                    Content="Chọn"/>
+                                        </StackPanel>
+                                    </materialDesign:DialogHost.DialogContent>
+
+                                    <StackPanel Margin="10" HorizontalAlignment="Stretch">
+                                        <Grid Margin="0 0 0 20">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="Lựa chọn Đồng bảo hiểm:" Margin="0 0 30 0" VerticalAlignment="Center"/>
+
+                                                <Button Style="{StaticResource MaterialDesignFlatDarkButton}"
+                                        Background="#94AF9F" Width="50"
+                                        Command="{Binding FetchCoInsurersCommand}"
+                                        Content="..." />
+                                            </StackPanel>
+
+                                            <Button Style="{StaticResource MaterialDesignToolForegroundButton}"
+                                    Background="#94AF9F" HorizontalAlignment="Right"
+                                    Command="{Binding RemoveChosenCoInsurerCommand}">
+                                                <materialDesign:PackIcon Kind="RemoveCircle"/>
+                                            </Button>
+                                        </Grid>
+
+                                        <AdornerDecorator>
+                                            <DataGrid ItemsSource="{Binding ListOfChosenCoInsurers, IsAsync=True, UpdateSourceTrigger=PropertyChanged}"
+                                                      SelectedItem="{Binding ChosenCoInsurer, UpdateSourceTrigger=PropertyChanged}"
+                                                      AutoGenerateColumns="False" SelectionMode="Single" FontSize="12"
+                                                      IsReadOnly="True" HeadersVisibility="All" Height="125"
+                                                      EnableRowVirtualization="False"  Padding="10 0"
+                                                      materialDesign:DataGridAssist.CellPadding="5"
+                                                      materialDesign:DataGridAssist.ColumnHeaderPadding="5">
+                                                <DataGrid.Columns>
+                                                    <DataGridTextColumn Header="STT">
+                                                        <DataGridTextColumn.Binding>
+                                                            <MultiBinding Converter="{StaticResource NumerRow}" UpdateSourceTrigger="PropertyChanged">
+                                                                <Binding Mode="OneWay" RelativeSource="{RelativeSource AncestorType={x:Type DataGridRow}}"/>
+                                                                <Binding Mode="OneWay" RelativeSource="{RelativeSource AncestorType={x:Type DataGrid}}" Path="Items.Count"/>
+                                                            </MultiBinding>
+                                                        </DataGridTextColumn.Binding>
+                                                    </DataGridTextColumn>
+
+                                                    <DataGridTextColumn Binding="{Binding CoInsurer.Name}" Width="*" Header="Công ty Đồng bảo hiểm"/>
+
+                                                    <DataGridTextColumn Binding="{Binding Rate}" Width="*" Header="Tỉ lệ đồng"/>
+
+                                                    <DataGridTextColumn Binding="{Binding Fee}" Width="*" Header="Phí quản lý"/>
+                                                </DataGrid.Columns>
+                                            </DataGrid>
+                                        </AdornerDecorator>
+
+                                    </StackPanel>
+                                </materialDesign:DialogHost>
+                            </Grid>
+                        </StackPanel>
+                    </AdornerDecorator>
                 </Expander>
             </Grid>
         </ScrollViewer>

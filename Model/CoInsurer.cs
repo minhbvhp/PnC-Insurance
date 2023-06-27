@@ -18,4 +18,6 @@ public partial class CoInsurer
     public string? AddressEn { get; set; }
 
     public virtual ICollection<CoInsurerRepresentative> CoInsurerRepresentatives { get; } = new List<CoInsurerRepresentative>();
+
+    public virtual ICollection<PropertyPoliciesCoInsurer> PropertyPoliciesCoInsurers { get; } = new List<PropertyPoliciesCoInsurer>();
 }

@@ -49,15 +49,11 @@ public partial class PropertyPolicy
 
     public string? MiscExtensionsEn { get; set; }
 
-    public long? CoInsurerId { get; set; }
-
-    public string? CoInsuranceRate { get; set; }
-
-    public string? CoInsuranceFee { get; set; }
-
     public long IsDeleted { get; set; }
 
     public virtual Customer Cusomer { get; set; } = null!;
+
+    public virtual ICollection<PropertyPoliciesCoInsurer> PropertyPoliciesCoInsurers { get; } = new List<PropertyPoliciesCoInsurer>();
 
     public virtual ICollection<PropertyPoliciesExtension> PropertyPoliciesExtensions { get; } = new List<PropertyPoliciesExtension>();
 

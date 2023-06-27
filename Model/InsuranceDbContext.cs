@@ -41,6 +41,8 @@ public partial class InsuranceDbContext : DbContext
 
     public virtual DbSet<PropertyItem> PropertyItems { get; set; }
 
+    public virtual DbSet<PropertyPoliciesCoInsurer> PropertyPoliciesCoInsurers { get; set; }
+
     public virtual DbSet<PropertyPoliciesExtension> PropertyPoliciesExtensions { get; set; }
 
     public virtual DbSet<PropertyPoliciesInsuredLocation> PropertyPoliciesInsuredLocations { get; set; }
@@ -232,6 +234,23 @@ public partial class InsuranceDbContext : DbContext
             entity.Property(e => e.ItemNameEn)
                 .HasDefaultValueSql("'Chưa thiết lập'")
                 .HasColumnName("ItemNameEN");
+        });
+
+        modelBuilder.Entity<PropertyPoliciesCoInsurer>(entity =>
+        {
+            entity.ToTable("PropertyPolicies_CoInsurer");
+
+            entity.HasIndex(e => e.Id, "IX_PropertyPolicies_CoInsurer_Id").IsUnique();
+
+            entity.HasIndex(e => new { e.PropertyPolicyId, e.CoInsurerId }, "IX_PropertyPolicies_CoInsurer_PropertyPolicyId_CoInsurerId").IsUnique();
+
+            entity.HasOne(d => d.CoInsurer).WithMany(p => p.PropertyPoliciesCoInsurers)
+                .HasForeignKey(d => d.CoInsurerId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+
+            entity.HasOne(d => d.PropertyPolicy).WithMany(p => p.PropertyPoliciesCoInsurers)
+                .HasForeignKey(d => d.PropertyPolicyId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<PropertyPoliciesExtension>(entity =>

@@ -798,6 +798,114 @@ namespace PnC_Insurance.ViewModel
 
         #endregion
 
+        #region CoInsurers Information
+        [ObservableProperty]
+        private bool isChoosingCoInsurersDialogOpen = false;
+
+        public List<CoInsurer>? ListOfCoInsurers
+        {
+            get
+            {
+                using (var context = new InsuranceDbContext())
+                {
+                    var query = from coInsurer in context.CoInsurers.AsNoTracking()
+                                select coInsurer;
+
+                    if (query.Any())
+                    {
+                        return query.ToList();
+                    }
+
+                }
+
+                return new List<CoInsurer>();
+            }
+        }
+
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(ChooseCoInsurerCommand))]
+        private CoInsurer? selectedCoInsurer;
+
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(ChooseCoInsurerCommand))]
+        [Range(typeof(decimal), "0", "100", ErrorMessage = "Nhập tỉ lệ từ 0 - 100%")]
+        [NotifyDataErrorInfo]
+        private decimal? coInsurerRate;
+
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(ChooseCoInsurerCommand))]
+        [Range(typeof(decimal), "0", "100", ErrorMessage = "Nhập tỉ lệ từ 0 - 100%")]
+        [NotifyDataErrorInfo]
+        private decimal? coInsurerFee;
+
+        [RelayCommand]
+        private void FetchCoInsurers()
+        {
+            IsChoosingCoInsurersDialogOpen = true;
+            CoInsurerRate = 0;
+            CoInsurerFee = 0;
+            OnPropertyChanged(nameof(ListOfCoInsurers));
+        }
+
+        [ObservableProperty]
+        private ObservableCollection<PropertyPoliciesCoInsurer>? listOfChosenCoInsurers = new ObservableCollection<PropertyPoliciesCoInsurer>();
+
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(RemoveChosenCoInsurerCommand))]
+        private PropertyPoliciesCoInsurer? chosenCoInsurer;
+
+        [RelayCommand(CanExecute = nameof(CanChooseCoInsurer))]
+        private void ChooseCoInsurer()
+        {
+            if (SelectedCoInsurer != null)
+            {
+                var newCoInsurer = new PropertyPoliciesCoInsurer()
+                {
+                    CoInsurer = SelectedCoInsurer,
+                    Rate = CoInsurerRate.ToString(),
+                    Fee = CoInsurerFee.ToString(),
+                };
+
+                ListOfChosenCoInsurers.Add(newCoInsurer);
+                OnPropertyChanged(nameof(ListOfChosenCoInsurers));
+                CoInsurerRate = 0;
+                CoInsurerFee = 0;
+            }
+
+            IsChoosingCoInsurersDialogOpen = false;
+        }
+
+        private bool CanChooseCoInsurer()
+        {
+            if (SelectedCoInsurer != null && 
+                !GetErrors(nameof(CoInsurerRate)).Any() && !GetErrors(nameof(CoInsurerFee)).Any() &&
+                !ListOfChosenCoInsurers.Any(item => item.CoInsurer.Id == SelectedCoInsurer.Id)
+                )
+                return true;
+
+            return false;
+
+        }
+
+        [RelayCommand(CanExecute = nameof(CanRemoveChosenCoInsurer))]
+        private void RemoveChosenCoInsurer()
+        {
+            if (ChosenCoInsurer != null)
+            {
+                ListOfChosenCoInsurers.Remove(ChosenCoInsurer);
+            }
+        }
+
+        private bool CanRemoveChosenCoInsurer()
+        {
+            if (ChosenCoInsurer != null)
+                return true;
+
+            return false;
+
+        }
+        #endregion
+
         #region Add New PropertyQuotation Command
         [RelayCommand(CanExecute = nameof(CanAddNewPropertyQuotation))]
         private async Task AddNewPropertyQuotationAsync()
