@@ -35,6 +35,10 @@ public partial class InsuranceDbContext : DbContext
 
     public virtual DbSet<Extension> Extensions { get; set; }
 
+    public virtual DbSet<FnEdeductible> FnEdeductibles { get; set; }
+
+    public virtual DbSet<FnEpremiumRate> FnEpremiumRates { get; set; }
+
     public virtual DbSet<InsuredLocation> InsuredLocations { get; set; }
 
     public virtual DbSet<PropertyGeneralExtension> PropertyGeneralExtensions { get; set; }
@@ -200,6 +204,20 @@ public partial class InsuranceDbContext : DbContext
             entity.Property(e => e.NameEn)
                 .HasDefaultValueSql("'Chưa thiết lập'")
                 .HasColumnName("NameEN");
+        });
+
+        modelBuilder.Entity<FnEdeductible>(entity =>
+        {
+            entity.ToTable("FnEDeductible");
+
+            entity.HasIndex(e => e.Id, "IX_FnEDeductible_Id").IsUnique();
+        });
+
+        modelBuilder.Entity<FnEpremiumRate>(entity =>
+        {
+            entity.ToTable("FnEPremiumRate");
+
+            entity.HasIndex(e => e.Id, "IX_FnEPremiumRate_Id").IsUnique();
         });
 
         modelBuilder.Entity<InsuredLocation>(entity =>

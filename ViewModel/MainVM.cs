@@ -52,6 +52,9 @@ namespace PnC_Insurance.ViewModel
                 case ExtensionInfoVM extensionInfo:
                     SelectedVM = new ExtensionInfoVM();
                     break;
+                case FnEPremiumRateInfoVM fnEPremiumRateInfo:
+                    SelectedVM = new FnEPremiumRateInfoVM();
+                    break;
                 case CoInsurerInfoVM coInsurerInfo:
                     SelectedVM = new CoInsurerInfoVM();
                     break;
@@ -110,6 +113,7 @@ namespace PnC_Insurance.ViewModel
                                     new CustomSubItem(new UrnInfoVM(), "URN"),
                                     new CustomSubItem(new ExtensionInfoVM(), "Điều khoản bổ sung"),
                                     new CustomSubItem(new CoInsurerInfoVM(), "Đồng bảo hiểm"),
+                                    new CustomSubItem(new FnEPremiumRateInfoVM(), "Phí CNBB"),
                                 }));
         }        
 
