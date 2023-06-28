@@ -801,7 +801,7 @@
 
                             <materialDesign:DialogHost Grid.Column="1" Margin="0 0 20 0" IsOpen="{Binding IsChoosingExtensionsDialogOpen}">
                                 <materialDesign:DialogHost.DialogContent>
-                                    <StackPanel Margin="10 0" Width="250" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <StackPanel Margin="10 0" Width="350" Height="500" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
                                         <Button Style="{StaticResource MaterialDesignToolButton}"
                                                         Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
@@ -809,20 +809,51 @@
                                             <materialDesign:PackIcon Kind="Close"/>
                                         </Button>
 
-                                        <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
-                                                          ItemsSource="{Binding ListOfExtensions, IsAsync=True}"
-                                                          SelectedItem="{Binding SelectedExtension, UpdateSourceTrigger=PropertyChanged}"
-                                                          Margin="0 0 0 20"
-                                                          materialDesign:ValidationAssist.Background="Transparent"
-                                                          DisplayMemberPath="Code" IsEditable="True"
-                                                          materialDesign:HintAssist.Hint="Điều khoản bổ sung"/>
+                                        <StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0 0 15 15"
+                                                         Text="{Binding SubDialogExtensionSearch, UpdateSourceTrigger=PropertyChanged}" Width="220"
+                                                         materialDesign:TextFieldAssist.HasClearButton="True">
+                                                    <materialDesign:HintAssist.Hint>
+                                                        <TextBlock FontSize="10">
+                                                            <materialDesign:PackIcon Kind="Search" VerticalAlignment="Bottom"/>
+                                                            <Run Text="Tìm kiếm và chọn điều khoản bổ sung"/>
+                                                        </TextBlock>
+                                                    </materialDesign:HintAssist.Hint>
+                                                </TextBox>
 
-                                        <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                                         Text="{Binding ExtensionSublimit, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                                         materialDesign:ValidationAssist.Background="Transparent"
-                                                         Margin="0 0 0 20"
-                                                         materialDesign:HintAssist.Hint="Giới hạn phụ"
-                                                         materialDesign:TextFieldAssist.HasClearButton="True"/>
+                                                <Button Style="{StaticResource MaterialDesignFloatingActionButton}"
+                                                        Width="32" Height="32"
+                                                        materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+                                                        materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding SearchExtensionCommand.IsRunning}"
+                                                        Command="{Binding SubDialogSearchExtensionCommand}" IsDefault="True">
+                                                    <materialDesign:PackIcon Kind="Search" Foreground="White"/>
+                                                </Button>
+                                            </StackPanel>
+
+                                            <DataGrid ItemsSource="{Binding ListOfExtensions, IsAsync=True}"
+                                                      SelectedItem="{Binding SelectedExtension, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                      AutoGenerateColumns="False" VerticalAlignment="Top" SelectionMode="Single"
+                                                      IsReadOnly="True" HeadersVisibility="All" ColumnWidth="*"
+                                                      MaxHeight="250">
+                                                <DataGrid.Columns>
+                                                    <DataGridTextColumn Binding="{Binding Code}" Width="Auto" Header="Ký hiệu"/>
+
+                                                    <DataGridTextColumn Binding="{Binding Name}" Header="Tên ĐKBS"/>
+                                                </DataGrid.Columns>
+                                            </DataGrid>
+
+                                            <Border BorderBrush="Gray" BorderThickness="0 0 0 0.5" Margin="5 10"/>
+
+                                            <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                                             Text="{Binding ExtensionSublimit, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                             materialDesign:ValidationAssist.Background="Transparent"
+                                                             Margin="0 0 0 20"
+                                                             materialDesign:HintAssist.Hint="Giới hạn phụ"
+                                                             materialDesign:TextFieldAssist.HasClearButton="True"/>
+
+                                        </StackPanel>
+
 
                                         <Button Style="{StaticResource MaterialDesignFlatDarkBgButton}"
                                                         Background="#94AF9F" Width="80" Height="40" Margin="0 15"

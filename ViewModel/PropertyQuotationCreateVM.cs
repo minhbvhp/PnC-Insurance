@@ -707,24 +707,52 @@ namespace PnC_Insurance.ViewModel
         [ObservableProperty]
         private bool isChoosingExtensionsDialogOpen = false;
 
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(SubDialogSearchExtensionCommand))]
+        private string? subDialogExtensionSearch;
+
+        private List<Extension> listOfExtensions = new List<Extension>();
         public List<Extension>? ListOfExtensions
         {
             get
             {
+                return new List<Extension>(listOfExtensions);
+            }
+
+        }
+
+        [RelayCommand(CanExecute = nameof(CanSubDialogSearchExtension))]
+        private async Task SubDialogSearchExtensionAsync()
+        {
+            var result = await Task.Run(() =>
+            {
                 using (var context = new InsuranceDbContext())
                 {
-                    var query = from extension in context.Extensions.AsNoTracking()
-                                select extension;
+                    string[] words = SubDialogExtensionSearch.ToLower().Split(' ');
+                    var allExtensions = from extension in context.Extensions.AsNoTracking()
+                                        where extension.IsDeleted == 0
+                                        select extension;
 
-                    if (query.Any())
+                    foreach (var word in words)
                     {
-                        return query.ToList();
+                        allExtensions = allExtensions.Where(x => x.Code.ToLower().Contains(word) ||
+                                                                  x.Name.ToLower().Contains(word));
                     }
 
+                    return allExtensions.ToListAsync();
                 }
+            });
 
-                return new List<Extension>();
-            }
+            listOfExtensions = result;
+            OnPropertyChanged(nameof(ListOfExtensions));
+        }
+
+        private bool CanSubDialogSearchExtension()
+        {
+            if (!String.IsNullOrEmpty(SubDialogExtensionSearch) && !String.IsNullOrWhiteSpace(SubDialogExtensionSearch))
+                return true;
+
+            return false;
         }
 
         [ObservableProperty]
@@ -739,7 +767,9 @@ namespace PnC_Insurance.ViewModel
         private void FetchExtensions()
         {
             IsChoosingExtensionsDialogOpen = true;
+            listOfExtensions = new List<Extension>();
             OnPropertyChanged(nameof(ListOfExtensions));
+            SubDialogExtensionSearch = null;
         }
 
         [ObservableProperty]
