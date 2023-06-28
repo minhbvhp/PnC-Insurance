@@ -34,7 +34,7 @@ namespace PnC_Insurance.ViewModel
             var result = await Task.Run(() =>
             {
                 using (var context = new InsuranceDbContext())
-                {                   
+                {
                     string[] words = FnECategorySearch.ToLower().Split(' ');
                     var allFnECategories = from fnECategory in context.FnEpremiumRates.AsNoTracking() select fnECategory;
 

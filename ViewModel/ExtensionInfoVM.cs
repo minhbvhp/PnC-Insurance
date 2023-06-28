@@ -37,13 +37,18 @@ namespace PnC_Insurance.ViewModel
             {
                 using (var context = new InsuranceDbContext())
                 {
-                    var query = from extension in context.Extensions.AsNoTracking()
-                                where extension.IsDeleted == 0 &&
-                                      (EF.Functions.Like(extension.Code, "%" + ExtensionSearch + "%") ||
-                                      EF.Functions.Like(extension.Name, "%" + ExtensionSearch + "%"))
-                                orderby extension.Id
-                                select extension;
-                    return query.ToListAsync();
+                    string[] words = ExtensionSearch.ToLower().Split(' ');
+                    var allExtensions = from extension in context.Extensions.AsNoTracking()
+                                        where extension.IsDeleted == 0
+                                        select extension;
+
+                    foreach (var word in words)
+                    {
+                        allExtensions = allExtensions.Where(x => x.Code.ToLower().Contains(word) ||
+                                                                  x.Name.ToLower().Contains(word));
+                    }
+
+                    return allExtensions.ToListAsync();
                 }
             });
 
