@@ -34,14 +34,17 @@ namespace PnC_Insurance.ViewModel
             var result = await Task.Run(() =>
             {
                 using (var context = new InsuranceDbContext())
-                {
-                    var query = from fnECategory in context.FnEpremiumRates.AsNoTracking()
-                                where EF.Functions.Like(fnECategory.Category, "%" + FnECategorySearch + "%") ||
-                                      EF.Functions.Like(fnECategory.GroupDescription, "%" + FnECategorySearch + "%")
-                                orderby fnECategory.Id
-                                select fnECategory;
+                {                   
+                    string[] words = FnECategorySearch.ToLower().Split(' ');
+                    var allFnECategories = from fnECategory in context.FnEpremiumRates.AsNoTracking() select fnECategory;
 
-                    return query.ToListAsync();
+                    foreach (var word in words)
+                    {
+                        allFnECategories = allFnECategories.Where(x => x.Category.ToLower().Contains(word) ||
+                                                                  x.GroupDescription.ToLower().Contains(word));
+                    }
+
+                    return allFnECategories.ToListAsync();
                 }
             });
 
