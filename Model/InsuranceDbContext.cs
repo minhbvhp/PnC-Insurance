@@ -51,6 +51,8 @@ public partial class InsuranceDbContext : DbContext
 
     public virtual DbSet<PropertyPoliciesInsuredLocation> PropertyPoliciesInsuredLocations { get; set; }
 
+    public virtual DbSet<PropertyPoliciesMiscExtension> PropertyPoliciesMiscExtensions { get; set; }
+
     public virtual DbSet<PropertyPoliciesPropertyItem> PropertyPoliciesPropertyItems { get; set; }
 
     public virtual DbSet<PropertyPolicy> PropertyPolicies { get; set; }
@@ -297,6 +299,23 @@ public partial class InsuranceDbContext : DbContext
             entity.HasIndex(e => new { e.PropertyPolicyId, e.InsuredLocationId }, "IX_PropertyPolicies_InsuredLocations_PropertyPolicyId_InsuredLocationId").IsUnique();
         });
 
+        modelBuilder.Entity<PropertyPoliciesMiscExtension>(entity =>
+        {
+            entity.ToTable("PropertyPolicies_MiscExtensions");
+
+            entity.HasIndex(e => e.Id, "IX_PropertyPolicies_MiscExtensions_Id").IsUnique();
+
+            entity.HasIndex(e => new { e.PropertyPolicyId, e.MiscExtensionId }, "IX_PropertyPolicies_MiscExtensions_PropertyPolicyId_MiscExtensionId").IsUnique();
+
+            entity.HasOne(d => d.MiscExtension).WithMany(p => p.PropertyPoliciesMiscExtensions)
+                .HasForeignKey(d => d.MiscExtensionId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+
+            entity.HasOne(d => d.PropertyPolicy).WithMany(p => p.PropertyPoliciesMiscExtensions)
+                .HasForeignKey(d => d.PropertyPolicyId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+        });
+
         modelBuilder.Entity<PropertyPoliciesPropertyItem>(entity =>
         {
             entity.ToTable("PropertyPolicies_PropertyItems");
@@ -333,7 +352,6 @@ public partial class InsuranceDbContext : DbContext
                 .HasColumnName("FnEPremiumRate");
             entity.Property(e => e.FneDeductibleRate).HasDefaultValueSql("'Chưa thiết lập'");
             entity.Property(e => e.FromDate).HasDefaultValueSql("'Chưa thiết lập'");
-            entity.Property(e => e.MiscExtensionsEn).HasColumnName("MiscExtensionsEN");
             entity.Property(e => e.PolicyNo).HasDefaultValueSql("'Chưa thiết lập'");
             entity.Property(e => e.ToDate).HasDefaultValueSql("'Chưa thiết lập'");
             entity.Property(e => e.Vat).HasColumnName("VAT");

@@ -22,4 +22,6 @@ public partial class Extension
     public virtual PropertyGeneralExtension? PropertyGeneralExtension { get; set; }
 
     public virtual ICollection<PropertyPoliciesExtension> PropertyPoliciesExtensions { get; } = new List<PropertyPoliciesExtension>();
+
+    public virtual ICollection<PropertyPoliciesMiscExtension> PropertyPoliciesMiscExtensions { get; } = new List<PropertyPoliciesMiscExtension>();
 }

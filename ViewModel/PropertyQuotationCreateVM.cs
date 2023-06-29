@@ -694,12 +694,129 @@ namespace PnC_Insurance.ViewModel
                 }
             }
         }
+        #endregion
+
+        #region Misc Extensions
+        [ObservableProperty]
+        private bool isChoosingMiscExtensionsDialogOpen = false;
 
         [ObservableProperty]
-        private string? newMiscExtensions;
+        [NotifyCanExecuteChangedFor(nameof(SubDialogSearchMiscExtensionCommand))]
+        private string? subDialogMiscExtensionSearch;
+
+        private List<Extension> listOfMiscExtensions = new List<Extension>();
+        public List<Extension>? ListOfMiscExtensions
+        {
+            get
+            {
+                return new List<Extension>(listOfMiscExtensions);
+            }
+
+        }
+
+        [RelayCommand(CanExecute = nameof(CanSubDialogSearchMiscExtension))]
+        private async Task SubDialogSearchMiscExtensionAsync()
+        {
+            var result = await Task.Run(() =>
+            {
+                using (var context = new InsuranceDbContext())
+                {
+                    string[] words = SubDialogMiscExtensionSearch.ToLower().Split(' ');
+
+                    var _generalExtensions = from generalExtension in context.PropertyGeneralExtensions.AsNoTracking()
+                                             where generalExtension.IsDeleted == 0
+                                             select generalExtension.Extension;
+
+                    var allMiscExtensions = (from extension in context.Extensions.AsNoTracking()
+                                            where extension.IsDeleted == 0
+                                            select extension)
+                                            .Except(_generalExtensions);
+
+                    foreach (var word in words)
+                    {
+                        allMiscExtensions = allMiscExtensions.Where(x => x.Code.ToLower().Contains(word) ||
+                                                                  x.Name.ToLower().Contains(word));
+                    }
+
+                    return allMiscExtensions.ToListAsync();
+                }
+            });
+
+            listOfMiscExtensions = result;
+            OnPropertyChanged(nameof(ListOfMiscExtensions));
+        }
+
+        private bool CanSubDialogSearchMiscExtension()
+        {
+            if (!String.IsNullOrEmpty(SubDialogMiscExtensionSearch) && !String.IsNullOrWhiteSpace(SubDialogMiscExtensionSearch))
+                return true;
+
+            return false;
+        }
 
         [ObservableProperty]
-        private string? newMiscExtensionsEN;
+        [NotifyCanExecuteChangedFor(nameof(ChooseMiscExtensionCommand))]
+        private Extension? selectedMiscExtension;
+
+        [RelayCommand]
+        private void FetchMiscExtensions()
+        {
+            IsChoosingMiscExtensionsDialogOpen = true;
+            listOfMiscExtensions = new List<Extension>();
+            OnPropertyChanged(nameof(ListOfMiscExtensions));
+            SubDialogMiscExtensionSearch = null;
+        }
+
+        [ObservableProperty]
+        private ObservableCollection<PropertyPoliciesMiscExtension>? listOfChosenMiscExtensions = new ObservableCollection<PropertyPoliciesMiscExtension>();
+
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(RemoveChosenMiscExtensionCommand))]
+        private PropertyPoliciesMiscExtension? chosenMiscExtension;
+
+        [RelayCommand(CanExecute = nameof(CanChooseMiscExtension))]
+        private void ChooseMiscExtension()
+        {
+            if (SelectedMiscExtension != null)
+            {
+                var newItem = new PropertyPoliciesMiscExtension()
+                {
+                    MiscExtension = SelectedMiscExtension,
+                };
+
+                ListOfChosenMiscExtensions.Add(newItem);
+            }
+
+            IsChoosingMiscExtensionsDialogOpen = false;
+        }
+
+        private bool CanChooseMiscExtension()
+        {
+            if (SelectedMiscExtension != null &&
+                !ListOfChosenMiscExtensions.Any(item => item.MiscExtension.Id == SelectedMiscExtension.Id)
+                )
+                return true;
+
+            return false;
+        }
+
+        [RelayCommand(CanExecute = nameof(CanRemoveChosenMiscExtension))]
+        private void RemoveChosenMiscExtension()
+        {
+            if (ChosenMiscExtension != null)
+            {
+                ListOfChosenMiscExtensions.Remove(ChosenMiscExtension);
+            }
+        }
+
+        private bool CanRemoveChosenMiscExtension()
+        {
+            if (ChosenMiscExtension != null)
+                return true;
+
+            return false;
+
+        }
         #endregion
 
         #region Additional Extensions
