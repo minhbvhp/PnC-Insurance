@@ -13,6 +13,7 @@ using PnC_Insurance.CustomAttribute;
 using System.Collections.ObjectModel;
 using Microsoft.Data.Sqlite;
 using System.Windows;
+using System.Globalization;
 
 namespace PnC_Insurance.ViewModel
 {
@@ -529,9 +530,6 @@ namespace PnC_Insurance.ViewModel
             ValidateProperty(NewIssueDate, nameof(NewIssueDate));
             ValidateProperty(NewFromDate, nameof(NewFromDate));
         }
-
-        [ObservableProperty]
-        private DateTime? newDueDate;
 
         #endregion
 
@@ -1126,7 +1124,6 @@ namespace PnC_Insurance.ViewModel
                 DateIssue = NewIssueDate.Value.ToString("dd/MM/yyyy") ?? null,
                 FromDate = NewFromDateTime.ToString("dd/MM/yyyy HH:mm"),
                 ToDate = NewToDateTime.ToString("dd/MM/yyyy HH:mm"),
-                DueDate = NewDueDate.Value.ToString("dd/MM/yyyy") ?? null,
                 ClassOfInsuranceId = NewClassOfInsurance.Id,
                 SumInsured = NewSumInsured,
                 FnEpremiumRate = NewFnERate.ToString(),
@@ -1205,6 +1202,16 @@ namespace PnC_Insurance.ViewModel
             NewFnEDeductibleAmount = 0;
             NewArDeductibleRate = 0;
             NewArDeductibleAmount = 0;
+
+            string _fromTime = "00:00:00";
+            var defaultFromTime = Convert.ToDateTime(_fromTime);
+            NewFromTime = defaultFromTime;
+
+            string _toTime = "23:59:00";
+            var defaultToTime = Convert.ToDateTime(_toTime);
+            NewToTime = defaultToTime;
+
+
             ValidateAllProperties();
         }
 
