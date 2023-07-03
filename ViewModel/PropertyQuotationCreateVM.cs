@@ -427,7 +427,10 @@ namespace PnC_Insurance.ViewModel
         {
             get
             {
-                if (GetErrors(nameof(NewFromDate)).Any() || GetErrors(nameof(NewToDate)).Any())
+                if (GetErrors(nameof(NewFromTime)).Any() 
+                    || GetErrors(nameof(NewFromDate)).Any()
+                    || GetErrors(nameof(NewToTime)).Any()
+                    || GetErrors(nameof(NewToDate)).Any())                    
                     return true;
 
                 return false;
@@ -448,9 +451,18 @@ namespace PnC_Insurance.ViewModel
         }
 
         [ObservableProperty]
+        [Required(ErrorMessage = "Nhập thời gian")]
+        [NotifyDataErrorInfo]
+        [NotifyPropertyChangedFor(nameof(IsQuotationInformationHasError))]
+        [NotifyPropertyChangedFor(nameof(NewFromDateTime))]
+        [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
+        private DateTime? newFromTime;
+
+        [ObservableProperty]
         [GreaterThan(nameof(NewIssueDate), "Hiệu lực đơn phải sau ngày cấp")]
         [NotifyDataErrorInfo]
         [NotifyPropertyChangedFor(nameof(IsQuotationInformationHasError))]
+        [NotifyPropertyChangedFor(nameof(NewFromDateTime))]
         [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
         private DateTime? newFromDate;
 
@@ -460,18 +472,66 @@ namespace PnC_Insurance.ViewModel
             ValidateProperty(NewToDate, nameof(NewToDate));
         }
 
+        public DateTime NewFromDateTime 
+        { 
+            get
+            {
+                DateTime dateOnly = DateTime.Now;
+                DateTime timeOnly = DateTime.Now;
+
+                if (NewFromDate != null && NewFromTime != null)
+                {
+                    dateOnly = (DateTime)NewFromDate;
+                    timeOnly = (DateTime)NewFromTime;
+                }
+
+                return dateOnly.Date.Add(timeOnly.TimeOfDay);
+                    
+            }
+        }
+
+        [ObservableProperty]
+        [Required(ErrorMessage = "Nhập thời gian")]
+        [NotifyDataErrorInfo]
+        [NotifyPropertyChangedFor(nameof(IsQuotationInformationHasError))]
+        [NotifyPropertyChangedFor(nameof(NewToDateTime))]
+        [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
+        private DateTime? newToTime;
+
         [ObservableProperty]
         [GreaterThan(nameof(NewFromDate), "'Đến ngày' phải sau 'Từ ngày'")]
         [NotifyDataErrorInfo]
         [NotifyPropertyChangedFor(nameof(IsQuotationInformationHasError))]
+        [NotifyPropertyChangedFor(nameof(NewToDateTime))]
         [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
         private DateTime? newToDate;
+
+        public DateTime NewToDateTime
+        {
+            get
+            {
+                DateTime dateOnly = DateTime.Now;
+                DateTime timeOnly = DateTime.Now;
+
+                if (NewToDate != null && NewToTime != null)
+                {
+                    dateOnly = (DateTime)NewToDate;
+                    timeOnly = (DateTime)NewToTime;
+                }
+
+                return dateOnly.Date.Add(timeOnly.TimeOfDay);
+
+            }
+        }
 
         partial void OnNewToDateChanged(DateTime? value)
         {
             ValidateProperty(NewIssueDate, nameof(NewIssueDate));
             ValidateProperty(NewFromDate, nameof(NewFromDate));
         }
+
+        [ObservableProperty]
+        private DateTime? newDueDate;
 
         #endregion
 
@@ -1063,9 +1123,10 @@ namespace PnC_Insurance.ViewModel
             {
                 PolicyNo = NewPolicyNo,
                 CusomerId = ChosenCustomer.Id,
-                DateIssue = NewIssueDate.ToString(),
-                FromDate = NewFromDate.ToString(),
-                ToDate = NewToDate.ToString(),
+                DateIssue = NewIssueDate.Value.ToString("dd/MM/yyyy") ?? null,
+                FromDate = NewFromDateTime.ToString("dd/MM/yyyy HH:mm"),
+                ToDate = NewToDateTime.ToString("dd/MM/yyyy HH:mm"),
+                DueDate = NewDueDate.Value.ToString("dd/MM/yyyy") ?? null,
                 ClassOfInsuranceId = NewClassOfInsurance.Id,
                 SumInsured = NewSumInsured,
                 FnEpremiumRate = NewFnERate.ToString(),

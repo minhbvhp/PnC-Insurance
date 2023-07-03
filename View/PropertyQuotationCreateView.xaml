@@ -460,17 +460,49 @@
                                 </StackPanel>
 
                                 <StackPanel Grid.Column="1" HorizontalAlignment="Stretch" Margin="10 0 20 0">
-                                    <DatePicker Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
-                                                SelectedDate="{Binding NewFromDate, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
-                                                materialDesign:ValidationAssist.Background="Transparent"
-                                                Margin="0 0 0 20"
-                                                materialDesign:HintAssist.Hint="Từ ngày"/>
+                                    <Grid Margin="0 0 0 20">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1.3*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
 
+                                        <materialDesign:TimePicker Grid.Column="0" Style="{StaticResource MaterialDesignFloatingHintTimePicker}"  
+                                                                   Margin="0 0 30 0" Is24Hours="True"
+                                                                   SelectedTime="{Binding NewFromTime, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
+                                                                   materialDesign:ValidationAssist.Background="Transparent"
+                                                                   materialDesign:HintAssist.Hint="Từ giờ"/>
+
+                                        <DatePicker Grid.Column="1" Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
+                                                    SelectedDate="{Binding NewFromDate, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
+                                                    materialDesign:ValidationAssist.Background="Transparent"
+                                                    materialDesign:HintAssist.Hint="Từ ngày"/>
+                                    </Grid>
+
+                                    <Grid Margin="0 0 0 20">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1.3*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <materialDesign:TimePicker Grid.Column="0" Style="{StaticResource MaterialDesignFloatingHintTimePicker}" 
+                                                                   Margin="0 0 30 0" Is24Hours="True"
+                                                                   SelectedTime="{Binding NewToTime, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
+                                                                   materialDesign:ValidationAssist.Background="Transparent"
+                                                                   materialDesign:HintAssist.Hint="Đến giờ"/>
+
+                                        <DatePicker Grid.Column="1" Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
+                                                    SelectedDate="{Binding NewToDate, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
+                                                    materialDesign:ValidationAssist.Background="Transparent"
+                                                    materialDesign:HintAssist.Hint="Đến ngày"/>
+                                    </Grid>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="2" HorizontalAlignment="Stretch" Margin="10 0 20 0">
                                     <DatePicker Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
-                                                SelectedDate="{Binding NewToDate, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
+                                                SelectedDate="{Binding NewDueDate, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
                                                 materialDesign:ValidationAssist.Background="Transparent"
                                                 Margin="0 0 0 20"
-                                                materialDesign:HintAssist.Hint="Đến ngày"/>
+                                                materialDesign:HintAssist.Hint="Hạn thanh toán"/>
                                 </StackPanel>
                             </Grid>
                         </StackPanel>
