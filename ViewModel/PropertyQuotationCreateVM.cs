@@ -597,9 +597,9 @@ namespace PnC_Insurance.ViewModel
         [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
         [Range(0, long.MaxValue, ErrorMessage = "Nhập số tiền từ 0 trở lên")]
         [NotifyDataErrorInfo]
-        private long? newVAT;
+        private long newVAT;
         
-        public long? NewTotalNetPremium
+        public long NewTotalNetPremium
         {
             get
             {
@@ -612,7 +612,7 @@ namespace PnC_Insurance.ViewModel
             }
         }
 
-        public long? NewTotalDue
+        public long NewTotalDue
         {
             get
             {
@@ -646,30 +646,30 @@ namespace PnC_Insurance.ViewModel
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(IsDeductibleInformationHasError))]
         [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
-        [Range(typeof(decimal), "0", "100", ErrorMessage = "Nhập tỉ lệ từ 0 - 100%")]
+        [Range(0, 100, ErrorMessage = "Nhập tỉ lệ từ 0 - 100%")]
         [NotifyDataErrorInfo]
-        private decimal? newFnEDeductibleRate;
+        private long newFnEDeductibleRate;
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(IsDeductibleInformationHasError))]
         [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
         [Range(0, long.MaxValue, ErrorMessage = "Nhập số tiền từ 0 trở lên")]
         [NotifyDataErrorInfo]
-        private long? newFnEDeductibleAmount;
+        private long newFnEDeductibleAmount;
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(IsDeductibleInformationHasError))]
         [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
-        [Range(typeof(decimal), "0", "100", ErrorMessage = "Nhập tỉ lệ từ 0 - 100%")]
+        [Range(0, 100, ErrorMessage = "Nhập tỉ lệ từ 0 - 100%")]
         [NotifyDataErrorInfo]
-        private decimal? newArDeductibleRate;
+        private long newArDeductibleRate;
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(IsDeductibleInformationHasError))]
         [NotifyCanExecuteChangedFor(nameof(AddNewPropertyQuotationCommand))]
         [Range(0, long.MaxValue, ErrorMessage = "Nhập số tiền từ 0 trở lên")]
         [NotifyDataErrorInfo]
-        private long? newArDeductibleAmount;
+        private long newArDeductibleAmount;
         #endregion
 
         #region Extensions Information
@@ -1070,6 +1070,13 @@ namespace PnC_Insurance.ViewModel
                 SumInsured = NewSumInsured,
                 FnEpremiumRate = NewFnERate.ToString(),
                 ArpremiumRate = NewArRate.ToString(),
+                Vat = NewVAT,
+                TotalDue = NewTotalDue,
+                FneDeductibleRate = NewFnEDeductibleRate,
+                FneDeductibleAmount = NewFnEDeductibleAmount,
+                ArdeductibleRate = NewArDeductibleRate,
+                ArdeductibleAmount = NewArDeductibleAmount,
+                DepartmentId = NewDepartment.Id,
             };
 
             string notificationString = "";
@@ -1080,8 +1087,8 @@ namespace PnC_Insurance.ViewModel
                 {
                     using (var context = new InsuranceDbContext())
                     {
-                        //await context.Customers.AddAsync(addingPropertyQuotation);
-                        //await context.SaveChangesAsync();
+                        await context.PropertyPolicies.AddAsync(addingPropertyQuotation);
+                        await context.SaveChangesAsync();
                     }
 
                     return "Đã tạo bản chào mới";
@@ -1132,6 +1139,11 @@ namespace PnC_Insurance.ViewModel
             NewArRate = 0;
             NewFnEPremium = 0;
             NewArPremium = 0;
+            NewVAT = 0;
+            NewFnEDeductibleRate = 0;
+            NewFnEDeductibleAmount = 0;
+            NewArDeductibleRate = 0;
+            NewArDeductibleAmount = 0;
             ValidateAllProperties();
         }
 

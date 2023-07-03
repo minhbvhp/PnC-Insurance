@@ -33,17 +33,19 @@ public partial class PropertyPolicy
 
     public long TotalDue { get; set; }
 
-    public string FneDeductibleRate { get; set; } = null!;
+    public long FneDeductibleRate { get; set; }
 
     public long FneDeductibleAmount { get; set; }
 
-    public string ArdeductibleRate { get; set; } = null!;
+    public long ArdeductibleRate { get; set; }
 
     public long ArdeductibleAmount { get; set; }
 
     public long Confirm { get; set; }
 
     public long DepartmentId { get; set; }
+
+    public string DueDate { get; set; } = null!;
 
     public long IsDeleted { get; set; }
 

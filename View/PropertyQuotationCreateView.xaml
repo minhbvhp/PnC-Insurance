@@ -686,14 +686,12 @@
 
                                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                              Text="{Binding NewFnEDeductibleRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
-                                        Converter={StaticResource DecimalFormatConverter}, ConverterParameter='N4'}"
+                                        Converter={StaticResource NumberFormatConverter}}"
                                              materialDesign:ValidationAssist.Background="Transparent"
                                              Margin="0 0 0 20"
                                              materialDesign:HintAssist.Hint="Tỷ lệ"
                                              materialDesign:TextFieldAssist.SuffixText = "% số tiền bồi thường "
-                                             materialDesign:TextFieldAssist.HasClearButton="True"
-                                             PreviewTextInput="InputDecimalOnly"
-                                             PreviewKeyDown="PreventSpaceKey"/>
+                                             materialDesign:TextFieldAssist.HasClearButton="True"/>
 
                                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                              Text="{Binding NewFnEDeductibleAmount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
@@ -710,14 +708,12 @@
 
                                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                              Text="{Binding NewArDeductibleRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
-                                        Converter={StaticResource DecimalFormatConverter}, ConverterParameter='N4'}"
+                                        Converter={StaticResource NumberFormatConverter}}"
                                              materialDesign:ValidationAssist.Background="Transparent"
                                              Margin="0 0 0 20"
                                              materialDesign:HintAssist.Hint="Tỷ lệ"
                                              materialDesign:TextFieldAssist.SuffixText = "% số tiền bồi thường "
-                                             materialDesign:TextFieldAssist.HasClearButton="True"
-                                             PreviewTextInput="InputDecimalOnly"
-                                             PreviewKeyDown="PreventSpaceKey"/>
+                                             materialDesign:TextFieldAssist.HasClearButton="True"/>
 
                                     <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                              Text="{Binding NewArDeductibleAmount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,

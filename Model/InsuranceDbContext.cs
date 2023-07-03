@@ -338,19 +338,17 @@ public partial class InsuranceDbContext : DbContext
             entity.HasIndex(e => e.Id, "IX_PropertyPolicies_Id").IsUnique();
 
             entity.Property(e => e.ArdeductibleAmount).HasColumnName("ARDeductibleAmount");
-            entity.Property(e => e.ArdeductibleRate)
-                .HasDefaultValueSql("'Chưa thiết lập'")
-                .HasColumnName("ARDeductibleRate");
+            entity.Property(e => e.ArdeductibleRate).HasColumnName("ARDeductibleRate");
             entity.Property(e => e.Arpremium).HasColumnName("ARPremium");
             entity.Property(e => e.ArpremiumRate)
                 .HasDefaultValueSql("0")
                 .HasColumnName("ARPremiumRate");
             entity.Property(e => e.DateIssue).HasDefaultValueSql("'Chưa thiết lập'");
+            entity.Property(e => e.DueDate).HasDefaultValueSql("'Chưa thiết lập'");
             entity.Property(e => e.FnEpremium).HasColumnName("FnEPremium");
             entity.Property(e => e.FnEpremiumRate)
                 .HasDefaultValueSql("0")
                 .HasColumnName("FnEPremiumRate");
-            entity.Property(e => e.FneDeductibleRate).HasDefaultValueSql("'Chưa thiết lập'");
             entity.Property(e => e.FromDate).HasDefaultValueSql("'Chưa thiết lập'");
             entity.Property(e => e.PolicyNo).HasDefaultValueSql("'Chưa thiết lập'");
             entity.Property(e => e.ToDate).HasDefaultValueSql("'Chưa thiết lập'");
