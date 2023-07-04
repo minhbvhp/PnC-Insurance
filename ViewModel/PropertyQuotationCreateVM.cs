@@ -830,7 +830,7 @@ namespace PnC_Insurance.ViewModel
         }
 
         [ObservableProperty]
-        private ObservableCollection<PropertyPoliciesMiscExtension>? listOfChosenMiscExtensions = new ObservableCollection<PropertyPoliciesMiscExtension>();
+        private ObservableCollection<PropertyPoliciesMiscExtension> listOfChosenMiscExtensions;
 
         [ObservableProperty]
         [NotifyCanExecuteChangedFor(nameof(RemoveChosenMiscExtensionCommand))]
@@ -952,7 +952,7 @@ namespace PnC_Insurance.ViewModel
         }
 
         [ObservableProperty]
-        private ObservableCollection<PropertyPoliciesExtension>? listOfChosenExtensions = new ObservableCollection<PropertyPoliciesExtension>();
+        private ObservableCollection<PropertyPoliciesExtension> listOfChosenExtensions;
 
         [ObservableProperty]
         [NotifyCanExecuteChangedFor(nameof(RemoveChosenExtensionCommand))]
@@ -1272,8 +1272,8 @@ namespace PnC_Insurance.ViewModel
             SelectedCustomer = null;
             ListOfChosenLocation = null;
             ListOfChosenPropertyItems = null;
-            ListOfChosenMiscExtensions = null;
-            ListOfChosenExtensions = null;
+            ListOfChosenMiscExtensions = new ObservableCollection<PropertyPoliciesMiscExtension>();
+            ListOfChosenExtensions = new ObservableCollection<PropertyPoliciesExtension>();
             ListOfChosenCoInsurers = null;
             NewPolicyNo = null;
             NewFromDate = null;
