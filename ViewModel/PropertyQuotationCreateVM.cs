@@ -1140,6 +1140,22 @@ namespace PnC_Insurance.ViewModel
             string notificationString = "";
 
             using var context = new InsuranceDbContext();
+
+            if (NewPolicyNo != null && NewPolicyNo != "Chưa thiết lập" && NewFromDate != null && NewToDate != null)
+            {
+                var existedPropertyPolicies = from policy in context.PropertyPolicies
+                                              where policy.PolicyNo == NewPolicyNo
+                                                    && policy.FromDate.Contains(NewFromDate.Value.Date.ToString("dd/MM/yyyy"))
+                                                    && policy.ToDate.Contains(NewToDate.Value.Date.ToString("dd/MM/yyyy"))
+                                              select policy;
+
+                if (existedPropertyPolicies.Any())
+                {
+                    ResultNotification.Enqueue("Bản chào này đã có rồi");
+                    return;
+                }
+            }
+
             using var transaction = context.Database.BeginTransaction();
 
             try
@@ -1254,7 +1270,7 @@ namespace PnC_Insurance.ViewModel
             var defaultToTime = Convert.ToDateTime(_toTime);
             NewToTime = defaultToTime;
 
-            NewIssueDate = DateTime.Now;
+            NewIssueDate = DateTime.Today;
 
 
             ValidateAllProperties();
