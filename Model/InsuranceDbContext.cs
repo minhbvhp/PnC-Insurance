@@ -279,6 +279,8 @@ public partial class InsuranceDbContext : DbContext
 
             entity.HasIndex(e => e.Id, "IX_PropertyPolicies_Extensions_Id").IsUnique();
 
+            entity.HasIndex(e => new { e.PropertyPolicyId, e.ExtensionId }, "IX_PropertyPolicies_Extensions_PropertyPolicyId_ExtensionId").IsUnique();
+
             entity.Property(e => e.SublimitEn).HasColumnName("SublimitEN");
 
             entity.HasOne(d => d.Extension).WithMany(p => p.PropertyPoliciesExtensions)
