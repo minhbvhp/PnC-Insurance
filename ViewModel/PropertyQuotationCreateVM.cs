@@ -728,6 +728,10 @@ namespace PnC_Insurance.ViewModel
         [Range(0, long.MaxValue, ErrorMessage = "Nhập số tiền từ 0 trở lên")]
         [NotifyDataErrorInfo]
         private long newArDeductibleAmount;
+
+        [ObservableProperty]
+        private string? newArDeductibleMisc;
+
         #endregion
 
         #region Extensions Information
@@ -1128,6 +1132,7 @@ namespace PnC_Insurance.ViewModel
                 SumInsured = NewSumInsured,
                 FnEpremiumRate = NewFnERate.ToString(),
                 ArpremiumRate = NewArRate.ToString(),
+                ArdeductibleMisc = NewArDeductibleMisc,
                 Vat = NewVAT,
                 TotalDue = NewTotalDue,
                 FneDeductibleRate = NewFnEDeductibleRate,

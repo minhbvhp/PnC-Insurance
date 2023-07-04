@@ -340,6 +340,9 @@ public partial class InsuranceDbContext : DbContext
             entity.HasIndex(e => e.Id, "IX_PropertyPolicies_Id").IsUnique();
 
             entity.Property(e => e.ArdeductibleAmount).HasColumnName("ARDeductibleAmount");
+            entity.Property(e => e.ArdeductibleMisc)
+                .HasDefaultValueSql("'Chưa thiết lập'")
+                .HasColumnName("ARDeductibleMisc");
             entity.Property(e => e.ArdeductibleRate).HasColumnName("ARDeductibleRate");
             entity.Property(e => e.Arpremium).HasColumnName("ARPremium");
             entity.Property(e => e.ArpremiumRate)

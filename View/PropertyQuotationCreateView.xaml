@@ -746,6 +746,14 @@
                                              materialDesign:HintAssist.Hint="Số tuyệt đối"
                                              materialDesign:TextFieldAssist.SuffixText = "VND/vụ tổn thất "
                                              materialDesign:TextFieldAssist.HasClearButton="True"/>
+
+                                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                             Text="{Binding NewArDeductibleMisc, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                             materialDesign:ValidationAssist.Background="Transparent"
+                                             Margin="0 0 0 20"
+                                             AcceptsReturn="True" MaxHeight="250" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"
+                                             materialDesign:HintAssist.Hint="Mức khấu trừ đặc biệt khác"
+                                             materialDesign:TextFieldAssist.HasClearButton="True"/>
                                 </StackPanel>
                             </Grid>
                         </StackPanel>

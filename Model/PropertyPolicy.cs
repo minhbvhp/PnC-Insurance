@@ -41,6 +41,8 @@ public partial class PropertyPolicy
 
     public long ArdeductibleAmount { get; set; }
 
+    public string ArdeductibleMisc { get; set; } = null!;
+
     public long Confirm { get; set; }
 
     public long DepartmentId { get; set; }
