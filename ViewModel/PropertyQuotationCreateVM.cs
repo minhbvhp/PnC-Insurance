@@ -1121,7 +1121,7 @@ namespace PnC_Insurance.ViewModel
             {
                 PolicyNo = NewPolicyNo,
                 CusomerId = ChosenCustomer.Id,
-                DateIssue = NewIssueDate.Value.ToString("dd/MM/yyyy") ?? null,
+                DateIssue = NewIssueDate.Value.ToString("dd/MM/yyyy") ?? "chua thiet lap",
                 FromDate = NewFromDateTime.ToString("dd/MM/yyyy HH:mm"),
                 ToDate = NewToDateTime.ToString("dd/MM/yyyy HH:mm"),
                 ClassOfInsuranceId = NewClassOfInsurance.Id,
@@ -1139,15 +1139,58 @@ namespace PnC_Insurance.ViewModel
 
             string notificationString = "";
 
+            using var context = new InsuranceDbContext();
+            using var transaction = context.Database.BeginTransaction();
+
             try
             {
                 notificationString = await Task.Run(async () =>
                 {
-                    using (var context = new InsuranceDbContext())
-                    {
-                        await context.PropertyPolicies.AddAsync(addingPropertyQuotation);
-                        await context.SaveChangesAsync();
-                    }
+                    await context.PropertyPolicies.AddAsync(addingPropertyQuotation);
+                    await context.SaveChangesAsync();
+                    
+                    foreach (var chosenLocation in ListOfChosenLocation)
+                        await context.PropertyPoliciesInsuredLocations.AddAsync(new PropertyPoliciesInsuredLocation()
+                        {
+                            PropertyPolicyId = addingPropertyQuotation.Id,
+                            InsuredLocationId = chosenLocation.Id
+                        });
+
+                    foreach (var chosenItem in ListOfChosenPropertyItems)
+                        await context.PropertyPoliciesPropertyItems.AddAsync(new PropertyPoliciesPropertyItem()
+                        {
+                            PropertyPolicyId = addingPropertyQuotation.Id,
+                            PropertyItemId = chosenItem.PropertyItem.Id,
+                            SumInsured = chosenItem.SumInsured
+                        });
+
+                    foreach (var chosenCoInsurer in ListOfChosenCoInsurers)
+                        await context.PropertyPoliciesCoInsurers.AddAsync(new PropertyPoliciesCoInsurer()
+                        {
+                            PropertyPolicyId = addingPropertyQuotation.Id,
+                            CoInsurerId = chosenCoInsurer.CoInsurer.Id,
+                            Rate = chosenCoInsurer.Rate,
+                            Fee = chosenCoInsurer.Fee
+                        });
+
+                    foreach (var chosenMiscExtension in ListOfChosenMiscExtensions)
+                        await context.PropertyPoliciesMiscExtensions.AddAsync(new PropertyPoliciesMiscExtension()
+                        {
+                            PropertyPolicyId = addingPropertyQuotation.Id,
+                            MiscExtensionId = chosenMiscExtension.MiscExtension.Id
+                        });
+
+                    foreach (var chosenExtension in ListOfChosenExtensions)
+                        await context.PropertyPoliciesExtensions.AddAsync(new PropertyPoliciesExtension()
+                        {
+                            PropertyPolicyId = addingPropertyQuotation.Id,
+                            ExtensionId = chosenExtension.Extension.Id,
+                            Sublimit = chosenExtension.Sublimit,
+                            SublimitEn = chosenExtension.SublimitEn
+                        });
+
+                    await context.SaveChangesAsync();
+                    await transaction.CommitAsync();
 
                     return "Đã tạo bản chào mới";
                 });
@@ -1210,6 +1253,8 @@ namespace PnC_Insurance.ViewModel
             string _toTime = "23:59:00";
             var defaultToTime = Convert.ToDateTime(_toTime);
             NewToTime = defaultToTime;
+
+            NewIssueDate = DateTime.Now;
 
 
             ValidateAllProperties();
