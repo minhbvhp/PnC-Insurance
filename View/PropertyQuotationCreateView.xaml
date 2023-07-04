@@ -914,7 +914,13 @@
                                                 </DataGridTextColumn.Binding>
                                             </DataGridTextColumn>
 
-                                            <DataGridTextColumn Binding="{Binding Extension.Name}" Width="200" Header="Tên điều khoản"/>
+                                            <DataGridTextColumn Binding="{Binding Extension.Name}" Width="200" Header="Tên điều khoản">
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="DataGridCell" BasedOn="{StaticResource MaterialDesignDataGridCell}">
+                                                        <Setter Property="ToolTip" Value="{Binding Extension.Name}"/>
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
 
                                             <DataGridTextColumn Binding="{Binding Sublimit}" Width="*" Header="Giới hạn phụ"/>
                                         </DataGrid.Columns>

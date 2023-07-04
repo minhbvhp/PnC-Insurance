@@ -1057,7 +1057,7 @@ namespace PnC_Insurance.ViewModel
         }
 
         [ObservableProperty]
-        private ObservableCollection<PropertyPoliciesCoInsurer>? listOfChosenCoInsurers = new ObservableCollection<PropertyPoliciesCoInsurer>();
+        private ObservableCollection<PropertyPoliciesCoInsurer> listOfChosenCoInsurers;
 
         [ObservableProperty]
         [NotifyCanExecuteChangedFor(nameof(RemoveChosenCoInsurerCommand))]
@@ -1274,7 +1274,7 @@ namespace PnC_Insurance.ViewModel
             ListOfChosenPropertyItems = null;
             ListOfChosenMiscExtensions = new ObservableCollection<PropertyPoliciesMiscExtension>();
             ListOfChosenExtensions = new ObservableCollection<PropertyPoliciesExtension>();
-            ListOfChosenCoInsurers = null;
+            ListOfChosenCoInsurers = new ObservableCollection<PropertyPoliciesCoInsurer>();
             NewPolicyNo = null;
             NewFromDate = null;
             NewToDate = null;
