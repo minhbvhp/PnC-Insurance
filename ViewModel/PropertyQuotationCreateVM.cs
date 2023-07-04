@@ -1267,6 +1267,18 @@ namespace PnC_Insurance.ViewModel
             NewArDeductibleRate = 0;
             NewArDeductibleAmount = 0;
 
+            NewDepartment = null;
+            NewClassOfInsurance = null;
+            SelectedCustomer = null;
+            ListOfChosenLocation = null;
+            ListOfChosenPropertyItems = null;
+            ListOfChosenMiscExtensions = null;
+            ListOfChosenExtensions = null;
+            ListOfChosenCoInsurers = null;
+            NewPolicyNo = null;
+            NewFromDate = null;
+            NewToDate = null;
+
             string _fromTime = "00:00:00";
             var defaultFromTime = Convert.ToDateTime(_fromTime);
             NewFromTime = defaultFromTime;
@@ -1277,6 +1289,7 @@ namespace PnC_Insurance.ViewModel
 
             NewIssueDate = DateTime.Today;
 
+            
 
             ValidateAllProperties();
         }
