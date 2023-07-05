@@ -14,6 +14,7 @@ using System.Collections.ObjectModel;
 using Microsoft.Data.Sqlite;
 using System.Windows;
 using System.Globalization;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace PnC_Insurance.ViewModel
 {
@@ -942,6 +943,10 @@ namespace PnC_Insurance.ViewModel
         [NotifyCanExecuteChangedFor(nameof(ChooseExtensionCommand))]
         private string? extensionSublimit;
 
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(ChooseExtensionCommand))]
+        private string? extensionSublimitEN;
+
         [RelayCommand]
         private void FetchExtensions()
         {
@@ -967,10 +972,12 @@ namespace PnC_Insurance.ViewModel
                 {
                     Extension = SelectedExtension,
                     Sublimit = ExtensionSublimit,
+                    SublimitEn = ExtensionSublimitEN,
                 };
 
                 ListOfChosenExtensions.Add(newItem);
                 ExtensionSublimit = "";
+                ExtensionSublimitEN = "";
             }
 
             IsChoosingExtensionsDialogOpen = false;
@@ -998,6 +1005,66 @@ namespace PnC_Insurance.ViewModel
         private bool CanRemoveChosenExtension()
         {
             if (ChosenExtension != null)
+                return true;
+
+            return false;
+
+        }
+        #endregion
+
+        #region Copy Extensions
+
+        [ObservableProperty]
+        private bool isCopyExtensionsDialogOpen = false;
+
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(CopyExtensionsCommand))]
+        private string? policyNumberToCopy;
+
+        [RelayCommand(CanExecute = nameof(CanCopyExtensions))]
+        private async Task CopyExtensionsAsync()
+        {
+            if (!String.IsNullOrEmpty(PolicyNumberToCopy) && !String.IsNullOrWhiteSpace(PolicyNumberToCopy))
+            {
+                var result = await Task.Run(() =>
+                {
+                    using (var context = new InsuranceDbContext())
+                    {
+                        var query = from propertyExtension in context.PropertyPoliciesExtensions.Include(nameof(Extension)).AsNoTracking()
+                                    where propertyExtension.PropertyPolicy.PolicyNo == PolicyNumberToCopy
+                                    select propertyExtension;
+
+                        return query.ToListAsync();
+                    }
+                });
+
+                if (result != null && result.Any())
+                {
+                    foreach (var extension in result)
+                    {
+                        if (!ListOfChosenExtensions.Any(item => item.Extension.Id == extension.Extension.Id))
+                        {
+                            var item = new PropertyPoliciesExtension()
+                            {
+                                Extension = extension.Extension,
+                                Sublimit = extension.Sublimit,
+                                SublimitEn = extension.SublimitEn
+                            };
+
+                            ListOfChosenExtensions.Add(item);
+                        }
+                        
+                    }
+                }
+            }           
+
+            IsCopyExtensionsDialogOpen = false;
+            PolicyNumberToCopy = null;
+        }
+
+        private bool CanCopyExtensions()
+        {
+            if (!String.IsNullOrEmpty(PolicyNumberToCopy) && !String.IsNullOrWhiteSpace(PolicyNumberToCopy))
                 return true;
 
             return false;
@@ -1202,13 +1269,17 @@ namespace PnC_Insurance.ViewModel
                         });
 
                     foreach (var chosenExtension in ListOfChosenExtensions)
-                        await context.PropertyPoliciesExtensions.AddAsync(new PropertyPoliciesExtension()
+                        if (chosenExtension != null && chosenExtension.Extension != null)
                         {
-                            PropertyPolicyId = addingPropertyQuotation.Id,
-                            ExtensionId = chosenExtension.Extension.Id,
-                            Sublimit = chosenExtension.Sublimit,
-                            SublimitEn = chosenExtension.SublimitEn
-                        });
+                            await context.PropertyPoliciesExtensions.AddAsync(new PropertyPoliciesExtension()
+                            {
+                                PropertyPolicyId = addingPropertyQuotation.Id,
+                                ExtensionId = chosenExtension.Extension.Id,
+                                Sublimit = chosenExtension.Sublimit,
+                                SublimitEn = chosenExtension.SublimitEn
+                            });
+                        }
+
 
                     await context.SaveChangesAsync();
                     await transaction.CommitAsync();
@@ -1281,6 +1352,10 @@ namespace PnC_Insurance.ViewModel
             NewToDate = null;
             NewArDeductibleMisc = null;
             OnPropertyChanged(nameof(NewSumInsured));
+
+            CustomerSearch = null;
+            SubDialogExtensionSearch = null;
+            SubDialogMiscExtensionSearch = null;
 
             string _fromTime = "00:00:00";
             var defaultFromTime = Convert.ToDateTime(_fromTime);

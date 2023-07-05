@@ -852,7 +852,7 @@
                                                       SelectedItem="{Binding SelectedExtension, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                                       AutoGenerateColumns="False" VerticalAlignment="Top" SelectionMode="Single"
                                                       IsReadOnly="True" HeadersVisibility="All" ColumnWidth="*"
-                                                      MaxHeight="250">
+                                                      MaxHeight="190">
                                                 <DataGrid.Columns>
                                                     <DataGridTextColumn Binding="{Binding Code}" Width="Auto" Header="Ký hiệu"/>
 
@@ -867,6 +867,13 @@
                                                              materialDesign:ValidationAssist.Background="Transparent"
                                                              Margin="0 0 0 20"
                                                              materialDesign:HintAssist.Hint="Giới hạn phụ"
+                                                             materialDesign:TextFieldAssist.HasClearButton="True"/>
+
+                                            <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                                             Text="{Binding ExtensionSublimitEN, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                             materialDesign:ValidationAssist.Background="Transparent"
+                                                             Margin="0 0 0 20"
+                                                             materialDesign:HintAssist.Hint="Giới hạn phụ (tiếng Anh)"
                                                              materialDesign:TextFieldAssist.HasClearButton="True"/>
 
                                         </StackPanel>
@@ -888,6 +895,41 @@
                                                     Background="#94AF9F" Width="50" Margin="10 0"
                                                     Command="{Binding FetchExtensionsCommand}"
                                                     Content="..." />
+
+                                            <materialDesign:DialogHost IsOpen="{Binding IsCopyExtensionsDialogOpen}">
+                                                <materialDesign:DialogHost.DialogContent>
+                                                    <Grid Width="200" Height="160">
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="40"/>
+                                                            <RowDefinition/>
+                                                            <RowDefinition Height="50"/>
+                                                        </Grid.RowDefinitions>
+                                                        
+                                                        <Button Grid.Row="0" Style="{StaticResource MaterialDesignToolButton}"
+                                                                Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                                                IsCancel="True" HorizontalAlignment="Right" VerticalAlignment="Top">
+                                                            <materialDesign:PackIcon Kind="Close"/>
+                                                        </Button>
+                                                        
+                                                        <TextBox Grid.Row="1" Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                                                 VerticalAlignment="Top" Margin="10 0"
+                                                                 Text="{Binding PolicyNumberToCopy, UpdateSourceTrigger=PropertyChanged}"
+                                                                 materialDesign:HintAssist.Hint="Số đơn cần copy"
+                                                                 materialDesign:TextFieldAssist.HasClearButton="True"/>
+
+                                                        <Button Grid.Row="2" Style="{StaticResource MaterialDesignFlatDarkBgButton}"
+                                                                Background="#94AF9F" Width="80" Height="35" VerticalAlignment="Top"
+                                                                Command="{Binding CopyExtensionsCommand}"
+                                                                Content="Copy"/>
+                                                    </Grid>
+                                                </materialDesign:DialogHost.DialogContent>
+
+                                                <Button Style="{StaticResource MaterialDesignFlatDarkButton}"
+                                                    Background="#94AF9F" Width="50" Margin="10 0"
+                                                    Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}">
+                                                    <materialDesign:PackIcon Kind="ContentCopy"/>
+                                                </Button>
+                                            </materialDesign:DialogHost>
                                         </StackPanel>
 
                                         <Button Style="{StaticResource MaterialDesignToolForegroundButton}"
@@ -900,12 +942,12 @@
                                     <DataGrid ItemsSource="{Binding ListOfChosenExtensions, IsAsync=True, UpdateSourceTrigger=PropertyChanged}"
                                                   SelectedItem="{Binding ChosenExtension, UpdateSourceTrigger=PropertyChanged}"
                                                   AutoGenerateColumns="False" SelectionMode="Single" FontSize="12"
-                                                  IsReadOnly="True" HeadersVisibility="All" Height="140" Padding="10 0"
+                                                  HeadersVisibility="All" Height="140" Padding="10 0"
                                                   EnableRowVirtualization="False"
                                                   materialDesign:DataGridAssist.CellPadding="5"
                                                   materialDesign:DataGridAssist.ColumnHeaderPadding="5">
                                         <DataGrid.Columns>
-                                            <DataGridTextColumn Header="STT">
+                                            <DataGridTextColumn Header="STT" IsReadOnly="True">
                                                 <DataGridTextColumn.Binding>
                                                     <MultiBinding Converter="{StaticResource NumerRow}" UpdateSourceTrigger="PropertyChanged">
                                                         <Binding Mode="OneWay" RelativeSource="{RelativeSource AncestorType={x:Type DataGridRow}}"/>
@@ -914,7 +956,7 @@
                                                 </DataGridTextColumn.Binding>
                                             </DataGridTextColumn>
 
-                                            <DataGridTextColumn Binding="{Binding Extension.Name}" Width="200" Header="Tên điều khoản">
+                                            <DataGridTextColumn Binding="{Binding Extension.Name}" Width="200" Header="Tên điều khoản" IsReadOnly="True">
                                                 <DataGridTextColumn.CellStyle>
                                                     <Style TargetType="DataGridCell" BasedOn="{StaticResource MaterialDesignDataGridCell}">
                                                         <Setter Property="ToolTip" Value="{Binding Extension.Name}"/>
@@ -922,7 +964,9 @@
                                                 </DataGridTextColumn.CellStyle>
                                             </DataGridTextColumn>
 
-                                            <DataGridTextColumn Binding="{Binding Sublimit}" Width="*" Header="Giới hạn phụ"/>
+                                            <DataGridTextColumn Binding="{Binding Sublimit, Mode=TwoWay}" IsReadOnly="False" Width="*" Header="Giới hạn phụ"/>
+
+                                            <DataGridTextColumn Binding="{Binding SublimitEn, Mode=TwoWay}" IsReadOnly="False" Header="Sublimit"/>
                                         </DataGrid.Columns>
                                     </DataGrid>
                                 </StackPanel>
