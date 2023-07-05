@@ -1270,6 +1270,7 @@ namespace PnC_Insurance.ViewModel
             NewDepartment = null;
             NewClassOfInsurance = null;
             SelectedCustomer = null;
+            ChosenCustomer = null;
             ListOfChosenLocation = null;
             ListOfChosenPropertyItems = null;
             ListOfChosenMiscExtensions = new ObservableCollection<PropertyPoliciesMiscExtension>();
@@ -1278,6 +1279,8 @@ namespace PnC_Insurance.ViewModel
             NewPolicyNo = null;
             NewFromDate = null;
             NewToDate = null;
+            NewArDeductibleMisc = null;
+            OnPropertyChanged(nameof(NewSumInsured));
 
             string _fromTime = "00:00:00";
             var defaultFromTime = Convert.ToDateTime(_fromTime);
