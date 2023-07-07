@@ -74,6 +74,10 @@
                 <view:PropertyQuotationCreateView/>
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type viewmodel:PropertyPolicyExportToDocxVM}">
+                <view:PropertyPolicyExportToDocxView/>
+            </DataTemplate>
+
             <SolidColorBrush  Color="#f8e16c" x:Key="txtColor" />
             <SolidColorBrush  Color="#354F52" x:Key="bgColor" />
 

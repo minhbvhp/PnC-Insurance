@@ -9,7 +9,7 @@ public partial class PropertyPolicy
 
     public string PolicyNo { get; set; } = null!;
 
-    public long CusomerId { get; set; }
+    public long CustomerId { get; set; }
 
     public string DateIssue { get; set; } = null!;
 
@@ -51,7 +51,7 @@ public partial class PropertyPolicy
 
     public long IsDeleted { get; set; }
 
-    public virtual Customer Cusomer { get; set; } = null!;
+    public virtual Customer Customer { get; set; } = null!;
 
     public virtual ICollection<PropertyPoliciesCoInsurer> PropertyPoliciesCoInsurers { get; } = new List<PropertyPoliciesCoInsurer>();
 

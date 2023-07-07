@@ -22,6 +22,9 @@ namespace PnC_Insurance.ViewModel
                 case PropertyQuotationCreateVM propertyQuotationCreateVM:
                     SelectedVM = new PropertyQuotationCreateVM();
                     break;
+                case PropertyPolicyExportToDocxVM propertyQuotationExportToDocxVM:
+                    SelectedVM = new PropertyPolicyExportToDocxVM();
+                    break;
                 case CustomerLocationVM customerLocationVM:
                     SelectedVM = new CustomerLocationVM();
                     break;
@@ -76,6 +79,7 @@ namespace PnC_Insurance.ViewModel
                                 , new List<CustomSubItem>
                                 {
                                     new CustomSubItem(new PropertyQuotationCreateVM(), "Tạo mới"),
+                                    new CustomSubItem(new PropertyPolicyExportToDocxVM(), "Xuất bản chào đề xuất"),
                                 }));
 
 

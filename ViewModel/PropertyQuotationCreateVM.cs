@@ -1191,7 +1191,7 @@ namespace PnC_Insurance.ViewModel
             var addingPropertyQuotation = new PropertyPolicy()
             {
                 PolicyNo = NewPolicyNo,
-                CusomerId = ChosenCustomer.Id,
+                CustomerId = ChosenCustomer.Id,
                 DateIssue = NewIssueDate.Value.ToString("dd/MM/yyyy") ?? "chua thiet lap",
                 FromDate = NewFromDateTime.ToString("dd/MM/yyyy HH:mm"),
                 ToDate = NewToDateTime.ToString("dd/MM/yyyy HH:mm"),

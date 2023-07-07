@@ -359,8 +359,8 @@ public partial class InsuranceDbContext : DbContext
             entity.Property(e => e.ToDate).HasDefaultValueSql("'Chưa thiết lập'");
             entity.Property(e => e.Vat).HasColumnName("VAT");
 
-            entity.HasOne(d => d.Cusomer).WithMany(p => p.PropertyPolicies)
-                .HasForeignKey(d => d.CusomerId)
+            entity.HasOne(d => d.Customer).WithMany(p => p.PropertyPolicies)
+                .HasForeignKey(d => d.CustomerId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
