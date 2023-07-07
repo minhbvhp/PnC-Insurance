@@ -1030,8 +1030,19 @@ namespace PnC_Insurance.ViewModel
                 {
                     using (var context = new InsuranceDbContext())
                     {
+                        long policyId = 0;
+
+                        var policyQuery = from policy in context.PropertyPolicies.AsNoTracking()
+                                          where policy.PolicyNo == PolicyNumberToCopy
+                                          select new {Id = policy.Id, DateIssue = DateTime.Parse(policy.DateIssue)};
+
+                        policyQuery = policyQuery.OrderByDescending(item => item.DateIssue);
+
+                        if (policyQuery != null && policyQuery.Any())
+                            policyId = policyQuery.FirstOrDefault().Id;
+
                         var query = from propertyExtension in context.PropertyPoliciesExtensions.Include(nameof(Extension)).AsNoTracking()
-                                    where propertyExtension.PropertyPolicy.PolicyNo == PolicyNumberToCopy
+                                    where propertyExtension.PropertyPolicy.Id == policyId
                                     select propertyExtension;
 
                         return query.ToListAsync();
