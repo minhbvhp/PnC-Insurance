@@ -1032,14 +1032,12 @@ namespace PnC_Insurance.ViewModel
                     {
                         long policyId = 0;
 
-                        var policyQuery = from policy in context.PropertyPolicies.AsNoTracking()
+                        var matchPolicies = (from policy in context.PropertyPolicies.AsNoTracking()
                                           where policy.PolicyNo == PolicyNumberToCopy
-                                          select new {Id = policy.Id, DateIssue = DateTime.Parse(policy.DateIssue)};
+                                          select policy).ToList().OrderByDescending(x => DateTime.Parse(x.DateIssue));                        
 
-                        policyQuery = policyQuery.OrderByDescending(item => item.DateIssue);
-
-                        if (policyQuery != null && policyQuery.Any())
-                            policyId = policyQuery.FirstOrDefault().Id;
+                        if (matchPolicies != null && matchPolicies.Any())
+                            policyId = matchPolicies.FirstOrDefault().Id;
 
                         var query = from propertyExtension in context.PropertyPoliciesExtensions.Include(nameof(Extension)).AsNoTracking()
                                     where propertyExtension.PropertyPolicy.Id == policyId
@@ -1203,7 +1201,7 @@ namespace PnC_Insurance.ViewModel
             {
                 PolicyNo = NewPolicyNo,
                 CustomerId = ChosenCustomer.Id,
-                DateIssue = NewIssueDate.Value.ToString("dd/MM/yyyy") ?? "chua thiet lap",
+                DateIssue = (NewIssueDate != null) ? NewIssueDate.Value.ToString("dd/MM/yyyy") : null,
                 FromDate = NewFromDateTime.ToString("dd/MM/yyyy HH:mm"),
                 ToDate = NewToDateTime.ToString("dd/MM/yyyy HH:mm"),
                 ClassOfInsuranceId = NewClassOfInsurance.Id,
