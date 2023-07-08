@@ -131,23 +131,23 @@
 
         <Grid Grid.Row="2" Grid.ColumnSpan="2">
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                <materialDesign:Badged Badge="Việt" Margin="20 0">
+                <materialDesign:Badged Badge="Việt" BadgeColorZoneMode="PrimaryLight" Margin="20 0">
                     <Button VerticalAlignment="Top" Height="40" Width="60"
-                        Style="{StaticResource MaterialDesignRaisedButton}" 
-                        Command="{Binding QuotationExportToDocxCommand}"
+                        Style="{StaticResource MaterialDesignRaisedDarkButton}" 
+                        Command="{Binding QuotationExportToDocxVNCommand}"
                         materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
                         materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding QuotationExportToDocxCommand.IsRunning}">
-                        <materialDesign:PackIcon Kind="FileDocumentAdd"/>
+                        <materialDesign:PackIcon Kind="FileWord" Height="20" Width="20"/>
                     </Button>
                 </materialDesign:Badged>
 
-                <materialDesign:Badged Badge="Anh" Margin="20 0">
+                <materialDesign:Badged Badge="Anh" BadgeColorZoneMode="PrimaryLight" Margin="20 0">
                     <Button VerticalAlignment="Top" Height="40" Width="60"
-                        Style="{StaticResource MaterialDesignRaisedButton}" 
-                        Command="{Binding QuotationExportToDocxCommand}"
+                        Style="{StaticResource MaterialDesignRaisedDarkButton}" 
+                        Command="{Binding QuotationExportToDocxENCommand}"
                         materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
                         materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding QuotationExportToDocxCommand.IsRunning}">
-                        <materialDesign:PackIcon Kind="FileDocumentAdd"/>
+                        <materialDesign:PackIcon Kind="FileWord" Height="20" Width="20"/>
                     </Button>
                 </materialDesign:Badged>
 
