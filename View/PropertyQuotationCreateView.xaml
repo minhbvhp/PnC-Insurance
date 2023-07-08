@@ -286,7 +286,7 @@
                                                       SelectedItem="{Binding ChosenLocation, UpdateSourceTrigger=PropertyChanged}"
                                                       AutoGenerateColumns="False" SelectionMode="Single" FontSize="12"
                                                       IsReadOnly="True" HeadersVisibility="All" Height="125"
-                                                      EnableRowVirtualization="False"  Padding="10 0"
+                                                      EnableRowVirtualization="False" Padding="10 0"
                                                       materialDesign:DataGridAssist.CellPadding="5"
                                                       materialDesign:DataGridAssist.ColumnHeaderPadding="5">
                                                 <DataGrid.Columns>

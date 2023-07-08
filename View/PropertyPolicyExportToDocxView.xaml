@@ -53,10 +53,10 @@
                 </StackPanel>
 
                 <DataGrid ItemsSource="{Binding ListOfQuotations, IsAsync=True}"
-                              SelectedItem="{Binding SelectedQuotation, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                              AutoGenerateColumns="False" VerticalAlignment="Top" SelectionMode="Single"
-                              IsReadOnly="True" HeadersVisibility="All" ColumnWidth="*"
-                              MaxHeight="180">
+                          SelectedItem="{Binding SelectedQuotation, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}"
+                          AutoGenerateColumns="False" VerticalAlignment="Top" SelectionMode="Single"
+                          IsReadOnly="True" HeadersVisibility="All" ColumnWidth="*"
+                          MaxHeight="180">
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding PolicyNo}" Header="Số bản chào"/>
 
@@ -68,11 +68,11 @@
             </StackPanel>
 
             <StackPanel Grid.Row="1" Margin="0 20" Height="300">
-                <DataGrid ItemsSource="{Binding ListOfQuotations, IsAsync=True}"
-                              SelectedItem="{Binding SelectedQuotation, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                              AutoGenerateColumns="False" VerticalAlignment="Top" SelectionMode="Single"
-                              IsReadOnly="True" HeadersVisibility="All" ColumnWidth="*"
-                              MaxHeight="200">
+                <DataGrid ItemsSource="{Binding ListOfMatchExtensions, IsAsync=True}"
+                          AutoGenerateColumns="False" VerticalAlignment="Top" SelectionMode="Single"
+                          EnableRowVirtualization="False"
+                          IsReadOnly="True" HeadersVisibility="All"
+                          MaxHeight="200">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="STT">
                             <DataGridTextColumn.Binding>
@@ -83,7 +83,15 @@
                             </DataGridTextColumn.Binding>
                         </DataGridTextColumn>
 
-                        <DataGridTextColumn Binding="{Binding Extension.Name}" Width="*" Header="Tên điều khoản"/>
+                        <DataGridTextColumn Binding="{Binding Extension.Name}" Width="150" Header="Tên điều khoản">
+                            <DataGridTextColumn.CellStyle>
+                                <Style TargetType="DataGridCell" BasedOn="{StaticResource MaterialDesignDataGridCell}">
+                                    <Setter Property="ToolTip" Value="{Binding Extension.Name}"/>
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        </DataGridTextColumn>
+
+                        <DataGridTextColumn Binding="{Binding Sublimit}" Header="Giới hạn phụ"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </StackPanel>
@@ -91,24 +99,60 @@
         </Grid>
         
         <StackPanel Grid.Column="1" Margin="20 0">
-            <TextBlock Text="Thông tin bản chào:" FontWeight="Bold" FontSize="20" Margin="0 0 0 10"/>
-            <TextBlock Text="Số bản chào:" Margin="0 0 0 5"/>
-            <TextBlock Text="Ngày cấp:" Margin="0 0 0 5"/>
-            <TextBlock Text="Hiệu lực:" Margin="0 0 0 5"/>
-            <TextBlock Text="Tên khách hàng:" Margin="0 0 0 5"/>
-            <TextBlock Text="Địa chỉ:" Margin="0 0 0 5"/>
-            <TextBlock Text="Địa điểm được bảo hiểm:" Margin="0 0 0 5"/>
+            <TextBlock Text="Thông tin bản chào:" FontWeight="Bold" FontSize="24" Margin="0 0 0 10"/>
+            
+            <TextBlock Margin="0 0 0 5">
+                <Run Text="Số bản chào:" Foreground="Black"/>
+                <Run Text="{Binding SelectedQuotation.PolicyNo}" FontWeight="DemiBold"/>
+            </TextBlock>
+
+            <TextBlock Margin="0 0 0 5">
+                <Run Text="Ngày cấp:" Foreground="Black"/>
+                <Run Text="{Binding SelectedQuotation.DateIssue}" FontWeight="DemiBold"/>
+            </TextBlock>
+
+            <TextBlock Margin="0 0 0 5">
+                <Run Text="Hiệu lực: Từ" Foreground="Black"/>
+                <Run Text="{Binding SelectedQuotation.FromDate}" FontWeight="DemiBold"/>
+                <Run Text="đến" Foreground="Black"/>
+                <Run Text="{Binding SelectedQuotation.ToDate}" FontWeight="DemiBold"/>
+            </TextBlock>
+
+            <TextBlock Margin="0 0 0 5" TextWrapping="WrapWithOverflow">
+                <Run Text="Tên khách hàng:" Foreground="Black"/>
+                <Run Text="{Binding SelectedQuotation.Customer.Name}" FontWeight="DemiBold"/>
+            </TextBlock>
+
+            <TextBlock Margin="0 0 0 5" TextWrapping="WrapWithOverflow">
+                <Run Text="Địa chỉ:" Foreground="Black"/>
+                <Run Text="{Binding SelectedQuotation.Customer.Address}" FontWeight="DemiBold"/>
+            </TextBlock>
         </StackPanel>
 
         <Grid Grid.Row="2" Grid.ColumnSpan="2">
-            <Button HorizontalAlignment="Right" VerticalAlignment="Top" Margin="20 0"
-                Style="{StaticResource MaterialDesignFloatingActionDarkButton}" 
-                Command="{Binding QuotationExportToDocxCommand}"
-                materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
-                materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding QuotationExportToDocxCommand.IsRunning}">
-                <materialDesign:PackIcon Kind="Add"/>
-            </Button>
+            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                <materialDesign:Badged Badge="Việt" Margin="20 0">
+                    <Button VerticalAlignment="Top" Height="40" Width="60"
+                        Style="{StaticResource MaterialDesignRaisedButton}" 
+                        Command="{Binding QuotationExportToDocxCommand}"
+                        materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+                        materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding QuotationExportToDocxCommand.IsRunning}">
+                        <materialDesign:PackIcon Kind="FileDocumentAdd"/>
+                    </Button>
+                </materialDesign:Badged>
 
+                <materialDesign:Badged Badge="Anh" Margin="20 0">
+                    <Button VerticalAlignment="Top" Height="40" Width="60"
+                        Style="{StaticResource MaterialDesignRaisedButton}" 
+                        Command="{Binding QuotationExportToDocxCommand}"
+                        materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+                        materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding QuotationExportToDocxCommand.IsRunning}">
+                        <materialDesign:PackIcon Kind="FileDocumentAdd"/>
+                    </Button>
+                </materialDesign:Badged>
+
+            </StackPanel>
+                        
             <materialDesign:Snackbar Margin="0 0 0 35"
                                  Background="Black" Foreground="White"
                                  MessageQueue="{Binding ResultNotification}" VerticalAlignment="Bottom"/>

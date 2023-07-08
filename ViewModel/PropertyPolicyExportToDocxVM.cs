@@ -12,6 +12,7 @@ namespace PnC_Insurance.ViewModel
 {
     public partial class PropertyPolicyExportToDocxVM : BaseVM
     {
+        #region Search Quotations
         [ObservableProperty]
         [NotifyCanExecuteChangedFor(nameof(SearchQuotationCommand))]
         private string? quotationSearch;
@@ -27,6 +28,7 @@ namespace PnC_Insurance.ViewModel
         }
 
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(ListOfMatchExtensions))]
         private PropertyPolicy? selectedQuotation;
 
         [RelayCommand(CanExecute = nameof(CanSearchQuotation))]
@@ -58,5 +60,32 @@ namespace PnC_Insurance.ViewModel
 
             return false;
         }
+
+        #endregion
+
+        #region Match Extensions
+        public List<PropertyPoliciesExtension>? ListOfMatchExtensions 
+        {
+            get
+            {
+                using (var context = new InsuranceDbContext())
+                {
+                    if (SelectedQuotation != null)
+                    {
+                        var query = from propertyPolicyExtension in context.PropertyPoliciesExtensions.Include(nameof(Extension)).AsNoTracking()
+                                    where propertyPolicyExtension.PropertyPolicyId == SelectedQuotation.Id
+                                    select propertyPolicyExtension;
+
+                        if (query.Any())
+                        {
+                            return query.ToList();
+                        }
+                    }
+
+                    return new List<PropertyPoliciesExtension>();
+                }
+            }
+        }
+        #endregion
     }
 }
