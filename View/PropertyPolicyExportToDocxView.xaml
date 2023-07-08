@@ -131,7 +131,7 @@
 
         <Grid Grid.Row="2" Grid.ColumnSpan="2">
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                <materialDesign:Badged Badge="Việt" BadgeColorZoneMode="PrimaryLight" Margin="20 0">
+                <materialDesign:Badged Badge=" Việt " BadgeColorZoneMode="PrimaryLight" Margin="20 0">
                     <Button VerticalAlignment="Top" Height="40" Width="60"
                         Style="{StaticResource MaterialDesignRaisedDarkButton}" 
                         Command="{Binding QuotationExportToDocxVNCommand}"
@@ -141,7 +141,7 @@
                     </Button>
                 </materialDesign:Badged>
 
-                <materialDesign:Badged Badge="Anh" BadgeColorZoneMode="PrimaryLight" Margin="20 0">
+                <materialDesign:Badged Badge=" Anh " BadgeColorZoneMode="PrimaryLight" Margin="20 0">
                     <Button VerticalAlignment="Top" Height="40" Width="60"
                         Style="{StaticResource MaterialDesignRaisedDarkButton}" 
                         Command="{Binding QuotationExportToDocxENCommand}"
