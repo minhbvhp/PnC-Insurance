@@ -29,6 +29,7 @@ namespace PnC_Insurance.ViewModel
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(ListOfMatchExtensions))]
+        [NotifyCanExecuteChangedFor(nameof())]
         private PropertyPolicy? selectedQuotation;
 
         [RelayCommand(CanExecute = nameof(CanSearchQuotation))]
@@ -85,6 +86,22 @@ namespace PnC_Insurance.ViewModel
                     return new List<PropertyPoliciesExtension>();
                 }
             }
+        }
+        #endregion
+
+        #region Export Quotation to Docx
+        [RelayCommand(CanExecute = nameof(CanQuotationExportToDocxVN))]
+        private async Task QuotationExportToDocxVNAsync()
+        {
+            
+        }
+
+        private bool CanQuotationExportToDocxVN()
+        {
+            if (SelectedQuotation != null)
+                return true;
+
+            return false;
         }
         #endregion
     }
