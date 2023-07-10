@@ -1,12 +1,17 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MaterialDesignThemes.Wpf;
 using Microsoft.EntityFrameworkCore;
 using PnC_Insurance.Model;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using Xceed.Words.NET;
 
 namespace PnC_Insurance.ViewModel
 {
@@ -29,7 +34,7 @@ namespace PnC_Insurance.ViewModel
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(ListOfMatchExtensions))]
-        [NotifyCanExecuteChangedFor(nameof())]
+        [NotifyCanExecuteChangedFor(nameof(QuotationExportToDocxVNCommand))]
         private PropertyPolicy? selectedQuotation;
 
         [RelayCommand(CanExecute = nameof(CanSearchQuotation))]
@@ -90,15 +95,73 @@ namespace PnC_Insurance.ViewModel
         #endregion
 
         #region Export Quotation to Docx
+        [ObservableProperty]
+        [Required (ErrorMessage = "Chọn đường dẫn lưu file")]
+        [NotifyDataErrorInfo]
+        [NotifyCanExecuteChangedFor(nameof(QuotationExportToDocxVNCommand))]
+        [NotifyPropertyChangedFor(nameof(DocumentFileName))]
+        private string? destinationPath;
+
+        public string? DocumentFileName 
+        {
+            get
+            {
+                if (!String.IsNullOrEmpty(DestinationPath) && !String.IsNullOrWhiteSpace(DestinationPath))
+                {
+                    string input = DestinationPath;
+                    int index = input.IndexOf(".DOCX");
+                    return input.Substring(0, index);
+                }
+
+                return null;
+            }
+        }
+
         [RelayCommand(CanExecute = nameof(CanQuotationExportToDocxVN))]
         private async Task QuotationExportToDocxVNAsync()
         {
-            
+            ResultNotification = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
+            DocX document;
+
+            try
+            {
+                document = DocX.Load(@".\Template\PropertyQuotationTemplate.docx");
+            }
+            catch
+            {
+                ResultNotification.Enqueue("Không tìm thấy file Template để tạo bản chào");
+                return;
+            }
+
+            if (document != null && SelectedQuotation != null)
+            {
+                using (document)
+                {
+                    try
+                    {
+                        document.ReplaceText("<<[customer." + nameof(SelectedQuotation.Customer.Name) + "]>>", SelectedQuotation.Customer.Name);
+                        document.ReplaceText("<<[customer." + nameof(SelectedQuotation.Customer.ClientCode) + "]>>", SelectedQuotation.Customer.ClientCode);
+                        document.ReplaceText("<<[customer." + nameof(SelectedQuotation.Customer.Address) + "]>>", SelectedQuotation.Customer.Address);
+                        document.ReplaceText("<<[customer." + nameof(SelectedQuotation.Customer.Business) + "]>>", SelectedQuotation.Customer.Business);
+
+                        document.SaveAs(DestinationPath);
+                        ResultNotification.Enqueue("Đã lập bản chào đề xuất");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message.ToString());
+                        ResultNotification.Enqueue("Lỗi không lưu được file");
+                    }
+
+                }
+            }
+
+
         }
 
         private bool CanQuotationExportToDocxVN()
         {
-            if (SelectedQuotation != null)
+            if (SelectedQuotation != null && !String.IsNullOrEmpty(DestinationPath) && !String.IsNullOrWhiteSpace(DestinationPath))
                 return true;
 
             return false;

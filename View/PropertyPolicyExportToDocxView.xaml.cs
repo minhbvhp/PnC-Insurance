@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,21 @@ namespace PnC_Insurance.View
         public PropertyPolicyExportToDocxView()
         {
             InitializeComponent();
+        }
+
+        private void Browse_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new SaveFileDialog();
+            dialog.Filter = "Word document file (*.docx)|*.docx";
+
+            if (dialog.ShowDialog() == true)
+            {
+                this.FilePathTextBox.Text = dialog.FileName;
+
+                this.FilePathTextBox
+                  .GetBindingExpression(TextBox.TextProperty)
+                  .UpdateSource();
+            }
         }
     }
 }

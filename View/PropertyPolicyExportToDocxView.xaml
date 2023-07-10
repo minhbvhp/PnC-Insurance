@@ -131,6 +131,15 @@
 
         <Grid Grid.Row="2" Grid.ColumnSpan="2">
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                <TextBox x:Name="FilePathTextBox" Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                         materialDesign:ValidationAssist.Background="Transparent" VerticalAlignment="Top"
+                         materialDesign:HintAssist.Hint="Đường dẫn lưu file báo cáo" Width="300" Height="45" Margin="20 0"
+                         IsReadOnly="True" Text="{Binding DestinationPath, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <Button x:Name="Browse" Style="{StaticResource MaterialDesignFlatButton}" Width="100" Height="40"
+                    Background="#ba6b6c" Margin="10, 0" Foreground="White" VerticalAlignment="Top" FontSize="11"        
+                    Content="Đường dẫn..." Click="Browse_Click"/>
+
                 <materialDesign:Badged Badge=" Việt " BadgeColorZoneMode="PrimaryLight" Margin="20 0">
                     <Button VerticalAlignment="Top" Height="40" Width="60"
                         Style="{StaticResource MaterialDesignRaisedDarkButton}" 
